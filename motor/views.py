@@ -217,26 +217,17 @@ def subir(request):
             "error": "El fichero tiene que ser un WAV (.wav).",
         })
 
-    destino = AUDIO / f"subido_{nombre}"
+    # El fichero se procesa EN MEMORIA, sin escribirlo en el disco: en un
+    # despliegue serverless (Vercel) el disco es de solo lectura y la
+    # escritura falla con "Read-only file system".
     try:
-        with open(destino, "wb") as fh:
-            for trozo in subido.chunks():
-                fh.write(trozo)
+        pista = wav_io.leer_wav_bytes(subido.read(), nombre=nombre)
     except Exception as exc:
-        return render(request, "motor/subir.html", {
-            "error": f"No se pudo guardar el fichero: {exc}",
-        })
-
-    try:
-        pista = wav_io.leer_pista(destino, duracion=PARAMETROS.duracion)
-    except Exception as exc:
-        destino.unlink(missing_ok=True)
         return render(request, "motor/subir.html", {
             "error": f"El fichero no se pudo leer como un WAV: {exc}",
         })
 
     if pista.duracion < 1.0:
-        destino.unlink(missing_ok=True)
         return render(request, "motor/subir.html", {
             "error": "El audio es demasiado corto (menos de 1 segundo).",
         })
@@ -259,7 +250,7 @@ def subir(request):
                 "instrumental que las del catálogo.",
     )
     try:
-        r = analisis.analizar_pista(destino, PARAMETROS, genero_subido)
+        r = analisis.analizar_pista(pista, PARAMETROS, genero_subido)
     except Exception as exc:
         return render(request, "motor/subir.html", {
             "error": f"El análisis falló: {exc}",

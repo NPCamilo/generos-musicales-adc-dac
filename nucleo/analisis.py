@@ -189,14 +189,17 @@ def _rejilla_densa(duracion: float, fs: float, n: int = 4001) -> np.ndarray:
 # EL ANÁLISIS DE UNA PISTA
 # =============================================================================
 
-def analizar_pista(ruta: str | pathlib.Path, params: Parametros | None = None,
+def analizar_pista(entrada, params: Parametros | None = None,
                    genero: Genero | None = None) -> dict:
-    """Analiza un archivo WAV completo y devuelve todas las cifras.
+    """Analiza un WAV completo y devuelve todas las cifras.
 
     Parámetros
     ----------
-    ruta : str o pathlib.Path
-        El WAV a analizar.
+    entrada : str, pathlib.Path o wav_io.Pista
+        El WAV a analizar. También se puede pasar una `Pista` ya leída,
+        que es lo que hace la vista web cuando el usuario sube un
+        fichero: en un despliegue *serverless* el disco es de solo
+        lectura, así que el audio se procesa en memoria.
     params : Parametros
         Los ajustes; si no se pasan, se usan los de por defecto.
     genero : Genero
@@ -210,8 +213,10 @@ def analizar_pista(ruta: str | pathlib.Path, params: Parametros | None = None,
         "cuantizacion", "cadena", "ritmo" y "atencion".
     """
     p = params or Parametros()
-    ruta = pathlib.Path(ruta)
-    pista = wav_io.leer_pista(ruta, duracion=p.duracion)
+    if isinstance(entrada, wav_io.Pista):
+        pista = wav_io.recortar(entrada, duracion=p.duracion)
+    else:
+        pista = wav_io.leer_pista(entrada, duracion=p.duracion)
     if genero is None:
         genero = obtener(pista.etiqueta)
 

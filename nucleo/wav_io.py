@@ -215,70 +215,84 @@ def leer_wav(ruta: str | pathlib.Path) -> Pista:
     ruta = pathlib.Path(ruta)
     if not ruta.exists():
         raise FileNotFoundError(f"No existe el archivo: {ruta}")
+    return leer_wav_bytes(ruta.read_bytes(), nombre=ruta.name)
 
-    with open(ruta, "rb") as fh:
-        cab = fh.read(12)
-        if len(cab) < 12 or cab[0:4] != b"RIFF" or cab[8:12] != b"WAVE":
-            raise ValueError(f"{ruta.name}: no es un archivo WAV (RIFF/WAVE)")
 
-        formato = bits = canales = fs = None
-        datos: bytes | None = None
+def leer_wav_bytes(datos: bytes, nombre: str = "audio.wav") -> Pista:
+    """Lee un WAV que está EN MEMORIA, sin tocar el disco.
 
-        # se recorren los bloques en orden; no se asume que 'data' viene
-        # justo después de 'fmt ' (los editores añaden bloques extra)
-        while True:
-            cabecera = fh.read(8)
-            if len(cabecera) < 8:
-                break
-            id_chunk = cabecera[0:4]
-            (tam,) = struct.unpack("<I", cabecera[4:8])
+    Por qué hace falta: en un despliegue *serverless* (Vercel) el disco
+    es de solo lectura, así que un WAV que sube el usuario no se puede
+    guardar en el servidor. Se procesa en memoria y listo.
 
-            if id_chunk == b"fmt ":
-                cuerpo = fh.read(tam)
-                fmt, canales, fs, _, _, bits = struct.unpack(
-                    "<HHIIHH", cuerpo[:16])
-                if fmt == FORMATO_EXTENSIBLE and len(cuerpo) >= 26:
-                    # el subformato va en los dos primeros bytes del GUID
-                    fmt = struct.unpack("<H", cuerpo[24:26])[0]
-            elif id_chunk == b"data":
-                datos = fh.read(tam)
-                # si el `data` no es el último bloque, se sigue leyendo
-                if tam % 2:
-                    fh.read(1)
-            else:
-                fh.seek(tam + (tam % 2), 1)   # se salta el bloque
-                continue
+    Es el mismo analizador de RIFF que `leer_wav`, con la misma
+    estructura: cabecera, bloques en orden, y los formatos soportados.
+    """
+    import io
+
+    flujo = io.BytesIO(bytes(datos))
+
+    def _leer_exactamente(n: int) -> bytes:
+        datos_leidos = flujo.read(n)
+        if len(datos_leidos) < n:
+            raise ValueError(f"{nombre}: el fichero está incompleto")
+        return datos_leidos
+
+    cab = _leer_exactamente(12)
+    if cab[0:4] != b"RIFF" or cab[8:12] != b"WAVE":
+        raise ValueError(f"{nombre}: no es un archivo WAV (RIFF/WAVE)")
+
+    formato = bits = canales = fs = None
+    datos_muestras: bytes | None = None
+
+    while True:
+        cabecera = flujo.read(8)
+        if len(cabecera) < 8:
+            break
+        id_chunk = cabecera[0:4]
+        (tam,) = struct.unpack("<I", cabecera[4:8])
+
+        if id_chunk == b"fmt ":
+            cuerpo = _leer_exactamente(tam)
+            fmt, canales, fs, _, _, bits = struct.unpack(
+                "<HHIIHH", cuerpo[:16])
+            if fmt == FORMATO_EXTENSIBLE and len(cuerpo) >= 26:
+                fmt = struct.unpack("<H", cuerpo[24:26])[0]
+        elif id_chunk == b"data":
+            datos_muestras = _leer_exactamente(tam)
             if tam % 2:
-                fh.read(1)                     # relleno de byte par
+                flujo.read(1)
+        else:
+            flujo.seek(tam + (tam % 2), 1)
+            continue
+        if tam % 2:
+            flujo.read(1)
 
-    if fmt is None or datos is None:
-        raise ValueError(f"{ruta.name}: falta el bloque 'fmt ' o el 'data'")
+    if fmt is None or datos_muestras is None:
+        raise ValueError(f"{nombre}: falta el bloque 'fmt ' o el 'data'")
     if fs is None or fs <= 0:
-        raise ValueError(f"{ruta.name}: frecuencia de muestreo inválida")
+        raise ValueError(f"{nombre}: frecuencia de muestreo inválida")
     if canales is None or canales < 1:
-        raise ValueError(f"{ruta.name}: número de canales inválido")
-
+        raise ValueError(f"{nombre}: número de canales inválido")
     if fmt not in (FORMATO_PCM, FORMATO_FLOAT):
         raise ValueError(
-            f"{ruta.name}: códec {fmt} no soportado "
+            f"{nombre}: códec {fmt} no soportado "
             f"(solo PCM entero y coma flotante IEEE)")
 
-    muestras = _decodificar(datos, fmt, bits, canales)
+    muestras = _decodificar(datos_muestras, fmt, bits, canales)
     if muestras.size == 0:
-        raise ValueError(f"{ruta.name}: el bloque 'data' está vacío")
+        raise ValueError(f"{nombre}: el bloque 'data' está vacío")
 
     x_mono = muestras.mean(axis=1) if canales > 1 else muestras[:, 0]
-
-    nombre_formato = "pcm" if fmt == FORMATO_PCM else "float"
     return Pista(
-        ruta=ruta,
+        ruta=pathlib.Path(nombre),
         fs=int(fs),
         bits=int(bits),
         canales=int(canales),
         duracion=len(x_mono) / float(fs),
         x=np.ascontiguousarray(x_mono, dtype=np.float64),
-        etiqueta=ruta.stem,
-        formato=nombre_formato,
+        etiqueta=pathlib.Path(nombre).stem,
+        formato="pcm" if fmt == FORMATO_PCM else "float",
     )
 
 
@@ -291,6 +305,17 @@ def leer_pista(ruta: str | pathlib.Path, duracion: float | None = None,
     diferencia entre 2 segundos y 30.
     """
     pista = leer_wav(ruta)
+    return recortar(pista, duracion, etiqueta)
+
+
+def recortar(pista: Pista, duracion: float | None = None,
+             etiqueta: str = "") -> Pista:
+    """Recorta una `Pista` ya leída a los primeros `duracion` segundos.
+
+    Se separa de `leer_pista` porque en un despliegue *serverless* el
+    audio puede venir YA EN MEMORIA (subido por el usuario), y en ese
+    caso no hay un fichero que leer: solo hay que recortar.
+    """
     if duracion is not None and duracion > 0 and pista.duracion > duracion:
         n = int(duracion * pista.fs)
         pista.x = pista.x[:n]
