@@ -49,8 +49,20 @@ python construir.py               # regenera el informe, las figuras y datos.jso
 
 ## Publicarlo en GitHub + Vercel
 
-La guía completa está en **[`docs/PUBLICAR.md`](docs/PUBLICAR.md)**. El
-resumen:
+**Está publicado:**
+
+- **Repositorio**: https://github.com/NPCamilo/generos-musicales-adc-dac
+- **Web**: https://generos-musicales-adc-dac.vercel.app
+
+El repositorio está enlazado al proyecto de Vercel, así que **cada
+`git push` a `main` despliega la web automáticamente**.
+
+> **⚠ Recordatorio: el viernes, pon el repositorio en privado.** Los
+> clips de `audio/` son extractos de obras con derechos de autor. Está
+> documentado en `docs/PUBLICAR.md` §2, con las tres opciones.
+
+La guía completa de despliegue está en
+**[`docs/PUBLICAR.md`](docs/PUBLICAR.md)**. Lo esencial:
 
 1. `python construir.py` — deja el informe, las figuras y
    `salida/datos.json` listos para subirlos.

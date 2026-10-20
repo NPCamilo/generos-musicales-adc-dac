@@ -276,6 +276,17 @@ continuación, y que se note. Es el momento en que el proyecto deja de ser
 un ejercicio de DSP y se convierte en algo que demuestra el sistema de
 conversión entero.
 
+**Si hay red en el aula**, la mejor opción es entrar directamente en
+**https://generos-musicales-adc-dac.vercel.app** y hacer la sustentación
+desde ahí: es la misma aplicación, con las mismas cifras, y funciona sin
+instalar nada. Y si no hay red, el plan B es el de siempre:
+`python manage.py runserver` en el portátil.
+
+> **Antes de la sustentación**: comprueba que la web sigue en pie
+> (`https://generos-musicales-adc-dac.vercel.app`) y que el audio se
+> oye. El repositorio está enlazado a Vercel, así que si subes algo
+> nuevo con `git push`, tarda un par de minutos en estar desplegado.
+
 ---
 
 ## 9. Cómo ejecutar todo
