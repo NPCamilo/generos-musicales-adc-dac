@@ -352,13 +352,55 @@ verdad: un entero de {cuanti['bits']} bits, no una tensión.
 
 ![Los códigos binarios de {r['nombre']}]({clave}_codigos.png)
 
-**La cadena completa.** A {r['pista']['fs']} Hz y
-{cuanti['bits']} bits, el SNR de la cadena es
-{_num(r['cadena']['snr_cadena'], 1)} dB; bajando a 8 kHz y 8 bits (una
-llamada telefónica) cae a
-{_num(r['cadena']['telefonica']['snr_cadena'], 1)} dB.
+**La cadena completa.** Lo primero es lo primero: **la cadena es la
+misma en los cinco géneros**; lo que cambia es **cuánto se pierde en cada
+paso**, y eso es justo lo que se mide aquí.
+
+La cadena es esta:
+
+```
+x(t)  ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
+       recorta la banda        reloj de fs      b bits        ZOH
+       de arriba
+```
+
+Y el **viaje del SNR**, que es el número que resume cada paso:
+
+{_tabla(["etapa", "qué hace", "SNR que queda", "en la telefónica (8 kHz, 8 bits)"],
+        [[e["etapa"], e["nota"],
+          ("—" if e["snr"] is None else
+           ("exacta" if e["snr"] == float("inf") else _num(e["snr"], 1) + " dB")),
+          ("—" if t["snr"] is None else
+           ("exacta" if t["snr"] == float("inf") else _num(t["snr"], 1) + " dB"))]
+         for e, t in zip(r["cadena"]["viaje"], r["cadena"]["telefonica"]["viaje"])])}
+
+**Cómo se lee esto**, que es lo importante:
+
+- **El filtro antialiasing** es la etapa que más se nota, y es la única
+  cuyo coste depende del **género**: recorta la banda de arriba del todo,
+  así que en una pieza masterizada con contenido hasta 17 kHz se pierde
+  mucho más que en una barroca que no pasa de 4 kHz. En esta muestra, el
+  filtro cuesta desde {_aa_min(res):.0f} dB (la pista con más contenido
+  agudo) hasta {_aa_max(res):.0f} dB (la que menos tiene): {_aa_max(res) - _aa_min(res):.0f} dB
+  de diferencia entre el género más brillante y el más oscuro.
+- **El muestreo**, a la tasa del propio archivo, es **exacto**: no hay
+  nada por encima de f_s/2 que se pueda plegar. El aliasing aparece solo
+  cuando se baja la tasa, que es lo que se ve en la figura del barrido.
+- **El cuantizador** es la etapa que domina a 44,1 kHz, y su error está
+  **acotado** a ±Δ/2 = ±{r['cuantizacion']['factor_escala_medio'] * 1e6:.1f} µV: se ve en el panel 3 de la figura como una franja, no como ruido.
+- **El DAC** apenas añade error a 44,1 kHz (es un retenedor de orden
+  cero sobre muestras que ya están tomadas a esa tasa), pero a 8 kHz el
+  conjunto de pérdidas es mucho mayor.
 
 ![La cadena ADC-DAC de {r['nombre']}]({clave}_cadena.png)
+
+*La figura tiene dos mitades: arriba, el viaje del SNR (la curva azul es
+la cadena nativa y la naranja la telefónica); abajo, 20 ms del error que
+introduce cada etapa, con su propia escala. Lo que se ve en los cuatro
+paneles de abajo es la diferencia de TEXTURA: el filtro antialiasing
+deja un error que parece ruido, el cuantizador deja una franja
+acotada, y el DAC deja los escalones del retenedor de orden cero.*
+
 
 **El ritmo.** {bpm_texto}{f", con una confianza de {_num(ritmo['confianza'], 2)}" if ritmo.get('medible', True) else ""}.
 """)
@@ -572,6 +614,20 @@ gráficos.*
 """)
 
     return "\n".join(partes)
+
+
+def _aa_min(res: dict) -> float:
+    """La menor pérdida del filtro antialiasing (la pista más brillante)."""
+    valores = [r["cadena"]["viaje"][1]["snr"] for r in res["resultados"].values()
+               if r["cadena"]["viaje"][1]["snr"] is not None]
+    return min(valores) if valores else 0.0
+
+
+def _aa_max(res: dict) -> float:
+    """La mayor pérdida del filtro antialiasing (la pista más oscura)."""
+    valores = [r["cadena"]["viaje"][1]["snr"] for r in res["resultados"].values()
+               if r["cadena"]["viaje"][1]["snr"] is not None]
+    return max(valores) if valores else 0.0
 
 
 def _comp_fmax(comp: dict, nombre_parcial: str) -> float:

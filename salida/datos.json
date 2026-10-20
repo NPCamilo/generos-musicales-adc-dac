@@ -1,6 +1,6 @@
 {
  "version": 2,
- "generado": "2026-10-20 14:42",
+ "generado": "2026-10-20 15:28",
  "resultados": {
   "barroca": {
    "clave": "barroca",
@@ -195,6 +195,7 @@
     "bits": 16,
     "factor_escala_v": 3.0517578125e-05,
     "factor_escala_medio": 1.52587890625e-05,
+    "factor_escala_medio_uv": 15.2587890625,
     "niveles": 65536,
     "snr_teorico": 98.0896,
     "carga": {
@@ -386,6 +387,48 @@
     },
     "snr_cadena": 81.85801526760251,
     "nrmse_cadena": 7.125350344354235e-06,
+    "viaje": [
+     {
+      "etapa": "x(t) original",
+      "nota": "la señal de entrada, sin error",
+      "snr": null,
+      "exacta": false,
+      "snr_tel": null,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "filtro antialiasing",
+      "nota": "recorta por encima de 9922 Hz",
+      "snr": 45.201543539063216,
+      "exacta": false,
+      "snr_tel": 22.631895366761917,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "muestreo + DAC",
+      "nota": "a 44100 Hz, sin aliasing posible",
+      "snr": null,
+      "exacta": true,
+      "snr_tel": null,
+      "exacta_tel": true
+     },
+     {
+      "etapa": "cuantizador",
+      "nota": "16 bits, Δ = 3,05e-05 V",
+      "snr": 81.85801526760251,
+      "exacta": false,
+      "snr_tel": 34.55261819104136,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "cadena completa",
+      "nota": "todo junto",
+      "snr": 81.85801526760251,
+      "exacta": false,
+      "snr_tel": 34.55261819104136,
+      "exacta_tel": false
+     }
+    ],
     "telefonica": {
      "fs": 8000.0,
      "bits": 8,
@@ -656,6 +699,7 @@
     "bits": 16,
     "factor_escala_v": 3.0517578125e-05,
     "factor_escala_medio": 1.52587890625e-05,
+    "factor_escala_medio_uv": 15.2587890625,
     "niveles": 65536,
     "snr_teorico": 98.0896,
     "carga": {
@@ -847,6 +891,48 @@
     },
     "snr_cadena": 83.34437415262327,
     "nrmse_cadena": 7.178676621937109e-06,
+    "viaje": [
+     {
+      "etapa": "x(t) original",
+      "nota": "la señal de entrada, sin error",
+      "snr": null,
+      "exacta": false,
+      "snr_tel": null,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "filtro antialiasing",
+      "nota": "recorta por encima de 9922 Hz",
+      "snr": 23.640452998637524,
+      "exacta": false,
+      "snr_tel": 6.85703382402979,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "muestreo + DAC",
+      "nota": "a 44100 Hz, sin aliasing posible",
+      "snr": null,
+      "exacta": true,
+      "snr_tel": null,
+      "exacta_tel": true
+     },
+     {
+      "etapa": "cuantizador",
+      "nota": "16 bits, Δ = 3,05e-05 V",
+      "snr": 83.34437415262327,
+      "exacta": false,
+      "snr_tel": 35.576413699454115,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "cadena completa",
+      "nota": "todo junto",
+      "snr": 83.34437415262327,
+      "exacta": false,
+      "snr_tel": 35.576413699454115,
+      "exacta_tel": false
+     }
+    ],
     "telefonica": {
      "fs": 8000.0,
      "bits": 8,
@@ -1131,6 +1217,7 @@
     "bits": 16,
     "factor_escala_v": 3.0517578125e-05,
     "factor_escala_medio": 1.52587890625e-05,
+    "factor_escala_medio_uv": 15.2587890625,
     "niveles": 65536,
     "snr_teorico": 98.0896,
     "carga": {
@@ -1322,6 +1409,48 @@
     },
     "snr_cadena": 94.50745944643626,
     "nrmse_cadena": 2.0081995668385355e-06,
+    "viaje": [
+     {
+      "etapa": "x(t) original",
+      "nota": "la señal de entrada, sin error",
+      "snr": null,
+      "exacta": false,
+      "snr_tel": null,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "filtro antialiasing",
+      "nota": "recorta por encima de 9922 Hz",
+      "snr": 23.479688786359386,
+      "exacta": false,
+      "snr_tel": 10.148892123602163,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "muestreo + DAC",
+      "nota": "a 44100 Hz, sin aliasing posible",
+      "snr": null,
+      "exacta": true,
+      "snr_tel": null,
+      "exacta_tel": true
+     },
+     {
+      "etapa": "cuantizador",
+      "nota": "16 bits, Δ = 3,05e-05 V",
+      "snr": 94.50745944643626,
+      "exacta": false,
+      "snr_tel": 38.30870502843078,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "cadena completa",
+      "nota": "todo junto",
+      "snr": 94.50745944643626,
+      "exacta": false,
+      "snr_tel": 38.30870502843078,
+      "exacta_tel": false
+     }
+    ],
     "telefonica": {
      "fs": 8000.0,
      "bits": 8,
@@ -1605,6 +1734,7 @@
     "bits": 16,
     "factor_escala_v": 3.0517578125e-05,
     "factor_escala_medio": 1.52587890625e-05,
+    "factor_escala_medio_uv": 15.2587890625,
     "niveles": 65536,
     "snr_teorico": 98.0896,
     "carga": {
@@ -1796,6 +1926,48 @@
     },
     "snr_cadena": 90.82865594292025,
     "nrmse_cadena": 4.989326628427208e-06,
+    "viaje": [
+     {
+      "etapa": "x(t) original",
+      "nota": "la señal de entrada, sin error",
+      "snr": null,
+      "exacta": false,
+      "snr_tel": null,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "filtro antialiasing",
+      "nota": "recorta por encima de 9922 Hz",
+      "snr": 18.183744711642646,
+      "exacta": false,
+      "snr_tel": 8.649152849658519,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "muestreo + DAC",
+      "nota": "a 44100 Hz, sin aliasing posible",
+      "snr": null,
+      "exacta": true,
+      "snr_tel": null,
+      "exacta_tel": true
+     },
+     {
+      "etapa": "cuantizador",
+      "nota": "16 bits, Δ = 3,05e-05 V",
+      "snr": 90.82865594292025,
+      "exacta": false,
+      "snr_tel": 42.941523230003405,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "cadena completa",
+      "nota": "todo junto",
+      "snr": 90.82865594292025,
+      "exacta": false,
+      "snr_tel": 42.941523230003405,
+      "exacta_tel": false
+     }
+    ],
     "telefonica": {
      "fs": 8000.0,
      "bits": 8,
@@ -2080,6 +2252,7 @@
     "bits": 16,
     "factor_escala_v": 3.0517578125e-05,
     "factor_escala_medio": 1.52587890625e-05,
+    "factor_escala_medio_uv": 15.2587890625,
     "niveles": 65536,
     "snr_teorico": 98.0896,
     "carga": {
@@ -2271,6 +2444,48 @@
     },
     "snr_cadena": 90.49397055539914,
     "nrmse_cadena": 5.315013320799002e-06,
+    "viaje": [
+     {
+      "etapa": "x(t) original",
+      "nota": "la señal de entrada, sin error",
+      "snr": null,
+      "exacta": false,
+      "snr_tel": null,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "filtro antialiasing",
+      "nota": "recorta por encima de 9922 Hz",
+      "snr": 24.240665251459323,
+      "exacta": false,
+      "snr_tel": 9.849434045921523,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "muestreo + DAC",
+      "nota": "a 44100 Hz, sin aliasing posible",
+      "snr": null,
+      "exacta": true,
+      "snr_tel": null,
+      "exacta_tel": true
+     },
+     {
+      "etapa": "cuantizador",
+      "nota": "16 bits, Δ = 3,05e-05 V",
+      "snr": 90.49397055539914,
+      "exacta": false,
+      "snr_tel": 38.37627061342534,
+      "exacta_tel": false
+     },
+     {
+      "etapa": "cadena completa",
+      "nota": "todo junto",
+      "snr": 90.49397055539914,
+      "exacta": false,
+      "snr_tel": 38.37627061342534,
+      "exacta_tel": false
+     }
+    ],
     "telefonica": {
      "fs": 8000.0,
      "bits": 8,

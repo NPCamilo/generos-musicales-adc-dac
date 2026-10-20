@@ -1,5 +1,11 @@
 # GUION DE SUSTENTACIÓN — DSP aplicado a ADC-DAC sobre audio musical
 
+> **⚠ Si sois un grupo de cuatro, usad [`GUION_CUATRO.md`](GUION_CUATRO.md).**
+> Este documento es el guión completo de una persona; el de cuatro está
+> repartido en tramos, con la señalización de qué tiene que estar en
+> pantalla en cada momento, las transiciones entre ponentes y la
+> distribución de las preguntas difíciles.
+>
 > **Cómo usar este documento.** El texto entre comillas es lo que se dice,
 > palabra por palabra. Lo que va en *cursiva* son indicaciones de acción
 > (qué hacer, dónde mirar, qué clic dar). Los **minutos** son la
@@ -157,6 +163,30 @@ y = V_fs / 2^(b-1) = 1 / 2^15 = 3,052 · 10⁻⁵ voltios por nivel
 > microvoltios: son escalones de medio Δ, y nunca se salen de la banda.
 > Eso es el error de cuantización: **acotado, determinista y no
 > gaussiano**.»
+
+*Abre la figura de la cadena (sección 5 de la ficha).*
+
+> «Y aquí está la cadena completa, que es la parte que más cuesta
+> entender si no se mira así. Arriba está **el viaje del SNR**: cuánto
+> SNR sobrevive a cada paso de la cadena, la azul a 44,1 kHz y la
+0 naranja a 8 kHz con 8 bits.
+>
+> Lo primero que se ve es que **el muestreo, a la tasa del propio
+0 archivo, es exacto**: no hay nada por encima de f_s/2 que se pueda
+0 plegar. El aliasing solo aparece cuando se baja la tasa, que es lo
+0 que veremos en la siguiente figura.
+0
+0 Y lo segundo, que es lo que hace que esta figura valga para las
+0 cinco pistas: el **filtro antialiasing** es la única etapa cuyo
+0 coste depende del género. En el metal cuesta 18 dB y en la barroca
+0 45, y la diferencia no es del instrumento: es de la masterización.
+0 El reggaetón tiene contenido hasta 17 kHz y la barroca no pasa de
+0 4 kHz, así que el filtro se lleva mucho más en el primero.
+0
+0 Abajo están los 20 milisegundos del error de cada etapa, y se ve la
+0 diferencia de textura: el filtro antialiasing deja un error que
+0 parece ruido, el cuantizador deja una franja acotada, y el DAC deja
+0 los escalones del retenedor de orden cero.»
 
 ---
 

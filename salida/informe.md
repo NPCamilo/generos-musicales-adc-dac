@@ -281,13 +281,55 @@ verdad: un entero de 16 bits, no una tensión.
 
 ![Los códigos binarios de Clásica · Barroca](barroca_codigos.png)
 
-**La cadena completa.** A 44100 Hz y
-16 bits, el SNR de la cadena es
-81,9 dB; bajando a 8 kHz y 8 bits (una
-llamada telefónica) cae a
-34,6 dB.
+**La cadena completa.** Lo primero es lo primero: **la cadena es la
+misma en los cinco géneros**; lo que cambia es **cuánto se pierde en cada
+paso**, y eso es justo lo que se mide aquí.
+
+La cadena es esta:
+
+```
+x(t)  ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
+       recorta la banda        reloj de fs      b bits        ZOH
+       de arriba
+```
+
+Y el **viaje del SNR**, que es el número que resume cada paso:
+
+| etapa | qué hace | SNR que queda | en la telefónica (8 kHz, 8 bits) |
+|---|---|---|---|
+| x(t) original | la señal de entrada, sin error | — | — |
+| filtro antialiasing | recorta por encima de 9922 Hz | 45,2 dB | 22,6 dB |
+| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 81,9 dB | 34,6 dB |
+| cadena completa | todo junto | 81,9 dB | 34,6 dB |
+
+**Cómo se lee esto**, que es lo importante:
+
+- **El filtro antialiasing** es la etapa que más se nota, y es la única
+  cuyo coste depende del **género**: recorta la banda de arriba del todo,
+  así que en una pieza masterizada con contenido hasta 17 kHz se pierde
+  mucho más que en una barroca que no pasa de 4 kHz. En esta muestra, el
+  filtro cuesta desde 18 dB (la pista con más contenido
+  agudo) hasta 45 dB (la que menos tiene): 27 dB
+  de diferencia entre el género más brillante y el más oscuro.
+- **El muestreo**, a la tasa del propio archivo, es **exacto**: no hay
+  nada por encima de f_s/2 que se pueda plegar. El aliasing aparece solo
+  cuando se baja la tasa, que es lo que se ve en la figura del barrido.
+- **El cuantizador** es la etapa que domina a 44,1 kHz, y su error está
+  **acotado** a ±Δ/2 = ±15.3 µV: se ve en el panel 3 de la figura como una franja, no como ruido.
+- **El DAC** apenas añade error a 44,1 kHz (es un retenedor de orden
+  cero sobre muestras que ya están tomadas a esa tasa), pero a 8 kHz el
+  conjunto de pérdidas es mucho mayor.
 
 ![La cadena ADC-DAC de Clásica · Barroca](barroca_cadena.png)
+
+*La figura tiene dos mitades: arriba, el viaje del SNR (la curva azul es
+la cadena nativa y la naranja la telefónica); abajo, 20 ms del error que
+introduce cada etapa, con su propia escala. Lo que se ve en los cuatro
+paneles de abajo es la diferencia de TEXTURA: el filtro antialiasing
+deja un error que parece ruido, el cuantizador deja una franja
+acotada, y el DAC deja los escalones del retenedor de orden cero.*
+
 
 **El ritmo.** **no medible** (sin percusión).
 
@@ -371,13 +413,55 @@ verdad: un entero de 16 bits, no una tensión.
 
 ![Los códigos binarios de Metal](metal_codigos.png)
 
-**La cadena completa.** A 44100 Hz y
-16 bits, el SNR de la cadena es
-83,3 dB; bajando a 8 kHz y 8 bits (una
-llamada telefónica) cae a
-35,6 dB.
+**La cadena completa.** Lo primero es lo primero: **la cadena es la
+misma en los cinco géneros**; lo que cambia es **cuánto se pierde en cada
+paso**, y eso es justo lo que se mide aquí.
+
+La cadena es esta:
+
+```
+x(t)  ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
+       recorta la banda        reloj de fs      b bits        ZOH
+       de arriba
+```
+
+Y el **viaje del SNR**, que es el número que resume cada paso:
+
+| etapa | qué hace | SNR que queda | en la telefónica (8 kHz, 8 bits) |
+|---|---|---|---|
+| x(t) original | la señal de entrada, sin error | — | — |
+| filtro antialiasing | recorta por encima de 9922 Hz | 23,6 dB | 6,9 dB |
+| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 83,3 dB | 35,6 dB |
+| cadena completa | todo junto | 83,3 dB | 35,6 dB |
+
+**Cómo se lee esto**, que es lo importante:
+
+- **El filtro antialiasing** es la etapa que más se nota, y es la única
+  cuyo coste depende del **género**: recorta la banda de arriba del todo,
+  así que en una pieza masterizada con contenido hasta 17 kHz se pierde
+  mucho más que en una barroca que no pasa de 4 kHz. En esta muestra, el
+  filtro cuesta desde 18 dB (la pista con más contenido
+  agudo) hasta 45 dB (la que menos tiene): 27 dB
+  de diferencia entre el género más brillante y el más oscuro.
+- **El muestreo**, a la tasa del propio archivo, es **exacto**: no hay
+  nada por encima de f_s/2 que se pueda plegar. El aliasing aparece solo
+  cuando se baja la tasa, que es lo que se ve en la figura del barrido.
+- **El cuantizador** es la etapa que domina a 44,1 kHz, y su error está
+  **acotado** a ±Δ/2 = ±15.3 µV: se ve en el panel 3 de la figura como una franja, no como ruido.
+- **El DAC** apenas añade error a 44,1 kHz (es un retenedor de orden
+  cero sobre muestras que ya están tomadas a esa tasa), pero a 8 kHz el
+  conjunto de pérdidas es mucho mayor.
 
 ![La cadena ADC-DAC de Metal](metal_cadena.png)
+
+*La figura tiene dos mitades: arriba, el viaje del SNR (la curva azul es
+la cadena nativa y la naranja la telefónica); abajo, 20 ms del error que
+introduce cada etapa, con su propia escala. Lo que se ve en los cuatro
+paneles de abajo es la diferencia de TEXTURA: el filtro antialiasing
+deja un error que parece ruido, el cuantizador deja una franja
+acotada, y el DAC deja los escalones del retenedor de orden cero.*
+
 
 **El ritmo.** 98, con una confianza de 0,88.
 
@@ -462,13 +546,55 @@ verdad: un entero de 16 bits, no una tensión.
 
 ![Los códigos binarios de Salsa](salsa_codigos.png)
 
-**La cadena completa.** A 44100 Hz y
-16 bits, el SNR de la cadena es
-94,5 dB; bajando a 8 kHz y 8 bits (una
-llamada telefónica) cae a
-38,3 dB.
+**La cadena completa.** Lo primero es lo primero: **la cadena es la
+misma en los cinco géneros**; lo que cambia es **cuánto se pierde en cada
+paso**, y eso es justo lo que se mide aquí.
+
+La cadena es esta:
+
+```
+x(t)  ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
+       recorta la banda        reloj de fs      b bits        ZOH
+       de arriba
+```
+
+Y el **viaje del SNR**, que es el número que resume cada paso:
+
+| etapa | qué hace | SNR que queda | en la telefónica (8 kHz, 8 bits) |
+|---|---|---|---|
+| x(t) original | la señal de entrada, sin error | — | — |
+| filtro antialiasing | recorta por encima de 9922 Hz | 23,5 dB | 10,1 dB |
+| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 94,5 dB | 38,3 dB |
+| cadena completa | todo junto | 94,5 dB | 38,3 dB |
+
+**Cómo se lee esto**, que es lo importante:
+
+- **El filtro antialiasing** es la etapa que más se nota, y es la única
+  cuyo coste depende del **género**: recorta la banda de arriba del todo,
+  así que en una pieza masterizada con contenido hasta 17 kHz se pierde
+  mucho más que en una barroca que no pasa de 4 kHz. En esta muestra, el
+  filtro cuesta desde 18 dB (la pista con más contenido
+  agudo) hasta 45 dB (la que menos tiene): 27 dB
+  de diferencia entre el género más brillante y el más oscuro.
+- **El muestreo**, a la tasa del propio archivo, es **exacto**: no hay
+  nada por encima de f_s/2 que se pueda plegar. El aliasing aparece solo
+  cuando se baja la tasa, que es lo que se ve en la figura del barrido.
+- **El cuantizador** es la etapa que domina a 44,1 kHz, y su error está
+  **acotado** a ±Δ/2 = ±15.3 µV: se ve en el panel 3 de la figura como una franja, no como ruido.
+- **El DAC** apenas añade error a 44,1 kHz (es un retenedor de orden
+  cero sobre muestras que ya están tomadas a esa tasa), pero a 8 kHz el
+  conjunto de pérdidas es mucho mayor.
 
 ![La cadena ADC-DAC de Salsa](salsa_cadena.png)
+
+*La figura tiene dos mitades: arriba, el viaje del SNR (la curva azul es
+la cadena nativa y la naranja la telefónica); abajo, 20 ms del error que
+introduce cada etapa, con su propia escala. Lo que se ve en los cuatro
+paneles de abajo es la diferencia de TEXTURA: el filtro antialiasing
+deja un error que parece ruido, el cuantizador deja una franja
+acotada, y el DAC deja los escalones del retenedor de orden cero.*
+
 
 **El ritmo.** 101, con una confianza de 0,85.
 
@@ -553,13 +679,55 @@ verdad: un entero de 16 bits, no una tensión.
 
 ![Los códigos binarios de Reggaetón](reggaeton_codigos.png)
 
-**La cadena completa.** A 44100 Hz y
-16 bits, el SNR de la cadena es
-90,8 dB; bajando a 8 kHz y 8 bits (una
-llamada telefónica) cae a
-42,9 dB.
+**La cadena completa.** Lo primero es lo primero: **la cadena es la
+misma en los cinco géneros**; lo que cambia es **cuánto se pierde en cada
+paso**, y eso es justo lo que se mide aquí.
+
+La cadena es esta:
+
+```
+x(t)  ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
+       recorta la banda        reloj de fs      b bits        ZOH
+       de arriba
+```
+
+Y el **viaje del SNR**, que es el número que resume cada paso:
+
+| etapa | qué hace | SNR que queda | en la telefónica (8 kHz, 8 bits) |
+|---|---|---|---|
+| x(t) original | la señal de entrada, sin error | — | — |
+| filtro antialiasing | recorta por encima de 9922 Hz | 18,2 dB | 8,6 dB |
+| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 90,8 dB | 42,9 dB |
+| cadena completa | todo junto | 90,8 dB | 42,9 dB |
+
+**Cómo se lee esto**, que es lo importante:
+
+- **El filtro antialiasing** es la etapa que más se nota, y es la única
+  cuyo coste depende del **género**: recorta la banda de arriba del todo,
+  así que en una pieza masterizada con contenido hasta 17 kHz se pierde
+  mucho más que en una barroca que no pasa de 4 kHz. En esta muestra, el
+  filtro cuesta desde 18 dB (la pista con más contenido
+  agudo) hasta 45 dB (la que menos tiene): 27 dB
+  de diferencia entre el género más brillante y el más oscuro.
+- **El muestreo**, a la tasa del propio archivo, es **exacto**: no hay
+  nada por encima de f_s/2 que se pueda plegar. El aliasing aparece solo
+  cuando se baja la tasa, que es lo que se ve en la figura del barrido.
+- **El cuantizador** es la etapa que domina a 44,1 kHz, y su error está
+  **acotado** a ±Δ/2 = ±15.3 µV: se ve en el panel 3 de la figura como una franja, no como ruido.
+- **El DAC** apenas añade error a 44,1 kHz (es un retenedor de orden
+  cero sobre muestras que ya están tomadas a esa tasa), pero a 8 kHz el
+  conjunto de pérdidas es mucho mayor.
 
 ![La cadena ADC-DAC de Reggaetón](reggaeton_cadena.png)
+
+*La figura tiene dos mitades: arriba, el viaje del SNR (la curva azul es
+la cadena nativa y la naranja la telefónica); abajo, 20 ms del error que
+introduce cada etapa, con su propia escala. Lo que se ve en los cuatro
+paneles de abajo es la diferencia de TEXTURA: el filtro antialiasing
+deja un error que parece ruido, el cuantizador deja una franja
+acotada, y el DAC deja los escalones del retenedor de orden cero.*
+
 
 **El ritmo.** 100, con una confianza de 0,94.
 
@@ -644,13 +812,55 @@ verdad: un entero de 16 bits, no una tensión.
 
 ![Los códigos binarios de Popular colombiana](popular_codigos.png)
 
-**La cadena completa.** A 44100 Hz y
-16 bits, el SNR de la cadena es
-90,5 dB; bajando a 8 kHz y 8 bits (una
-llamada telefónica) cae a
-38,4 dB.
+**La cadena completa.** Lo primero es lo primero: **la cadena es la
+misma en los cinco géneros**; lo que cambia es **cuánto se pierde en cada
+paso**, y eso es justo lo que se mide aquí.
+
+La cadena es esta:
+
+```
+x(t)  ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
+       recorta la banda        reloj de fs      b bits        ZOH
+       de arriba
+```
+
+Y el **viaje del SNR**, que es el número que resume cada paso:
+
+| etapa | qué hace | SNR que queda | en la telefónica (8 kHz, 8 bits) |
+|---|---|---|---|
+| x(t) original | la señal de entrada, sin error | — | — |
+| filtro antialiasing | recorta por encima de 9922 Hz | 24,2 dB | 9,8 dB |
+| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 90,5 dB | 38,4 dB |
+| cadena completa | todo junto | 90,5 dB | 38,4 dB |
+
+**Cómo se lee esto**, que es lo importante:
+
+- **El filtro antialiasing** es la etapa que más se nota, y es la única
+  cuyo coste depende del **género**: recorta la banda de arriba del todo,
+  así que en una pieza masterizada con contenido hasta 17 kHz se pierde
+  mucho más que en una barroca que no pasa de 4 kHz. En esta muestra, el
+  filtro cuesta desde 18 dB (la pista con más contenido
+  agudo) hasta 45 dB (la que menos tiene): 27 dB
+  de diferencia entre el género más brillante y el más oscuro.
+- **El muestreo**, a la tasa del propio archivo, es **exacto**: no hay
+  nada por encima de f_s/2 que se pueda plegar. El aliasing aparece solo
+  cuando se baja la tasa, que es lo que se ve en la figura del barrido.
+- **El cuantizador** es la etapa que domina a 44,1 kHz, y su error está
+  **acotado** a ±Δ/2 = ±15.3 µV: se ve en el panel 3 de la figura como una franja, no como ruido.
+- **El DAC** apenas añade error a 44,1 kHz (es un retenedor de orden
+  cero sobre muestras que ya están tomadas a esa tasa), pero a 8 kHz el
+  conjunto de pérdidas es mucho mayor.
 
 ![La cadena ADC-DAC de Popular colombiana](popular_cadena.png)
+
+*La figura tiene dos mitades: arriba, el viaje del SNR (la curva azul es
+la cadena nativa y la naranja la telefónica); abajo, 20 ms del error que
+introduce cada etapa, con su propia escala. Lo que se ve en los cuatro
+paneles de abajo es la diferencia de TEXTURA: el filtro antialiasing
+deja un error que parece ruido, el cuantizador deja una franja
+acotada, y el DAC deja los escalones del retenedor de orden cero.*
+
 
 **El ritmo.** **no medible** (sin percusión).
 

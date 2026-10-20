@@ -27,7 +27,7 @@ instala y funciona, sin depender de ninguna carpeta de al lado.
 | `public/` | los ficheros estáticos que el servidor sirve tal cual. |
 | `audio/` | las cinco pistas (12 s cada una) y `descargas.json`, con la procedencia de cada una. |
 | `salida/` | el entregable: `informe.md`, `datos.json` y 39 figuras en PNG a 300 dpi. |
-| `docs/` | `GUIA.md` (la guía de defensa) y `PUBLICAR.md` (cómo desplegarlo). |
+| `docs/` | `GUIA.md` (la guía de defensa: cifras, ideas y preguntas), `GUION.md` (el guión completo de una persona), `GUION_CUATRO.md` (el guión **repartido en cuatro**, con la señalización de pantalla) y `PUBLICAR.md` (cómo desplegarlo). |
 
 ## Se ejecuta así
 
@@ -47,7 +47,22 @@ python nucleo/comprobar_todo.py  # 164 comprobaciones, en 4 suites
 python construir.py               # regenera el informe, las figuras y datos.json
 ```
 
-## Publicarlo en GitHub + Vercel
+## Para la sustentación
+
+Hay dos guiones en `docs/`:
+
+- **`GUION_CUATRO.md`** — el que os sirve si sois un grupo: el turno de
+  80 minutos repartido en cinco tramos (Ángel, Mariano, Luis y tú), con
+  la **señalización de qué tiene que estar en pantalla** en cada momento,
+  las transiciones entre ponentes y la distribución de las preguntas
+  difíciles por persona.
+- **`GUION.md`** — el guión completo de una sola persona, con las 12
+  preguntas y sus respuestas, el plan B y la lista de un día antes.
+
+**La clave del proyecto, en una frase:** la cadena de conversión es la
+misma en los cinco géneros; lo que cambia es **cuánto se pierde en cada
+paso**, y eso es lo que mide la figura de la cadena (el "viaje del SNR"),
+que es además la que más se diferencia entre pistas.
 
 **Está publicado:**
 

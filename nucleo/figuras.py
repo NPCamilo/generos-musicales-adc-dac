@@ -427,40 +427,164 @@ def figura_codigos(r: dict) -> plt.Figure:
 # =============================================================================
 
 def figura_cadena(r: dict) -> plt.Figure:
-    """La cadena ADC-DAC: qué error mete cada etapa, y el presupuesto."""
+    """La cadena ADC-DAC explicada: qué pasa en cada etapa y cuánto cuesta.
+
+    POR QUÉ ESTA FIGURA ESTA HECHA ASÍ
+    -----------------------------------
+    La primera versión de esta figura era un diagrama de barras con el
+    presupuesto de error: dos barras, el 100 % y el 0 %, una para cada
+    etapa. Era idéntica en los cinco géneros y no explicaba nada. Se
+    rehízo con dos ideas:
+
+    · **ARRIBA, EL VIAJE DEL SNR**: una curva escalonada que dice cuánto
+      SNR queda después de cada etapa, y dos curvas: la cadena nativa y la
+      telefónica. Esta es la parte que explica la cadena, y **sí cambia
+      de un género a otro**, porque la pérdida del filtro antialiasing
+      depende de cuánto contenido hay por encima del corte.
+
+    · **ABAJO, EL ERROR DE CADA ETAPA**: 20 milisegundos del error que
+      introduce cada paso, con su propia escala. Se ve la diferencia de
+      TEXTURA: el filtro antialiasing quita una banda y deja un error que
+      parece ruido; el cuantizador deja un error acotado a ±Δ/2, una
+      franja; el DAC deja los escalones del retenedor de orden cero.
+
+    Con esto, la figura cuenta una historia y no solo reparte un
+    porcentaje.
+    """
     _aplicar_tema()
     cadena = r["cadena"]
     tel = cadena["telefonica"]
+    fs = r["pista"]["fs"]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10.4, 4.4),
-                                   layout="constrained")
+    fig = plt.figure(figsize=(13.2, 7.6), layout="constrained")
+    rejilla = fig.add_gridspec(2, 4, height_ratios=[1.0, 1.0])
 
-    # (1) el presupuesto de error a 44,1 kHz
-    nombres = list(cadena["presupuesto"].keys())
-    valores = [cadena["presupuesto"][n]["porcentaje"] for n in nombres]
-    ax1.bar(range(len(nombres)), valores, color="#0072B2", width=0.55)
-    ax1.set_xticks(range(len(nombres)))
-    ax1.set_xticklabels([n.replace("_", " ") for n in nombres], fontsize=9)
-    ax1.set_ylabel("% de la potencia del error")
-    ax1.set_title(f"A {r['pista']['fs']} Hz y {r['cuantizacion']['bits']} bits",
-                  loc="left", fontsize=11.5, fontweight="semibold")
+    # ---------------------------------------------------------------- arriba
+    ax = fig.add_subplot(rejilla[0, :])
+    etapas_nativas = [e["etapa"] for e in cadena["viaje"]]
+    etapas_tel = [e["etapa"] for e in tel["viaje"]]
+    assert len(etapas_nativas) == len(etapas_tel), \
+        "los dos viajes tienen que tener las mismas etapas"
 
-    # (2) el presupuesto a 8 kHz (telefonía), donde el ZOH sí pesa
-    nombres2 = list(tel["presupuesto"].keys())
-    valores2 = [tel["presupuesto"][n]["porcentaje"] for n in nombres2]
-    ax2.bar(range(len(nombres2)), valores2, color="#D55E00", width=0.55)
-    ax2.set_xticks(range(len(nombres2)))
-    ax2.set_xticklabels([n.replace("_", " ") for n in nombres2], fontsize=9)
-    ax2.set_ylabel("% de la potencia del error")
-    ax2.set_title("A 8 kHz y 8 bits (telefonía)", loc="left",
-                  fontsize=11.5, fontweight="semibold")
+    def _puntos(viaje):
+        """Los valores del viaje, con el primero y los infinitos acotados.
+
+        A la tasa nativa, muestrear a 44,1 kHz una señal que ya está a
+        44,1 kHz es exacto, y el SNR de esa etapa da infinito. En la
+        gráfica se dibuja acotado, y se rotula como "exacta": es más
+        honesto que dejar un `inf` en un eje.
+        """
+        x = np.arange(len(viaje))
+        y = []
+        for v in viaje:
+            s = v["snr"]
+            if s is None or np.isinf(s):
+                y.append(160.0)
+            else:
+                y.append(min(s, 160.0))
+        return x, y
+
+    xn, yn = _puntos(cadena["viaje"])
+    xt, yt = _puntos(tel["viaje"])
+    ax.step(xn, yn, "o-", color="#0072B2", linewidth=2.0, markersize=7,
+            where="post", label=f"nativa: {fs:.0f} Hz, "
+            f"{r['cuantizacion']['bits']} bits")
+    ax.step(xt, yt, "s--", color="#D55E00", linewidth=1.8, markersize=6,
+            where="post", label="telefónica: 8 kHz, 8 bits")
+
+    for x, y, viaje, dy in ((xn, yn, cadena["viaje"], 9),
+                            (xt, yt, tel["viaje"], -16)):
+        for xi, yi, etapa in zip(x, y, viaje):
+            if etapa["snr"] is None:
+                continue
+            texto = ("exacta" if np.isinf(etapa["snr"])
+                     else f"{etapa['snr']:.0f} dB")
+            ax.annotate(texto, (xi, yi), textcoords="offset points",
+                        xytext=(0, dy), fontsize=8.5, ha="center",
+                        color="#6B6862")
+
+    etiquetas = ["original", "filtro AA", "muestreo", "cuantizador",
+                 "cadena"]
+    ax.set_xticks(range(len(etiquetas)))
+    ax.set_xticklabels(etiquetas, fontsize=9.5)
+    ax.set_ylabel("SNR después de la etapa (dB)")
+    ax.set_ylim(0, 175)
+    ax.legend(loc="lower left", fontsize=9)
+    ax.grid(axis="x", visible=False)
+    _titulo(ax, "EL VIAJE DE LA SEÑAL",
+            "Cuánto SNR sobrevive a cada paso de la cadena")
+    _nota(ax, "la banda que se pierde es la de arriba del todo: por eso el "
+              "filtro antialiasing cuesta 45 dB en la barroca y 18 dB en el "
+              "reggaetón, que tiene contenido hasta 17 kHz")
+
+    # ---------------------------------------------------------------- abajo
+    ventana = 0.02
+    n_vent = int(ventana * fs)
+    # la ventana se elige por RMS máximo, NO por el pico: en el pico hay
+    # saturación, y un solo pico de recorte aplasta el resto del error,
+    # que es justo lo que hay que ver
+    if len(cadena["x_v"]) > n_vent:
+        energia = np.convolve(cadena["x_v"] ** 2,
+                              np.ones(n_vent) / n_vent, mode="valid")
+        ini = int(np.argmax(energia))
+    else:
+        ini = 0
+    t = (np.arange(ini, ini + n_vent)) / fs
+
+    paneles = [
+        ("1 · filtro antialiasing", cadena["viaje"][1], "#6B6862"),
+        ("2 · muestreo y DAC", cadena["viaje"][2], "#0072B2"),
+        ("3 · cuantizador", cadena["viaje"][3], "#CC79A7"),
+        ("4 · cadena completa", cadena["viaje"][4], "#D55E00"),
+    ]
+    for k, (titulo, etapa, color) in enumerate(paneles):
+        axk = fig.add_subplot(rejilla[1, k])
+        error = etapa["error"]
+        if error is None:
+            axk.axis("off")
+            continue
+        e = error[ini:ini + n_vent] * 1e6          # en microvoltios
+        axk.axhline(0, color="#C9C5BD", linewidth=0.8)
+        maximo = float(np.max(np.abs(e))) if len(e) else 0.0
+        nota = etapa["nota"]
+
+        if maximo < 1e-6:
+            # la etapa no introduce error (a la tasa nativa no hay nada
+            # por encima de f_s/2, así que no hay aliasing posible)
+            axk.set_ylim(-1.0, 1.0)
+            axk.text(0.5, 0.42, "error nulo\na esta tasa no hay\n"
+                                "contenido que plegar",
+                     transform=axk.transAxes, ha="center", va="center",
+                     fontsize=9, color="#6B6862")
+        else:
+            axk.plot(t, e, color=color, linewidth=0.8)
+            rms = float(np.sqrt(np.mean(e ** 2)))
+            # escala robusta: un solo pico de saturación no puede
+            # aplastar el resto del error, que es lo que hay que ver
+            p995 = float(np.percentile(np.abs(e), 99.5))
+            lim = max(3.0 * rms, p995, 1e-9) * 1.15
+            axk.set_ylim(-lim, lim)
+            if maximo > lim:
+                nota += " · escala recortada"
+
+        axk.set_xlim(t[0], t[-1])
+        snr_texto = "exacta" if np.isinf(etapa["snr"]) \
+            else f"{etapa['snr']:.0f} dB"
+        axk.set_title(f"{titulo}\nSNR {snr_texto}", fontsize=9.5,
+                      loc="left", color="#1A1A1A")
+        axk.set_xlabel("tiempo (s)", fontsize=8.5)
+        if k == 0:
+            axk.set_ylabel("error (µV)", fontsize=9)
+        axk.tick_params(labelsize=8)
+        # la nota va DENTRO del panel, arriba: abajo se cruzaba con el
+        # pie de la figura
+        axk.text(0.5, 0.965, nota, transform=axk.transAxes,
+                  ha="center", va="top", fontsize=8, color="#6B6862",
+                  bbox=dict(facecolor="#FBFAF7", edgecolor="none",
+                             alpha=0.85, pad=1.5))
 
     fig.suptitle(f"{r['nombre']} — la cadena ADC-DAC, etapa por etapa",
                  x=0.01, ha="left", fontsize=13, fontweight="semibold")
-    fig.text(0.01, 0.02,
-             f"SNR de la cadena completa: {cadena['snr_cadena']:.1f} dB a "
-             f"{r['pista']['fs']} Hz · {tel['snr_cadena']:.1f} dB a 8 kHz",
-             fontsize=9, color="#6B6862")
     return fig
 
 

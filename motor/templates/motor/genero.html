@@ -142,13 +142,45 @@
 
 <h2>5. La cadena ADC-DAC completa</h2>
 <p>
-  A {{ r.pista.fs }} Hz el SNR de la cadena es
-  {{ r.cadena.snr_cadena|num:1 }} dB; a 8 kHz y 8 bits (una llamada
-  telefónica) cae a {{ r.cadena.telefonica.snr_cadena|num:1 }} dB.
+  <strong>La cadena es la misma en los cinco géneros</strong>; lo que cambia
+  es <strong>cuánto se pierde en cada paso</strong>. Y eso es lo que se
+  mide aquí:
+</p>
+<pre>x(t) ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
+     recorta la banda      reloj de fs     b bits       ZOH
+     de arriba</pre>
+<table>
+  <tr>
+    <th>etapa</th><th>qué hace</th>
+    <th class="num">SNR que queda</th>
+    <th class="num">en la teléfonica (8 kHz, 8 bits)</th>
+  </tr>
+  {% for e in r.cadena.viaje %}
+  <tr>
+    <td>{{ e.etapa }}</td>
+    <td style="font-size:13px;color:var(--suave)">{{ e.nota }}</td>
+    <td class="num">{% if e.exacta %}exacta{% elif e.snr == None %}—{% else %}{{ e.snr|num:1 }} dB{% endif %}</td>
+    <td class="num">{% if e.exacta_tel %}exacta{% elif e.snr_tel == None %}—{% else %}{{ e.snr_tel|num:1 }} dB{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+<p style="font-size:14px;color:var(--suave)">
+  <strong>Cómo se lee:</strong> el <strong>filtro antialiasing</strong> es
+  la etapa que más se nota y la única cuyo coste depende del género
+  (recorta la banda de arriba del todo). El <strong>muestreo</strong> a la
+  tasa del propio archivo es exacto: no hay nada por encima de f_s/2 que
+  se pueda plegar. El <strong>cuantizador</strong> domina a 44,1 kHz, y su
+  error está acotado a ±{{ r.cuantizacion.factor_escala_medio_uv|num:1 }} µV.
+  A 8 kHz y 8 bits, el conjunto de pérdidas es mucho mayor.
 </p>
 <figure>
   <img src="{% url 'figura' clave 'cadena' %}" alt="La cadena ADC-DAC">
-  <figcaption>El presupuesto de error: qué etapa se lleva la potencia del error.</figcaption>
+  <figcaption>
+    Arriba: el viaje del SNR (azul, la cadena nativa; naranja, la
+    telefónica). Abajo: 20 ms del error de cada etapa. Se ve la diferencia
+    de textura: el filtro antialiasing deja un error que parece ruido, el
+    cuantizador una franja acotada, y el DAC los escalones del retenedor.
+  </figcaption>
 </figure>
 
 <h2>6. Escúchalo</h2>

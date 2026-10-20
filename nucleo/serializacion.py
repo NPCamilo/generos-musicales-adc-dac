@@ -67,6 +67,34 @@ def _es_array(valor) -> bool:
     return hasattr(valor, "dtype") and hasattr(valor, "shape")
 
 
+def _emparejar_viajes(nativo: list, telefonico: list) -> list:
+    """Empareja los dos viajes de SNR etapa por etapa.
+
+    Devuelve una lista de dicts con "etapa", "nota", "snr" (el de la
+    cadena nativa) y "snr_tel" (el de la telefónica), para que la
+    plantilla pueda hacer una tabla con las dos columnas sin tener que
+    indexar dos listas en paralelo.
+    """
+    salida = []
+    for i, e in enumerate(nativo):
+        tel = telefonico[i] if i < len(telefonico) else {"snr": None}
+        snr = e.get("snr")
+        snr_tel = tel.get("snr")
+        # el infinito no se serializa (no es JSON válido): se marca con
+        # un booleano, y la plantilla escribe "exacta"
+        exacta = snr is not None and snr == float("inf")
+        exacta_tel = snr_tel is not None and snr_tel == float("inf")
+        salida.append({
+            "etapa": e.get("etapa", ""),
+            "nota": e.get("nota", ""),
+            "snr": None if snr is None or exacta else snr,
+            "exacta": exacta,
+            "snr_tel": None if snr_tel is None or exacta_tel else snr_tel,
+            "exacta_tel": exacta_tel,
+        })
+    return salida
+
+
 def resumen_serializable(r: dict) -> dict:
     """Los números de una pista, listos para el JSON.
 
@@ -109,6 +137,8 @@ def resumen_serializable(r: dict) -> dict:
             "bits": r["cuantizacion"]["bits"],
             "factor_escala_v": r["cuantizacion"]["factor_escala_v"],
             "factor_escala_medio": r["cuantizacion"]["factor_escala_medio"],
+            "factor_escala_medio_uv": (r["cuantizacion"]["factor_escala_medio"]
+                                       * 1e6),
             "niveles": r["cuantizacion"]["niveles"],
             "snr_teorico": r["cuantizacion"]["snr_teorico"],
             "carga": _podar(r["cuantizacion"]["carga"]),
@@ -126,6 +156,12 @@ def resumen_serializable(r: dict) -> dict:
             "presupuesto": r["cadena"]["presupuesto"],
             "snr_cadena": r["cadena"]["snr_cadena"],
             "nrmse_cadena": r["cadena"]["nrmse_cadena"],
+            # el viaje del SNR, con la cadena nativa y la telefónica
+            # EMPAREJADAS en la misma lista, para que la plantilla no
+            # tenga que indexar dos listas en paralelo
+            "viaje": _emparejar_viajes(
+                r["cadena"].get("viaje", []),
+                r["cadena"]["telefonica"].get("viaje", [])),
             "telefonica": {
                 "fs": r["cadena"]["telefonica"]["fs"],
                 "bits": r["cadena"]["telefonica"]["bits"],
