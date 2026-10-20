@@ -140,7 +140,7 @@ CATALOGO: tuple[Genero, ...] = (
         compositor="Dave Mustaine",
         estilo="Thrash/heavy metal de finales de los 80",
         instrumentacion="Guitarras con saturación, bajo eléctrico, "
-                        "batería y.msg",
+                        "batería y amplificación",
         bpm_esperado="120-140 (tema en 4/4, riff en semicorcheas)",
         banda_clave="Fundamental grave del bajo (40-100 Hz) + mucha "
                     "energía de guitarra hasta 8 kHz por la saturación",
@@ -194,7 +194,7 @@ CATALOGO: tuple[Genero, ...] = (
         obra="LUNA (del EP Ferxxocalipsis)",
         anio=2023,
         compositor="Salomón Villada (Feid) y ATL Jacob",
-        estilo="Reggaetón colombiano contemporary (2020s)",
+        estilo="Reggaetón colombiano contemporáneo (años 2020)",
         instrumentacion="Bombo sintetizado (dembow), pads, voz con "
                         "autotune, sintetizadores de alta frecuencia",
         bpm_esperado="90-100 (dembow en 2-4)",

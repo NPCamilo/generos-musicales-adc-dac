@@ -155,8 +155,8 @@ Las cinco cifras que hay que saber de memoria:
 | cifra | valor | de dónde sale |
 |---|---|---|
 | pistas analizadas | {len(resultados)} | `audio/*.wav` |
-| genres comparados | {len(resultados)} | el catálogo, punto (b) del enunciado |
-| mejor índice de atención | **{primera['indice']:.1f} / 100** | {primera['nombre']} |
+| géneros comparados | {len(resultados)} | el catálogo, punto (b) del enunciado |
+| mejor índice de atención | **{_num(primera['indice'], 1)} / 100** | {primera['nombre']} |
 | `f_s` mínima del conjunto | {max(f['fs_minima'] for f in comp['veredicto']['tabla']):.0f} Hz | 2·f_max de la pista más exigente |
 | resolución a 16 bits | {resultados[list(resultados)[0]]['cuantizacion']['factor_escala_v']:.3e} V/nivel | V_fs / 2^(b-1) |
 
@@ -296,15 +296,16 @@ cosas distintas. Es el mismo error que multiplicar por `4/N` en vez de
                      else "**no medible** (sin percusión)")
         secciones.append(f"""### {r['nombre']}
 
-**La señal.** Clip de {r['pista']['duracion_s']} s a {r['pista']['fs']} Hz,
-{r['pista']['bits']} bits, {r['pista']['canales']} canal(es), pico
+**La señal.** Clip de {_num(r['pista']['duracion_s'], 0)} s a {r['pista']['fs']} Hz,
+{r['pista']['bits']} bits, {r['pista']['canales']} canal
+{"(es)" if r['pista']['canales'] != 1 else ""}, pico
 {_num(r['pista']['pico'], 3)}.
 
 ![La señal x(t) de {r['nombre']}]({clave}_senal.png)
 
 **El espectro de magnitud.** `f_max` = **{e['f_max']:.0f} Hz** y por tanto
 `f_s,mín` = **{e['fs_minima']:.0f} Hz**. El criterio de `f_max` es el
-{p.umbral_db} dB respecto al pico, sobre el espectro suavizado en
+{p.umbral_db:.0f} dB respecto al pico, sobre el espectro suavizado en
 potencia. Como control, el 99,9 % de la energía acumulada está por debajo
 de {e['f_max_energia']:.0f} Hz.
 
@@ -321,7 +322,7 @@ dos preguntas distintas, y aquí se publica la respuesta a las dos.
 Por eso la tabla de sensibilidad al umbral, que es la forma honesta de
 decir "esta cifra depende de una decisión":
 
-{_tabla(["umbral", "f_max (Hz)"], [[f"{u} dB", f"{v:.0f}"] for u, v in e['f_max_por_umbral'].items()])}
+{_tabla(["umbral", "f_max (Hz)"], [[f"{float(u):.0f} dB", f"{v:.0f}"] for u, v in e['f_max_por_umbral'].items()])}
 
 ![El espectro de {r['nombre']}]({clave}_espectro.png)
 
@@ -333,9 +334,9 @@ decir "esta cifra depende de una decisión":
 
 **La cuantización: el factor de escala y los bits.**
 
-Con fondo de escala de ±{cuanti['vfs']} V, el factor de escala es
+Con fondo de escala de ±{_num(cuanti['vfs'], 0)} V, el factor de escala es
 
-    y = V_fs / 2^(b-1) = {cuanti['vfs']} / 2^({cuanti['bits']}-1) = **{_cientifico(cuanti['factor_escala_v'])} V por nivel**
+    y = V_fs / 2^(b-1) = {_num(cuanti['vfs'], 0)} / 2^({cuanti['bits']}-1) = **{_cientifico(cuanti['factor_escala_v'])} V por nivel**
 
 con {cuanti['niveles']} niveles y un error acotado a
 ±{_cientifico(cuanti['factor_escala_v'] / 2)} V.
@@ -347,7 +348,7 @@ con {cuanti['niveles']} niveles y un error acotado a
 **Las muestras con sus bits.** Esto es lo que el convertidor entrega de
 verdad: un entero de {cuanti['bits']} bits, no una tensión.
 
-{_tabla(["n", "x(n) (V)", "código binario", "x_q (V)", "error (V)", "error"], filas_codigos)}
+{_tabla(["n", "x(n) (V)", "código binario", "x_q (V)", "error (V)", "error en Δ"], filas_codigos)}
 
 ![Los códigos binarios de {r['nombre']}]({clave}_codigos.png)
 
@@ -359,7 +360,7 @@ llamada telefónica) cae a
 
 ![La cadena ADC-DAC de {r['nombre']}]({clave}_cadena.png)
 
-**El ritmo.** {bpm_texto}{f", con una confianza de {ritmo['confianza']:.2f}" if ritmo.get('medible', True) else ""}.
+**El ritmo.** {bpm_texto}{f", con una confianza de {_num(ritmo['confianza'], 2)}" if ritmo.get('medible', True) else ""}.
 """)
     partes.append("## 3. Los resultados, género por género\n\n" +
                   "\n".join(secciones))
@@ -484,7 +485,7 @@ con el criterio a la vista.
 |---|---|---|
 | Duración del clip | {p.duracion} s | suficiente para la resolución en frecuencia y corto para la demo |
 | Frecuencia de muestreo | la del archivo (44,1 kHz) | no se re-muestrea el original: se analiza tal cual |
-| Criterio de `f_max` | {p.umbral_db} dB bajo el pico | publicado, y con control por energía acumulada |
+| Criterio de `f_max` | {p.umbral_db:.0f} dB bajo el pico | publicado, y con control por energía acumulada |
 | Bits del ADC | {p.bits} | el de un CD, y se comparan 24/12/8 |
 | Fondo de escala | ±{p.vfs} V | el del enunciado: el factor de escala se pide en voltios |
 | Orden del filtro AA | {p.orden_filtro} | Butterworth de fase cero, `sosfiltfilt` |
@@ -530,7 +531,7 @@ exactamente las mismas (las 164 comprobaciones lo verifican).
 ### Las cifras de las pistas
 
 {_tabla(["Pista", "Duración", "f_max", "f_s,min", "SNR 16 bits (dB)", "ENOB 16 bits", "índice"],
-        [[r["nombre"], f"{r['pista']['duracion_s']} s",
+        [[r["nombre"], f"{_num(r['pista']['duracion_s'], 0)} s",
           f"{r['espectro']['f_max']:.0f} Hz",
           f"{r['espectro']['fs_minima']:.0f} Hz",
           _num(r["cuantizacion"]["casos"]["16"]["snr_medido"], 1),

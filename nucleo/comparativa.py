@@ -60,6 +60,11 @@ COLUMNAS = (
 )
 
 
+def _coma(x: float) -> str:
+    """Un número con coma decimal, como se escribe en español."""
+    return f"{x:.1f}".replace(".", ",")
+
+
 def tabla_comparativa(resultados: dict) -> list[dict]:
     """Una fila por género, con las cifras que se comparan."""
     filas = []
@@ -181,15 +186,14 @@ def veredicto_tdh(resultados: dict) -> dict:
     resumen = (
         f"Con el índice propuesto, la mejor opción como música de fondo "
         f"para estudiar es {ganador['nombre']} "
-        f"({ganador['indice']:.1f} de 100), seguido de "
+        f"({_coma(ganador['indice'])} de 100), seguido de "
         f"{segundo['nombre'] if segundo else '—'}"
-        f"{f' ({segundo['indice']:.1f})' if segundo else ''}. "
+        f"{f' ({_coma(segundo['indice'])})' if segundo else ''}. "
         f"La razón principal es que su espectro es el más oscuro: "
         f"centroide de {ganador['centroide']:.0f} Hz y casi nada por "
         f"encima de 4 kHz, de modo que deja libre la banda donde se "
         f"mueve la voz del profesor."
     )
-
     return {
         "ganador": ganador["nombre"],
         "clave_ganador": ganador["clave"],

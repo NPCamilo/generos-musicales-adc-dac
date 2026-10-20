@@ -19,12 +19,12 @@ Las cinco cifras que hay que saber de memoria:
 | cifra | valor | de dónde sale |
 |---|---|---|
 | pistas analizadas | 5 | `audio/*.wav` |
-| genres comparados | 5 | el catálogo, punto (b) del enunciado |
-| mejor índice de atención | **80.1 / 100** | Clásica · Barroca |
+| géneros comparados | 5 | el catálogo, punto (b) del enunciado |
+| mejor índice de atención | **80,1 / 100** | Clásica · Barroca |
 | `f_s` mínima del conjunto | 23332 Hz | 2·f_max de la pista más exigente |
 | resolución a 16 bits | 3.052e-05 V/nivel | V_fs / 2^(b-1) |
 
-**El veredicto del punto (e):** Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80.1 de 100), seguido de Metal (63.9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.
+**El veredicto del punto (e):** Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.
 
 > **Aviso de alcance, y es importante:** este trabajo caracteriza
 > *propiedades acústicas* de cinco grabaciones y las ordena con un índice
@@ -77,7 +77,7 @@ género **en lo que importa para este trabajo, que es el espectro**.
 | **Año** | 1990 |
 | **Compositor** | Dave Mustaine |
 | **Estilo** | Thrash/heavy metal de finales de los 80 |
-| **Instrumentación** | Guitarras con saturación, bajo eléctrico, batería y.msg |
+| **Instrumentación** | Guitarras con saturación, bajo eléctrico, batería y amplificación |
 | **Tempo esperado** | 120-140 (tema en 4/4, riff en semicorcheas) |
 | **Banda característica** | Fundamental grave del bajo (40-100 Hz) + mucha energía de guitarra hasta 8 kHz por la saturación |
 
@@ -117,7 +117,7 @@ género **en lo que importa para este trabajo, que es el espectro**.
 | **Obra** | LUNA (del EP Ferxxocalipsis) |
 | **Año** | 2023 |
 | **Compositor** | Salomón Villada (Feid) y ATL Jacob |
-| **Estilo** | Reggaetón colombiano contemporary (2020s) |
+| **Estilo** | Reggaetón colombiano contemporáneo (años 2020) |
 | **Instrumentación** | Bombo sintetizado (dembow), pads, voz con autotune, sintetizadores de alta frecuencia |
 | **Tempo esperado** | 90-100 (dembow en 2-4) |
 | **Banda característica** | 40-60 Hz (bombo sintetizado) y 60-250 Hz (bajo y voz); muy poca energía por encima de 4 kHz |
@@ -202,15 +202,16 @@ cosas distintas. Es el mismo error que multiplicar por `4/N` en vez de
 
 ### Clásica · Barroca
 
-**La señal.** Clip de 12.0 s a 44100 Hz,
-16 bits, 1 canal(es), pico
+**La señal.** Clip de 12 s a 44100 Hz,
+16 bits, 1 canal
+, pico
 0,724.
 
 ![La señal x(t) de Clásica · Barroca](barroca_senal.png)
 
 **El espectro de magnitud.** `f_max` = **1881 Hz** y por tanto
 `f_s,mín` = **3762 Hz**. El criterio de `f_max` es el
--40.0 dB respecto al pico, sobre el espectro suavizado en
+-40 dB respecto al pico, sobre el espectro suavizado en
 potencia. Como control, el 99,9 % de la energía acumulada está por debajo
 de 3659 Hz.
 
@@ -229,9 +230,9 @@ decir "esta cifra depende de una decisión":
 
 | umbral | f_max (Hz) |
 |---|---|
-| -40.0 dB | 1881 |
-| -30.0 dB | 1265 |
-| -50.0 dB | 3964 |
+| -40 dB | 1881 |
+| -30 dB | 1265 |
+| -50 dB | 3964 |
 
 ![El espectro de Clásica · Barroca](barroca_espectro.png)
 
@@ -248,9 +249,9 @@ decir "esta cifra depende de una decisión":
 
 **La cuantización: el factor de escala y los bits.**
 
-Con fondo de escala de ±1.0 V, el factor de escala es
+Con fondo de escala de ±1 V, el factor de escala es
 
-    y = V_fs / 2^(b-1) = 1.0 / 2^(16-1) = **3,052e-05 V por nivel**
+    y = V_fs / 2^(b-1) = 1 / 2^(16-1) = **3,052e-05 V por nivel**
 
 con 65536 niveles y un error acotado a
 ±1,526e-05 V.
@@ -267,7 +268,7 @@ con 65536 niveles y un error acotado a
 **Las muestras con sus bits.** Esto es lo que el convertidor entrega de
 verdad: un entero de 16 bits, no una tensión.
 
-| n | x(n) (V) | código binario | x_q (V) | error (V) | error |
+| n | x(n) (V) | código binario | x_q (V) | error (V) | error en Δ |
 |---|---|---|---|---|---|
 | 347748 | -0,65445 | `0010110000111010` | -0,65446 | -9,761e-06 | 0,320 Δ |
 | 347749 | -0,67100 | `0010101000011100` | -0,67101 | -9,761e-06 | 0,320 Δ |
@@ -292,15 +293,16 @@ llamada telefónica) cae a
 
 ### Metal
 
-**La señal.** Clip de 12.0 s a 44100 Hz,
-16 bits, 1 canal(es), pico
+**La señal.** Clip de 12 s a 44100 Hz,
+16 bits, 1 canal
+, pico
 0,757.
 
 ![La señal x(t) de Metal](metal_senal.png)
 
 **El espectro de magnitud.** `f_max` = **11666 Hz** y por tanto
 `f_s,mín` = **23332 Hz**. El criterio de `f_max` es el
--40.0 dB respecto al pico, sobre el espectro suavizado en
+-40 dB respecto al pico, sobre el espectro suavizado en
 potencia. Como control, el 99,9 % de la energía acumulada está por debajo
 de 13233 Hz.
 
@@ -319,9 +321,9 @@ decir "esta cifra depende de una decisión":
 
 | umbral | f_max (Hz) |
 |---|---|
-| -40.0 dB | 11666 |
-| -30.0 dB | 4467 |
-| -50.0 dB | 15844 |
+| -40 dB | 11666 |
+| -30 dB | 4467 |
+| -50 dB | 15844 |
 
 ![El espectro de Metal](metal_espectro.png)
 
@@ -337,9 +339,9 @@ decir "esta cifra depende de una decisión":
 
 **La cuantización: el factor de escala y los bits.**
 
-Con fondo de escala de ±1.0 V, el factor de escala es
+Con fondo de escala de ±1 V, el factor de escala es
 
-    y = V_fs / 2^(b-1) = 1.0 / 2^(16-1) = **3,052e-05 V por nivel**
+    y = V_fs / 2^(b-1) = 1 / 2^(16-1) = **3,052e-05 V por nivel**
 
 con 65536 niveles y un error acotado a
 ±1,526e-05 V.
@@ -356,7 +358,7 @@ con 65536 niveles y un error acotado a
 **Las muestras con sus bits.** Esto es lo que el convertidor entrega de
 verdad: un entero de 16 bits, no una tensión.
 
-| n | x(n) (V) | código binario | x_q (V) | error (V) | error |
+| n | x(n) (V) | código binario | x_q (V) | error (V) | error en Δ |
 |---|---|---|---|---|---|
 | 484893 | 0,51095 | `1100000101100110` | 0,51094 | -1,045e-05 | 0,342 Δ |
 | 484894 | 0,56509 | `1100100001010100` | 0,56508 | -1,045e-05 | 0,342 Δ |
@@ -377,19 +379,20 @@ llamada telefónica) cae a
 
 ![La cadena ADC-DAC de Metal](metal_cadena.png)
 
-**El ritmo.** 98, con una confianza de 0.88.
+**El ritmo.** 98, con una confianza de 0,88.
 
 ### Salsa
 
-**La señal.** Clip de 12.0 s a 44100 Hz,
-16 bits, 1 canal(es), pico
+**La señal.** Clip de 12 s a 44100 Hz,
+16 bits, 1 canal
+, pico
 0,940.
 
 ![La señal x(t) de Salsa](salsa_senal.png)
 
 **El espectro de magnitud.** `f_max` = **9332 Hz** y por tanto
 `f_s,mín` = **18665 Hz**. El criterio de `f_max` es el
--40.0 dB respecto al pico, sobre el espectro suavizado en
+-40 dB respecto al pico, sobre el espectro suavizado en
 potencia. Como control, el 99,9 % de la energía acumulada está por debajo
 de 11594 Hz.
 
@@ -408,9 +411,9 @@ decir "esta cifra depende de una decisión":
 
 | umbral | f_max (Hz) |
 |---|---|
-| -40.0 dB | 9332 |
-| -30.0 dB | 2329 |
-| -50.0 dB | 12162 |
+| -40 dB | 9332 |
+| -30 dB | 2329 |
+| -50 dB | 12162 |
 
 ![El espectro de Salsa](salsa_espectro.png)
 
@@ -427,9 +430,9 @@ decir "esta cifra depende de una decisión":
 
 **La cuantización: el factor de escala y los bits.**
 
-Con fondo de escala de ±1.0 V, el factor de escala es
+Con fondo de escala de ±1 V, el factor de escala es
 
-    y = V_fs / 2^(b-1) = 1.0 / 2^(16-1) = **3,052e-05 V por nivel**
+    y = V_fs / 2^(b-1) = 1 / 2^(16-1) = **3,052e-05 V por nivel**
 
 con 65536 niveles y un error acotado a
 ±1,526e-05 V.
@@ -446,7 +449,7 @@ con 65536 niveles y un error acotado a
 **Las muestras con sus bits.** Esto es lo que el convertidor entrega de
 verdad: un entero de 16 bits, no una tensión.
 
-| n | x(n) (V) | código binario | x_q (V) | error (V) | error |
+| n | x(n) (V) | código binario | x_q (V) | error (V) | error en Δ |
 |---|---|---|---|---|---|
 | 19990 | 0,13857 | `1001000110111100` | 0,13857 | -3,715e-06 | 0,122 Δ |
 | 19991 | 0,11397 | `1000111010010110` | 0,11397 | -3,715e-06 | 0,122 Δ |
@@ -467,19 +470,20 @@ llamada telefónica) cae a
 
 ![La cadena ADC-DAC de Salsa](salsa_cadena.png)
 
-**El ritmo.** 101, con una confianza de 0.85.
+**El ritmo.** 101, con una confianza de 0,85.
 
 ### Reggaetón
 
-**La señal.** Clip de 12.0 s a 44100 Hz,
-16 bits, 1 canal(es), pico
+**La señal.** Clip de 12 s a 44100 Hz,
+16 bits, 1 canal
+, pico
 1,000.
 
 ![La señal x(t) de Reggaetón](reggaeton_senal.png)
 
 **El espectro de magnitud.** `f_max` = **7943 Hz** y por tanto
 `f_s,mín` = **15887 Hz**. El criterio de `f_max` es el
--40.0 dB respecto al pico, sobre el espectro suavizado en
+-40 dB respecto al pico, sobre el espectro suavizado en
 potencia. Como control, el 99,9 % de la energía acumulada está por debajo
 de 17290 Hz.
 
@@ -498,9 +502,9 @@ decir "esta cifra depende de una decisión":
 
 | umbral | f_max (Hz) |
 |---|---|
-| -40.0 dB | 7943 |
-| -30.0 dB | 707 |
-| -50.0 dB | 17687 |
+| -40 dB | 7943 |
+| -30 dB | 707 |
+| -50 dB | 17687 |
 
 ![El espectro de Reggaetón](reggaeton_espectro.png)
 
@@ -517,9 +521,9 @@ decir "esta cifra depende de una decisión":
 
 **La cuantización: el factor de escala y los bits.**
 
-Con fondo de escala de ±1.0 V, el factor de escala es
+Con fondo de escala de ±1 V, el factor de escala es
 
-    y = V_fs / 2^(b-1) = 1.0 / 2^(16-1) = **3,052e-05 V por nivel**
+    y = V_fs / 2^(b-1) = 1 / 2^(16-1) = **3,052e-05 V por nivel**
 
 con 65536 niveles y un error acotado a
 ±1,526e-05 V.
@@ -536,7 +540,7 @@ con 65536 niveles y un error acotado a
 **Las muestras con sus bits.** Esto es lo que el convertidor entrega de
 verdad: un entero de 16 bits, no una tensión.
 
-| n | x(n) (V) | código binario | x_q (V) | error (V) | error |
+| n | x(n) (V) | código binario | x_q (V) | error (V) | error en Δ |
 |---|---|---|---|---|---|
 | 685 | -0,56657 | `0011011101111010` | -0,56657 | -5,169e-06 | 0,169 Δ |
 | 686 | -0,73963 | `0010000101010011` | -0,73964 | -5,169e-06 | 0,169 Δ |
@@ -557,19 +561,20 @@ llamada telefónica) cae a
 
 ![La cadena ADC-DAC de Reggaetón](reggaeton_cadena.png)
 
-**El ritmo.** 100, con una confianza de 0.94.
+**El ritmo.** 100, con una confianza de 0,94.
 
 ### Popular colombiana
 
-**La señal.** Clip de 12.0 s a 44100 Hz,
-16 bits, 1 canal(es), pico
+**La señal.** Clip de 12 s a 44100 Hz,
+16 bits, 1 canal
+, pico
 1,000.
 
 ![La señal x(t) de Popular colombiana](popular_senal.png)
 
 **El espectro de magnitud.** `f_max` = **9953 Hz** y por tanto
 `f_s,mín` = **19905 Hz**. El criterio de `f_max` es el
--40.0 dB respecto al pico, sobre el espectro suavizado en
+-40 dB respecto al pico, sobre el espectro suavizado en
 potencia. Como control, el 99,9 % de la energía acumulada está por debajo
 de 11978 Hz.
 
@@ -588,9 +593,9 @@ decir "esta cifra depende de una decisión":
 
 | umbral | f_max (Hz) |
 |---|---|
-| -40.0 dB | 9953 |
-| -30.0 dB | 2944 |
-| -50.0 dB | 13518 |
+| -40 dB | 9953 |
+| -30 dB | 2944 |
+| -50 dB | 13518 |
 
 ![El espectro de Popular colombiana](popular_espectro.png)
 
@@ -607,9 +612,9 @@ decir "esta cifra depende de una decisión":
 
 **La cuantización: el factor de escala y los bits.**
 
-Con fondo de escala de ±1.0 V, el factor de escala es
+Con fondo de escala de ±1 V, el factor de escala es
 
-    y = V_fs / 2^(b-1) = 1.0 / 2^(16-1) = **3,052e-05 V por nivel**
+    y = V_fs / 2^(b-1) = 1 / 2^(16-1) = **3,052e-05 V por nivel**
 
 con 65536 niveles y un error acotado a
 ±1,526e-05 V.
@@ -626,7 +631,7 @@ con 65536 niveles y un error acotado a
 **Las muestras con sus bits.** Esto es lo que el convertidor entrega de
 verdad: un entero de 16 bits, no una tensión.
 
-| n | x(n) (V) | código binario | x_q (V) | error (V) | error |
+| n | x(n) (V) | código binario | x_q (V) | error (V) | error en Δ |
 |---|---|---|---|---|---|
 | 41918 | -0,83938 | `0001010010001111` | -0,83937 | 1,063e-05 | 0,348 Δ |
 | 41919 | -0,79867 | `0001100111000101` | -0,79866 | 1,063e-05 | 0,348 Δ |
@@ -735,7 +740,7 @@ comparar ni para discutir.
 
 ### El veredicto
 
-**Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80.1 de 100), seguido de Metal (63.9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.**
+**Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.**
 
 Por qué:
 
@@ -789,7 +794,7 @@ con el criterio a la vista.
 |---|---|---|
 | Duración del clip | 12.0 s | suficiente para la resolución en frecuencia y corto para la demo |
 | Frecuencia de muestreo | la del archivo (44,1 kHz) | no se re-muestrea el original: se analiza tal cual |
-| Criterio de `f_max` | -40.0 dB bajo el pico | publicado, y con control por energía acumulada |
+| Criterio de `f_max` | -40 dB bajo el pico | publicado, y con control por energía acumulada |
 | Bits del ADC | 16 | el de un CD, y se comparan 24/12/8 |
 | Fondo de escala | ±1.0 V | el del enunciado: el factor de escala se pide en voltios |
 | Orden del filtro AA | 8 | Butterworth de fase cero, `sosfiltfilt` |
@@ -836,11 +841,11 @@ exactamente las mismas (las 164 comprobaciones lo verifican).
 
 | Pista | Duración | f_max | f_s,min | SNR 16 bits (dB) | ENOB 16 bits | índice |
 |---|---|---|---|---|---|---|
-| Clásica · Barroca | 12.0 s | 1881 Hz | 3762 Hz | 81,9 | 13,30 | 80.1 |
-| Metal | 12.0 s | 11666 Hz | 23332 Hz | 83,3 | 13,55 | 63.9 |
-| Salsa | 12.0 s | 9332 Hz | 18665 Hz | 94,5 | 15,41 | 62.6 |
-| Reggaetón | 12.0 s | 7943 Hz | 15887 Hz | 90,8 | 14,79 | 59.8 |
-| Popular colombiana | 12.0 s | 9953 Hz | 19905 Hz | 90,5 | 14,74 | 42.2 |
+| Clásica · Barroca | 12 s | 1881 Hz | 3762 Hz | 81,9 | 13,30 | 80.1 |
+| Metal | 12 s | 11666 Hz | 23332 Hz | 83,3 | 13,55 | 63.9 |
+| Salsa | 12 s | 9332 Hz | 18665 Hz | 94,5 | 15,41 | 62.6 |
+| Reggaetón | 12 s | 7943 Hz | 15887 Hz | 90,8 | 14,79 | 59.8 |
+| Popular colombiana | 12 s | 9953 Hz | 19905 Hz | 90,5 | 14,74 | 42.2 |
 
 ## 7. Limitaciones y honestidad
 

@@ -1,6 +1,6 @@
 {
  "version": 2,
- "generado": "2026-10-20 13:35",
+ "generado": "2026-10-20 14:42",
  "resultados": {
   "barroca": {
    "clave": "barroca",
@@ -489,7 +489,7 @@
     "año": 1990,
     "compositor": "Dave Mustaine",
     "estilo": "Thrash/heavy metal de finales de los 80",
-    "instrumentación": "Guitarras con saturación, bajo eléctrico, batería y.msg",
+    "instrumentación": "Guitarras con saturación, bajo eléctrico, batería y amplificación",
     "bpm esperado": "120-140 (tema en 4/4, riff en semicorcheas)",
     "banda clave": "Fundamental grave del bajo (40-100 Hz) + mucha energía de guitarra hasta 8 kHz por la saturación",
     "por qué este ejemplo": "La saturación de la guitarra no es un efecto de timbre: es multiplicación de la onda por una función no lineal, y eso genera armónicos de orden muy alto. Por eso el metal es el caso con más contenido agudo del conjunto, y el que peor se porta cuando se baja la frecuencia de muestreo: es la pista donde el aliasing se ve más claro.",
@@ -1424,7 +1424,7 @@
     "obra": "LUNA (del EP Ferxxocalipsis)",
     "año": 2023,
     "compositor": "Salomón Villada (Feid) y ATL Jacob",
-    "estilo": "Reggaetón colombiano contemporary (2020s)",
+    "estilo": "Reggaetón colombiano contemporáneo (años 2020)",
     "instrumentación": "Bombo sintetizado (dembow), pads, voz con autotune, sintetizadores de alta frecuencia",
     "bpm esperado": "90-100 (dembow en 2-4)",
     "banda clave": "40-60 Hz (bombo sintetizado) y 60-250 Hz (bajo y voz); muy poca energía por encima de 4 kHz",
@@ -2819,7 +2819,7 @@
     "No hay ninguna afirmación clínica aquí. Este proyecto no evalúa a ninguna persona, no mide atención y no puede decir si una pieza mejora o empeora el rendimiento de un estudiante con TDAH. Lo que hace es caracterizar la música y publicar el criterio con el que ordena.",
     "La evidencia de la literatura sobre música y TDAH es de asociación, no de causalidad, y la mayoría de los estudios usa música rock/pop en lugar dezar la música classical, que es el caso menos estudiado de los cinco."
    ],
-   "resumen": "Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80.1 de 100), seguido de Metal (63.9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.",
+   "resumen": "Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.",
    "tabla": [
     {
      "clave": "barroca",
