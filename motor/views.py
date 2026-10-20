@@ -315,15 +315,20 @@ def figura(request, clave, nombre):
 def estilo(request):
     """La hoja de estilos.
 
-    Vercel sirve la carpeta `public/` como ficheros estáticos, antes de
-    llegar a la función. Esta vista está para el entorno LOCAL (donde
-    `runserver` no sirve `public/`), y para que la misma URL funcione en
-    los dos sitios.
+    Se busca primero en la carpeta de estáticos de la aplicación
+    (`motor/static/motor/`) y luego en `public/`. El primero es el que
+    siempre está: Vercel sirve `public/` solo si el constructor copia
+    sus ficheros a la salida, y con el constructor de Python eso no
+    ocurre. Servirla desde Django es un poco más lento, pero funciona
+    en todas partes.
     """
-    ruta = PUBLICO / "estilo.css"
-    if not ruta.exists():
-        raise Http404("No está la hoja de estilos")
-    return FileResponse(open(ruta, "rb"), content_type="text/css")
+    candidatos = (PUBLICO / "estilo.css",
+                   pathlib.Path(__file__).resolve().parent / "static" /
+                   "motor" / "estilo.css")
+    for ruta in candidatos:
+        if ruta.exists():
+            return FileResponse(open(ruta, "rb"), content_type="text/css")
+    raise Http404("No está la hoja de estilos")
 
 
 def descarga_informe(request):

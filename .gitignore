@@ -33,3 +33,4 @@ Thumbs.db
 # `python -m nucleo.descarga`.
 
 .vercel
+.env*
