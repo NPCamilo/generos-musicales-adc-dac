@@ -34,17 +34,17 @@
 <div class="cifras">
   <div class="cifra">
     <div class="etiqueta">f_max</div>
-    <div class="valor">{{ r.espectro.f_max|num }} Hz</div>
+    <div class="valor">{{ r.espectro.f_max|num:0 }} Hz</div>
     <div class="nota">criterio: {{ r.espectro.umbral_db|num:0 }} dB bajo el pico</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">f_s mínima</div>
-    <div class="valor">{{ r.espectro.fs_minima|num }} Hz</div>
+    <div class="valor">{{ r.espectro.fs_minima|num:0 }} Hz</div>
     <div class="nota">2 · f_max</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">Centroide</div>
-    <div class="valor">{{ r.espectro.centroide|num }} Hz</div>
+    <div class="valor">{{ r.espectro.centroide|num:0 }} Hz</div>
     <div class="nota">el brillo</div>
   </div>
   <div class="cifra">
@@ -63,9 +63,9 @@
     <tr><th>canales</th><td class="num">{{ r.pista.canales }}</td></tr>
     <tr><th>duración analizada</th><td class="num">{{ r.pista.duracion_s }} s</td></tr>
     <tr><th>pico</th><td class="num">{{ r.pista.pico|floatformat:4 }}</td></tr>
-    <tr><th>f_max</th><td class="num">{{ r.espectro.f_max|num }} Hz</td></tr>
-    <tr><th>f_s mínima (Nyquist)</th><td class="num">{{ r.espectro.fs_minima|num }} Hz</td></tr>
-    <tr><th>centroide espectral</th><td class="num">{{ r.espectro.centroide|num }} Hz</td></tr>
+    <tr><th>f_max</th><td class="num">{{ r.espectro.f_max|num:0 }} Hz</td></tr>
+    <tr><th>f_s mínima (Nyquist)</th><td class="num">{{ r.espectro.fs_minima|num:0 }} Hz</td></tr>
+    <tr><th>centroide espectral</th><td class="num">{{ r.espectro.centroide|num:0 }} Hz</td></tr>
     <tr><th>factor de cresta</th><td class="num">{{ r.espectro.crest|floatformat:2 }}</td></tr>
     <tr><th>tempo</th><td class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|floatformat:0 }} BPM{% else %}no medible{% endif %}</td></tr>
     <tr><th>factor de escala ({{ r.cuantizacion.bits }} bits)</th>

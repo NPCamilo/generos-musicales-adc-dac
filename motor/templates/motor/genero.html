@@ -12,17 +12,17 @@
 <div class="cifras">
   <div class="cifra">
     <div class="etiqueta">f_max</div>
-    <div class="valor">{{ r.espectro.f_max|num }} Hz</div>
+    <div class="valor">{{ r.espectro.f_max|num:0 }} Hz</div>
     <div class="nota">criterio: {{ r.espectro.umbral_db|num:0 }} dB bajo el pico</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">f_s mínima (Nyquist)</div>
-    <div class="valor">{{ r.espectro.fs_minima|num }} Hz</div>
+    <div class="valor">{{ r.espectro.fs_minima|num:0 }} Hz</div>
     <div class="nota">2 · f_max</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">Centroide espectral</div>
-    <div class="valor">{{ r.espectro.centroide|num }} Hz</div>
+    <div class="valor">{{ r.espectro.centroide|num:0 }} Hz</div>
     <div class="nota">el "brillo" de la pieza</div>
   </div>
   <div class="cifra">
@@ -48,7 +48,7 @@
 <p>
   La frecuencia máxima útil, medida con un criterio publicado
   ({{ r.espectro.umbral_db|num:0 }} dB por debajo del pico sobre el espectro
-  suavizado), da <strong>{{ r.espectro.f_max|num }} Hz</strong>.
+  suavizado), da <strong>{{ r.espectro.f_max|num:0 }} Hz</strong>.
   Como control, el 99,9 % de la energía acumulada está por debajo de
   {{ r.espectro.f_max_energia|floatformat:0 }} Hz: los dos criterios
   coinciden.
