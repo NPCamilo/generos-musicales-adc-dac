@@ -43,15 +43,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 try:
-    from ._rutas import asegurar_rutas
-except ImportError:
-    from _rutas import asegurar_rutas
-
-asegurar_rutas()
-
-try:
     from Laboratorio_ADC_DAC import tema
 except ImportError:                       # pragma: no cover
+    # El tema del proyecto hermano no está: el proyecto tiene que
+    # funcionar solo, así que se usa un tema propio mínimo.
     tema = None
 
 try:

@@ -31,3 +31,5 @@ Thumbs.db
 # números y las figuras están en `salida/`), y solo se pierde la parte
 # de "escúchalo": para tenerla, vuelve a bajar las pistas con
 # `python -m nucleo.descarga`.
+
+.vercel

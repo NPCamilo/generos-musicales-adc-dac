@@ -6,10 +6,15 @@ y Reggaetón) analizados con la cadena completa de conversión digital
 medido sobre audio real, y una comparación entre los cinco con un índice
 de atención cuyos pesos están publicados.
 
-Es el proyecto de Nyquist-Shannon (`../Nyquist_Shannon/`) aplicado a
+Es la continuación de Nyquist-Shannon (`../Nyquist_Shannon/`), aplicada a
 **música de verdad**: allí las señales eran series de Fourier y se sabía
 `f_max` por fórmula; aquí el `f_max` hay que **medirlo**, y esa es la
 parte nueva.
+
+**Este repositorio es autosuficiente**: las primitivas de DSP que hacen
+falta (reconstrucción de Shannon, cuantizador, métricas) están en
+`nucleo/primitivas.py`, adaptadas del proyecto anterior. Se clona, se
+instala y funciona, sin depender de ninguna carpeta de al lado.
 
 ## Qué hay dentro
 
@@ -65,20 +70,22 @@ resumen:
 `django`. Para descargar las pistas: `yt-dlp` y `imageio-ffmpeg`
 (este último da el `ffmpeg` que hace falta para convertir a WAV).
 
-La biblioteca `Nyquist_Shannon/`, que está un nivel más arriba, se usa
-desde `nucleo/_rutas.py`, que la añade al `sys.path`: este proyecto **no
-reimplementa** el DSP, lo toma prestado.
+La biblioteca `Nyquist_Shannon/`, que está un nivel más arriba, es el
+origen de la metodología; las primitivas que este proyecto usa están
+copiadas y adaptadas en `nucleo/primitivas.py` para que el repositorio
+se pueda desplegar por sí solo.
 
 ## Lo que hace cada módulo
 
 | módulo | qué hace |
 |---|---|
 | `nucleo/wav_io.py` | el parser de WAV, propio y sin dependencias: PCM de 8, 16, 24 y 32 bits y coma flotante de 32 y 64. |
-| `nucleo/dsp_audio.py` | el espectro con la normalización correcta, la medida de `f_max`, el filtro antialiasing, la reconstrucción, el tempo por autocorrelación y el índice de atención. |
+| `nucleo/primitivas.py` | las primitivas de DSP: reconstrucción de Shannon, cuantizador, métricas, dither y diagnóstico de Nyquist. |
+| `nucleo/dsp_audio.py` | el espectro con la normalización correcta, la medida de `f_max`, el filtro antialiasing, el tempo por autocorrelación y el índice de atención. |
 | `nucleo/catalogo.py` | las cinco fichas: músico, obra, año, instrumentación y fuentes. |
 | `nucleo/analisis.py` | el pipeline por pista: señal, espectro, muestreo, cuantización, cadena ADC-DAC, ritmo y atención. |
 | `nucleo/comparativa.py` | la comparación entre los cinco y el veredicto del punto (e), con sus condiciones y sus avisos. |
-| `nucleo/figuras.py` | las 39 figuras, con el tema visual del proyecto `Laboratorio_ADC_DAC`. |
+| `nucleo/figuras.py` | las 39 figuras, con el tema visual del proyecto `Laboratorio_ADC_DAC` (y con un tema propio si no está). |
 | `nucleo/informe.py` | el `salida/informe.md`, escrito desde los mismos datos que dibujan las figuras. |
 
 ## Una nota sobre las pistas

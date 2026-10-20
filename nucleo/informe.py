@@ -214,11 +214,12 @@ género **en lo que importa para este trabajo, que es el espectro**.
     # ---------------------------------------------------------------- 2
     partes.append("""## 2. La cadena ADC-DAC, explicada antes de usarla
 
-El proyecto `Nyquist_Shannon` (que ya existía, y que se reutiliza aquí)
-trabaja con señales que son **series de Fourier**, de las que se sabe
-`f_max` exactamente. El audio real es otra cosa: no es periódico, es
-finito, y su `f_max` hay que **medirlo**. Por eso este proyecto tiene su
-propia capa de instrumental, que es la parte realmente nueva.
+El proyecto `Nyquist_Shannon` (que ya existía, y del que viene la
+metodología) trabaja con señales que son **series de Fourier**, de las
+que se sabe `f_max` exactamente. El audio real es otra cosa: no es
+periódico, es finito, y su `f_max` hay que **medirlo**. Por eso este
+proyecto tiene su propia capa de instrumental, que es la parte realmente
+nueva.
 
 La cadena, en orden, con lo que se mide en cada paso:
 
@@ -503,20 +504,28 @@ con el criterio a la vista.
 | `nucleo/descarga.py` | la descarga y el recorte de las pistas |
 | `nucleo/test_*.py` | las comprobaciones automáticas |
 
-### Lo que se reutiliza del proyecto `Nyquist_Shannon`
+### Las primitivas de DSP
 
-Este proyecto **no** reimplementa el DSP: lo toma prestado del proyecto
-anterior, que ya está probado.
+Este proyecto es la continuación de `Nyquist_Shannon/`, donde las señales
+eran series de Fourier y se sabía `f_max` por fórmula. Aquí el `f_max`
+hay que **medirlo**, y esa es la parte nueva.
 
-| de `Nyquist_Shannon` | aquí se usa para |
+Las primitivas de DSP (la reconstrucción de Shannon, el cuantizador
+uniforme, las métricas de error, el diagnóstico de Nyquist) están en
+`nucleo/primitivas.py`, adaptadas del proyecto anterior para que este
+repositorio sea **autosuficiente**: se clona, se instala y funciona, sin
+depender de ninguna carpeta de al lado. Las cifras que dan son
+exactamente las mismas (las 164 comprobaciones lo verifican).
+
+| primitiva | para qué se usa aquí |
 |---|---|
-| `muestreo.reconstruir` (Shannon, ZOH, Butterworth) | la reconstrucción ADC-DAC |
-| `muestreo.diagnostico_nyquist` | el veredicto de Nyquist por pista |
-| `espectro.fft_muestras` | la referencia de normalización de la FFT |
-| `metricas.nrmse_por_rango`, `metricas.snr_db` | todas las cifras de error |
-| `realistic.cuantizar` | el cuantizador uniforme con saturación |
-| `realistic.factor_carga`, `realistic.bits_efectivos` | los bits efectivos |
-| `realistic.dither` | el dither TPDF del contraste |
+| `reconstruir_sinc` | la reconstrucción de Nyquist-Shannon desde las muestras |
+| `reconstruir_zoh` | el DAC barato (retenedor de orden cero) |
+| `cuantizar` | el cuantizador uniforme de punto medio, con saturación |
+| `factor_carga`, `bits_efectivos` | los bits efectivos y la carga en dBFS |
+| `dither` | el contraste con dither TPDF |
+| `nrmse_por_rango`, `snr_db` | todas las cifras de error |
+| `diagnostico_nyquist` | el veredicto de Nyquist por pista |
 
 ### Las cifras de las pistas
 

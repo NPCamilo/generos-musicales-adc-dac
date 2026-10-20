@@ -161,29 +161,36 @@ del brillo y lo vemos". El índice está hecho para eso.
 Generos_Musicales_ADC_DAC/
 ├── nucleo/                    el motor de cálculo (sin Django)
 │   ├── wav_io.py              el parser de WAV, propio y sin dependencias
+│   ├── primitivas.py          las primitivas de DSP: Shannon, cuantizador,
+│   │                          métricas, dither, diagnóstico de Nyquist
 │   ├── dsp_audio.py           espectro, f_max, antialiasing, tempo, el índice
 │   ├── catalogo.py            las cinco fichas: músico, obra, año, fuentes
 │   ├── analisis.py            el pipeline completo por pista
 │   ├── comparativa.py         la comparación y el veredicto
 │   ├── figuras.py             las figuras (matplotlib, 300 dpi)
 │   ├── informe.py             el .md del entregable
+│   ├── serializacion.py       el JSON con los números, para el despliegue
 │   ├── descarga.py            bajar y recortar las pistas
 │   ├── test_*.py              las comprobaciones
 │   └── comprobar_todo.py      el runner
 ├── motor/                     la aplicación Django (vistas y plantillas)
 ├── dsp_web/                   el proyecto Django (settings, urls)
+├── api/                       la entrada WSGI para Vercel
+├── public/                    los ficheros estáticos
 ├── manage.py
+├── construir.py               regenera el entregable y los datos
+├── vercel.json                la configuración de Vercel
 ├── audio/                     los cinco WAV + descargas.json
-├── salida/                    el entregable: informe.md y 39 PNG
-└── docs/GUIA.md               este documento
+├── salida/                    el entregable: informe.md, datos.json, 39 PNG
+└── docs/                      GUIA.md (esta) y PUBLICAR.md
 ```
 
 El grafo de dependencias es de una sola dirección:
 
 ```
 wav_io ──┐
-dsp_audio ┼──► analisis ──► comparativa ──► informe
-catalogo ─┘        │             │
+primitivas ┼──► analisis ──► comparativa ──► informe
+dsp_audio ┘        │             │
                    ▼             ▼
                 figuras ─────────┘
                    │
@@ -191,18 +198,12 @@ catalogo ─┘        │             │
             motor/views.py  (Django)
 ```
 
-Y la biblioteca de DSP del proyecto anterior, `Nyquist_Shannon/`, se usa
-desde `nucleo/_rutas.py`, que la añade al `sys.path`. Lo que se reutiliza:
-
-| de `Nyquist_Shannon` | para qué |
-|---|---|
-| `muestreo.reconstruir` (Shannon, ZOH, Butterworth) | la reconstrucción ADC-DAC |
-| `muestreo.diagnostico_nyquist` | el veredicto de Nyquist por pista |
-| `espectro.fft_muestras` | la referencia de normalización de la FFT |
-| `metricas.nrmse_por_rango`, `metricas.snr_db` | todas las cifras de error |
-| `realistic.cuantizar` | el cuantizador uniforme con saturación |
-| `realistic.factor_carga`, `realistic.bits_efectivos` | los bits efectivos |
-| `realistic.dither` | el dither TPDF del contraste |
+Y el proyecto es **autosuficiente**: las primitivas de DSP vienen de
+`nucleo/primitivas.py`, adaptadas del proyecto `Nyquist_Shannon/` (que
+está en la carpeta de al lado y del que viene la metodología). Al
+copiarlas, el repositorio se puede clonar y desplegar sin depender de
+ninguna carpeta hermana, que es lo que hace falta para Vercel. Las cifras
+que dan son exactamente las mismas: lo verifican las 164 comprobaciones.
 
 ---
 

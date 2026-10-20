@@ -1,6 +1,19 @@
 """
 analisis.py — el pipeline completo de una pista: del WAV al veredicto.
 
+CONTINUACIÓN DE `Nyquist_Shannon/`
+----------------------------------
+El proyecto anterior (`Nyquist_Shannon/`, en la carpeta de al lado) trabaja
+con señales que son SERIES DE FOURIER, de las que se sabe `f_max`
+exactamente. El audio real es otra cosa: no es periódico, es finito, y
+su `f_max` hay que **medirlo**. Eso es lo nuevo aquí.
+
+Las primitivas de DSP que hacen falta (reconstrucción de Shannon,
+cuantizador, métricas) están en `nucleo/primitivas.py`, adaptadas del
+proyecto anterior para que este repositorio sea **autosuficiente**: se
+clona, se instala y funciona, sin depender de ninguna carpeta de al lado.
+Las cifras que dan son exactamente las mismas.
+
 QUÉ HACE, PASO A PASO
 ---------------------
 Para cada archivo de `audio/` este módulo recorre la cadena entera del
@@ -70,25 +83,13 @@ from dataclasses import dataclass
 import numpy as np
 
 try:
-    from ._rutas import asegurar_rutas
-except ImportError:
-    from _rutas import asegurar_rutas
-
-asegurar_rutas()
-
-try:
-    from Nyquist_Shannon import metricas, muestreo, realistic
-except ImportError as exc:                              # pragma: no cover
-    raise ImportError(
-        "Hace falta la biblioteca Nyquist_Shannon (una carpeta más arriba)"
-    ) from exc
-
-try:
     from . import dsp_audio as dsp
+    from . import primitivas
     from . import wav_io
     from .catalogo import Genero, obtener
 except ImportError:
     import dsp_audio as dsp
+    import primitivas
     import wav_io
     from catalogo import Genero, obtener
 
@@ -137,7 +138,7 @@ def _bits_a_codigo(valor: float, delta: float, rango: float,
 
         código = floor((x + rango/2) / Δ)   recortado a [0, 2^b - 1]
 
-    Es la misma cuenta que hace `realistic.cuantizar`, pero devolviendo el
+    Es la misma cuenta que hace `primitivas.cuantizar`, pero devolviendo el
     CÓDIGO y no la tensión: lo que sale del convertidor es un entero, y
     ese entero es lo que se quiere ver escrito en binario.
     """
@@ -246,7 +247,7 @@ def analizar_pista(ruta: str | pathlib.Path, params: Parametros | None = None,
     crest = dsp.crest_factor(x)
 
     fs_min = dsp.fs_minima_nyquist(f_max)
-    diag_nyquist = muestreo.diagnostico_nyquist(f_max, fs)
+    diag_nyquist = primitivas.diagnostico_nyquist(f_max, fs)
 
     espectro = {
         "espectro": esp,
@@ -417,14 +418,14 @@ def _experimentos_de_muestreo(x: np.ndarray, fs: float, fs_min: float,
         # (a) muestreo SIN filtro antialiasing
         x_alias = dsp.muestrear(x_e, fs, f_s, con_filtro=False)
         t_m = np.arange(len(x_alias)) / f_s
-        xhat_alias = muestreo.reconstruir_sinc(t_ref, t_m, x_alias, fs=f_s)
+        xhat_alias = primitivas.reconstruir_sinc(t_ref, t_m, x_alias, fs=f_s)
 
         # (b) muestreo CON filtro antialiasing (el del 45 %)
         x_limpio = dsp.antialias(x_e, fs, f_s, orden=p.orden_filtro)
-        xhat_limpio = muestreo.reconstruir_sinc(t_ref, t_m, x_limpio, fs=f_s)
+        xhat_limpio = primitivas.reconstruir_sinc(t_ref, t_m, x_limpio, fs=f_s)
 
         # (c) reconstrucción con retenedor de orden cero (el DAC barato)
-        xhat_zoh = muestreo.reconstruir_zoh(t_ref, t_m, x_limpio)
+        xhat_zoh = primitivas.reconstruir_zoh(t_ref, t_m, x_limpio)
 
         filas.append({
             "fs": f_s,
@@ -432,11 +433,11 @@ def _experimentos_de_muestreo(x: np.ndarray, fs: float, fs_min: float,
             "multiplicador": f_s / fs_min if fs_min else 0.0,
             "n_muestras": int(len(x_alias)),
             "cumple_nyquist": bool(f_s >= fs_min - 1e-9),
-            "nrmse_aliasing": metricas.nrmse_por_rango(ref, xhat_alias),
-            "nrmse_reconstruccion": metricas.nrmse_por_rango(ref, xhat_limpio),
-            "nrmse_zoh": metricas.nrmse_por_rango(ref, xhat_zoh),
-            "snr_aliasing": metricas.snr_db(ref, ref - xhat_alias),
-            "snr_reconstruccion": metricas.snr_db(ref, ref - xhat_limpio),
+            "nrmse_aliasing": primitivas.nrmse_por_rango(ref, xhat_alias),
+            "nrmse_reconstruccion": primitivas.nrmse_por_rango(ref, xhat_limpio),
+            "nrmse_zoh": primitivas.nrmse_por_rango(ref, xhat_zoh),
+            "snr_aliasing": primitivas.snr_db(ref, ref - xhat_alias),
+            "snr_reconstruccion": primitivas.snr_db(ref, ref - xhat_limpio),
             "energia_fuera_banda": _energia_fuera_de_banda(x_e, fs, f_s, p),
             "ref": ref,
             "x_alias": x_alias,
@@ -502,19 +503,19 @@ def _analisis_de_cuantizacion(x: np.ndarray, p: Parametros) -> dict:
     rango = 2.0 * vfs
     x_v = wav_io.a_voltios(x, vfs)          # la señal, en voltios
     escala = wav_io.factor_de_escala(vfs, p.bits)
-    carga = realistic.factor_carga(x_v, rango)
-    parametros = realistic.parametros_cuantiizador(p.bits, rango)
+    carga = primitivas.factor_carga(x_v, rango)
+    parametros = primitivas.parametros_cuantiizador(p.bits, rango)
 
     casos = {}
     for bits in (p.bits,) + tuple(bits_extra for bits_extra in p.bits_extra
                                   if bits_extra != p.bits):
         esc = wav_io.factor_de_escala(vfs, bits)
-        xq = realistic.cuantizar(x_v, bits, rango, saturar=True)
+        xq = primitivas.cuantizar(x_v, bits, rango, saturar=True)
         e = xq - x_v
-        snr = metricas.snr_db(x_v, e)
+        snr = primitivas.snr_db(x_v, e)
         enob = (snr - 1.76) / 6.0206
-        carga_b = realistic.factor_carga(x_v, rango)
-        bits_ef = realistic.bits_efectivos(x_v, bits, rango)
+        carga_b = primitivas.factor_carga(x_v, rango)
+        bits_ef = primitivas.bits_efectivos(x_v, bits, rango)
         casos[str(bits)] = {
             "bits": bits,
             "factor_escala_v": esc["y_voltios"],
@@ -564,12 +565,12 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
     x_v = wav_io.a_voltios(x, vfs)               # la señal, en voltios
     escala = wav_io.factor_de_escala(vfs, p.bits)
 
-    xq = realistic.cuantizar(x_v, p.bits, rango, saturar=True)
+    xq = primitivas.cuantizar(x_v, p.bits, rango, saturar=True)
     e_cuanti = xq - x_v
 
     # el DAC: retenedor de orden cero sobre las muestras cuantizadas
     t = np.arange(len(x_v)) / fs
-    x_zoh = muestreo.reconstruir_zoh(t, t, xq)
+    x_zoh = primitivas.reconstruir_zoh(t, t, xq)
     # el error DE LA ETAPA DAC se mide contra la señal YA CUANTIZADA, no
     # contra la original: si se midiera contra la original, el error de
     # cuantización volvería a aparecer aquí y el presupuesto sumaría dos
@@ -580,21 +581,21 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
     # el DAC con dither: el error se dispersa (y el SNR empeora)
     xq_dither = xq
     if p.con_dither:
-        d = realistic.dither(len(x_v), escala["delta"], tipo="tpdf",
+        d = primitivas.dither(len(x_v), escala["delta"], tipo="tpdf",
                              semilla=p.semilla, amplitud=1.0)
-        xq_dither = realistic.cuantizar(x_v + d, p.bits, rango, saturar=True)
+        xq_dither = primitivas.cuantizar(x_v + d, p.bits, rango, saturar=True)
 
     etapas = {
         "cuantizador": {
             "rmse": float(np.sqrt(np.mean(e_cuanti ** 2))),
             "max_abs": float(np.max(np.abs(e_cuanti))),
-            "snr": metricas.snr_db(x_v, e_cuanti),
+            "snr": primitivas.snr_db(x_v, e_cuanti),
             "error": e_cuanti,
         },
         "dac_zoh": {
             "rmse": float(np.sqrt(np.mean(e_dac ** 2))),
             "max_abs": float(np.max(np.abs(e_dac))),
-            "snr": metricas.snr_db(x_v, e_dac),
+            "snr": primitivas.snr_db(x_v, e_dac),
             "error": e_dac,
         },
     }
@@ -603,7 +604,7 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
         etapas["dither"] = {
             "rmse": float(np.sqrt(np.mean(e_d ** 2))),
             "max_abs": float(np.max(np.abs(e_d))),
-            "snr": metricas.snr_db(x_v, e_d),
+            "snr": primitivas.snr_db(x_v, e_d),
             "error": e_d,
         }
 
@@ -621,8 +622,8 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
     return {
         "etapas": etapas,
         "presupuesto": presupuesto,
-        "snr_cadena": metricas.snr_db(x_v, error_total),
-        "nrmse_cadena": metricas.nrmse_por_rango(x_v, x_zoh),
+        "snr_cadena": primitivas.snr_db(x_v, error_total),
+        "nrmse_cadena": primitivas.nrmse_por_rango(x_v, x_zoh),
         "x_v": x_v,
         "x_q": xq,
         "x_zoh": x_zoh,
@@ -661,10 +662,10 @@ def _cadena_telefonica(x: np.ndarray, fs: float, p: Parametros) -> dict:
     x8 = dsp.antialias(x, fs, fs_o, orden=p.orden_filtro)[:n]
     x8_v = wav_io.a_voltios(x8, vfs)
 
-    xq8 = realistic.cuantizar(x8_v, 8, rango, saturar=True)
+    xq8 = primitivas.cuantizar(x8_v, 8, rango, saturar=True)
     e_cuanti = xq8 - x8_v
     t8 = np.arange(len(xq8)) / fs_o
-    x8_zoh = muestreo.reconstruir_zoh(t8, t8, xq8)
+    x8_zoh = primitivas.reconstruir_zoh(t8, t8, xq8)
     e_dac = x8_zoh - xq8
 
     # la referencia "correcta": la señal con la banda de 4 kHz eliminada
@@ -677,12 +678,12 @@ def _cadena_telefonica(x: np.ndarray, fs: float, p: Parametros) -> dict:
     etapas = {
         "cuantizador_8b": {
             "rmse": float(np.sqrt(np.mean(e_cuanti ** 2))),
-            "snr": metricas.snr_db(x8_v, e_cuanti),
+            "snr": primitivas.snr_db(x8_v, e_cuanti),
             "error": e_cuanti,
         },
         "dac_zoh_8k": {
             "rmse": float(np.sqrt(np.mean(e_dac ** 2))),
-            "snr": metricas.snr_db(x8_v, e_dac),
+            "snr": primitivas.snr_db(x8_v, e_dac),
             "error": e_dac,
         },
     }
@@ -701,9 +702,9 @@ def _cadena_telefonica(x: np.ndarray, fs: float, p: Parametros) -> dict:
         "n_muestras": int(len(x8)),
         "etapas": etapas,
         "presupuesto": presupuesto,
-        "snr_cadena": metricas.snr_db(x8_v, error_total),
-        "nrmse_cadena": metricas.nrmse_por_rango(x8_v, x8_zoh),
-        "nrmse_sobre_banda_completa": metricas.nrmse_por_rango(ref, x8_zoh),
+        "snr_cadena": primitivas.snr_db(x8_v, error_total),
+        "nrmse_cadena": primitivas.nrmse_por_rango(x8_v, x8_zoh),
+        "nrmse_sobre_banda_completa": primitivas.nrmse_por_rango(ref, x8_zoh),
         "x_v": x8_v,
         "x_q": xq8,
         "x_zoh": x8_zoh,

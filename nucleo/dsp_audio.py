@@ -3,11 +3,12 @@ dsp_audio.py — las herramientas de DSP que el audio real necesita.
 
 QUÉ HAY AQUÍ
 ------------
-El proyecto `Nyquist_Shannon` trabaja con señales que son SERIES DE
-FOURIER: de ahí sabe `f_max` exactamente, y puede filtrar multiplicando
-cada armónico por `|H(k·f₀)|`. El audio real es otra cosa: es una señal
-NO periódica, de duración finita, con contenido en toda la banda y sin
-`f_max` conocido de antemano. Aquí está el instrumental para eso.
+El proyecto `Nyquist_Shannon` (del que viene este) trabaja con señales
+que son SERIES DE FOURIER: de ahí sabe `f_max` exactamente, y puede
+filtrar multiplicando cada armónico por `|H(k·f₀)|`. El audio real es
+otra cosa: es una señal NO periódica, de duración finita, con contenido
+en toda la banda y sin `f_max` conocido de antemano. Aquí está el
+instrumental para eso.
 
     · `espectro_magnitud`   el espectro de magnitud, bien normalizado
     · `f_max_umbral`        la frecuencia máxima ÚTIL, medida
@@ -63,13 +64,6 @@ en +f y otra en -f, y solo se dibuja la mitad positiva del eje.
 from __future__ import annotations
 
 import numpy as np
-
-try:                                   # como paquete
-    from ._rutas import asegurar_rutas
-except ImportError:                    # ejecución suelta
-    from _rutas import asegurar_rutas
-
-asegurar_rutas()
 
 try:
     from scipy.signal import butter, get_window, sosfiltfilt

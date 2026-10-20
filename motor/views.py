@@ -372,7 +372,7 @@ def _cuantizar_en_vivo(clave: str, bits: int) -> tuple[bytes, int]:
     el repositorio no crece con cuatro copias de cada pista.
     """
     from nucleo import dsp_audio as dsp
-    from Nyquist_Shannon import realistic
+    from nucleo import primitivas
 
     ruta = AUDIO / f"{clave}.wav"
     if not ruta.exists():
@@ -381,14 +381,14 @@ def _cuantizar_en_vivo(clave: str, bits: int) -> tuple[bytes, int]:
     x = dsp.quitar_dc(pista.x)
     vfs = PARAMETROS.vfs
     x_v = wav_io.a_voltios(x, vfs)
-    xq = realistic.cuantizar(x_v, bits, 2.0 * vfs, saturar=True)
+    xq = primitivas.cuantizar(x_v, bits, 2.0 * vfs, saturar=True)
     return _wav_en_bytes(xq, pista.fs), pista.fs
 
 
 def _telefonica_en_vivo(clave: str) -> tuple[bytes, int]:
     """La cadena telefónica (8 kHz, 8 bits) calculada al momento."""
     from nucleo import dsp_audio as dsp
-    from Nyquist_Shannon import muestreo, realistic
+    from nucleo import primitivas
 
     ruta = AUDIO / f"{clave}.wav"
     if not ruta.exists():
@@ -400,9 +400,9 @@ def _telefonica_en_vivo(clave: str) -> tuple[bytes, int]:
     n = int(len(x) * fs_o / pista.fs)
     x8 = dsp.antialias(x, pista.fs, fs_o, orden=PARAMETROS.orden_filtro)[:n]
     x8_v = wav_io.a_voltios(x8, vfs)
-    xq = realistic.cuantizar(x8_v, 8, 2.0 * vfs, saturar=True)
+    xq = primitivas.cuantizar(x8_v, 8, 2.0 * vfs, saturar=True)
     t = np_arange(len(xq)) / fs_o
-    x_zoh = muestreo.reconstruir_zoh(t, t, xq)
+    x_zoh = primitivas.reconstruir_zoh(t, t, xq)
     return _wav_en_bytes(x_zoh, fs_o), fs_o
 
 
