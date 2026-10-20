@@ -1,0 +1,88 @@
+{% extends "motor/base.html" %}
+{% load motor_tags %}
+
+{% block titulo %}Subir un WAV{% endblock %}
+
+{% block cuerpo %}
+
+<h1>Subir un audio corto en WAV</h1>
+<p class="entradilla">
+  El requisito (a) del enunciado: el programa tiene que poder cargar
+  audios cortos en formato WAV. Aquí se sube el tuyo y se analiza con el
+  mismo instrumental que las cinco pistas del catálogo.
+</p>
+
+{% if error %}
+<div class="panel aviso"><strong>No se pudo continuar:</strong> {{ error }}</div>
+{% endif %}
+
+{% if not r %}
+<div class="panel">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="audio">El fichero WAV</label>
+    <input type="file" id="audio" name="audio" accept=".wav,audio/wav,audio/x-wav">
+    <p style="color:var(--suave);font-size:14px">
+    Se aceptan PCM de 8, 16, 24 y 32 bits y coma flotante de 32 y 64 bits,
+    mono o estéreo. Se analiza el primer segmento de 12 segundos.
+    </p>
+    <button type="submit">Analizar</button>
+  </form>
+</div>
+{% else %}
+
+<div class="cifras">
+  <div class="cifra">
+    <div class="etiqueta">f_max</div>
+    <div class="valor">{{ r.espectro.f_max|num }} Hz</div>
+    <div class="nota">criterio: {{ r.espectro.umbral_db|num:0 }} dB bajo el pico</div>
+  </div>
+  <div class="cifra">
+    <div class="etiqueta">f_s mínima</div>
+    <div class="valor">{{ r.espectro.fs_minima|num }} Hz</div>
+    <div class="nota">2 · f_max</div>
+  </div>
+  <div class="cifra">
+    <div class="etiqueta">Centroide</div>
+    <div class="valor">{{ r.espectro.centroide|num }} Hz</div>
+    <div class="nota">el brillo</div>
+  </div>
+  <div class="cifra">
+    <div class="etiqueta">Índice de atención</div>
+    <div class="valor">{{ atencion.indice|recorta }}</div>
+    <div class="nota">{{ atencion.veredicto }}</div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2 style="margin-top:0">Lo que se ha medido</h2>
+  <table>
+    <tr><th>archivo</th><td>{{ nombre }}</td></tr>
+    <tr><th>frecuencia de muestreo</th><td class="num">{{ r.pista.fs }} Hz</td></tr>
+    <tr><th>bits del archivo</th><td class="num">{{ r.pista.bits }}</td></tr>
+    <tr><th>canales</th><td class="num">{{ r.pista.canales }}</td></tr>
+    <tr><th>duración analizada</th><td class="num">{{ r.pista.duracion_s }} s</td></tr>
+    <tr><th>pico</th><td class="num">{{ r.pista.pico|floatformat:4 }}</td></tr>
+    <tr><th>f_max</th><td class="num">{{ r.espectro.f_max|num }} Hz</td></tr>
+    <tr><th>f_s mínima (Nyquist)</th><td class="num">{{ r.espectro.fs_minima|num }} Hz</td></tr>
+    <tr><th>centroide espectral</th><td class="num">{{ r.espectro.centroide|num }} Hz</td></tr>
+    <tr><th>factor de cresta</th><td class="num">{{ r.espectro.crest|floatformat:2 }}</td></tr>
+    <tr><th>tempo</th><td class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|floatformat:0 }} BPM{% else %}no medible{% endif %}</td></tr>
+    <tr><th>factor de escala ({{ r.cuantizacion.bits }} bits)</th>
+        <td class="num">{{ r.cuantizacion.factor_escala_v|num:9 }} V/nivel</td></tr>
+    <tr><th>SNR de la cadena</th><td class="num">{{ r.cadena.snr_cadena|floatformat:1 }} dB</td></tr>
+  </table>
+</div>
+
+<h2>El espectro del audio subido</h2>
+<p>
+  Puedes ver las figuras completas en el informe, que se genera con
+  <code>python -m nucleo.informe</code> después de dejar el fichero en
+  <code>audio/</code>.
+</p>
+
+<p><a href="{% url 'subir' %}">← Analizar otro fichero</a></p>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,3268 @@
+{
+ "version": 2,
+ "generado": "2026-10-20 12:04",
+ "resultados": {
+  "barroca": {
+   "clave": "barroca",
+   "nombre": "Clásica · Barroca",
+   "ficha": {
+    "clave": "barroca",
+    "nombre": "Clásica · Barroca",
+    "género": "Clásica — Barroca",
+    "músico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
+    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
+    "año": 1722,
+    "compositor": "Johann Sebastian Bach (1685-1750)",
+    "estilo": "Barroco tardío (Köthen), cello solo senza basso",
+    "instrumentación": "Un solo violonchelo, arpegiado continuo y cadencias de acordes",
+    "bpm esperado": "60-80 (sin percusión, el pulso lo marca el arpegio)",
+    "banda clave": "60-250 Hz (fundamental del violonchelo) con armónicos limpios; casi nada por encima de 2 kHz",
+    "por qué este ejemplo": "Es el perfil más limpio de los cinco: un instrumento sin percusión, sin distorsión y sin voz. Al medirlo se ve que casi toda la energía está en 60-250 Hz, que es justo lo que hace que una pieza barroca 'suene' profunda. Sirve de REFERENCIA: es el caso en el que el criterio de Nyquist se cumple de sobra y el audio no tiene nada que esconder.",
+    "fuentes": [
+     "Wikipedia (EN): Cello Suites (Bach), BWV 1007-1012, compuestas entre 1717 y 1723 en Köthen.",
+     "IMSLP: Cello Suite No. 1 en Sol mayor, BWV 1007, año de composición 1717.",
+     "Netherlands Bach Society: proyecto 'All of Bach', interpretación de Lucia Swarts (proyecto 2022)."
+    ]
+   },
+   "pista": {
+    "archivo": "barroca.wav",
+    "fs": 44100,
+    "bits": 16,
+    "canales": 1,
+    "duracion_s": 12.0,
+    "n_muestras": 529200,
+    "pico": 0.723907,
+    "formato": "pcm"
+   },
+   "parametros": {
+    "vfs": 1.0,
+    "bits": 16,
+    "umbral_db": -40.0,
+    "duracion": 12.0,
+    "ventana": "hann",
+    "orden_filtro": 8
+   },
+   "espectro": {
+    "f_max": 1881.0009956359863,
+    "f_max_umbral": 1881.0009956359863,
+    "f_max_energia": 3658.920192718506,
+    "f_max_por_umbral": {
+     "-40.0": 1881.0009956359863,
+     "-30.0": 1265.2018547058105,
+     "-50.0": 3964.4225120544434
+    },
+    "umbral_db": -40.0,
+    "bandas": {
+     "subgrave": {
+      "f0": 20.0,
+      "f1": 60.0,
+      "potencia": 0.00011087381569348608,
+      "fraccion": 0.004349770746380708
+     },
+     "grave": {
+      "f0": 60.0,
+      "f1": 250.0,
+      "potencia": 0.01851395160221418,
+      "fraccion": 0.7263342077253931
+     },
+     "medio": {
+      "f0": 250.0,
+      "f1": 2000.0,
+      "potencia": 0.006707409517125941,
+      "fraccion": 0.2631432274527922
+     },
+     "agudo": {
+      "f0": 2000.0,
+      "f1": 8000.0,
+      "potencia": 0.00013085405668410223,
+      "fraccion": 0.005133630012186826
+     },
+     "muy agudo": {
+      "f0": 8000.0,
+      "f1": 20000.0,
+      "potencia": 2.3170836113924894e-06,
+      "fraccion": 9.090318076196012e-05
+     }
+    },
+    "bandas_eeg": {
+     "delta": {
+      "f0": 0.5,
+      "f1": 4.0,
+      "potencia": 2.2859851729434852e-06,
+      "fraccion": 8.968313546111505e-05
+     },
+     "theta": {
+      "f0": 4.0,
+      "f1": 8.0,
+      "potencia": 4.341970630978105e-06,
+      "fraccion": 0.0001703429859804342
+     },
+     "alfa": {
+      "f0": 8.0,
+      "f1": 13.0,
+      "potencia": 5.933610472493795e-06,
+      "fraccion": 0.0002327857582264851
+     },
+     "beta": {
+      "f0": 13.0,
+      "f1": 30.0,
+      "potencia": 6.311454909600992e-05,
+      "fraccion": 0.002476092462514231
+     },
+     "gamma": {
+      "f0": 30.0,
+      "f1": 50.0,
+      "potencia": 4.59581876527611e-05,
+      "fraccion": 0.0018030188548873042
+     }
+    },
+    "centroide": 289.6355020509129,
+    "planicidad": 0.00012536937516632537,
+    "crest": 5.988118919826744,
+    "fs_minima": 3762.0019912719727,
+    "nyquist": {
+     "f_nyquist": 22050.0,
+     "fs_minima": 3762.0019912719727,
+     "margen_hz": 20168.999004364014,
+     "margen_rel": 11.722481833426496,
+     "cumple": true,
+     "caso_limite": false,
+     "veredicto": "CUMPLE (margen 2.02e+04 Hz)"
+    },
+    "ancho_banda": 3727.0105361938477,
+    "pico_hz": 152.8773307800293
+   },
+   "muestreo": {
+    "fs_minima": 3762.0019912719727,
+    "experimentos": [
+     {
+      "fs": 1881.001,
+      "fs_minima": 3762.0019912719727,
+      "multiplicador": 0.5000000011600243,
+      "n_muestras": 1881,
+      "cumple_nyquist": false,
+      "nrmse_aliasing": 0.06429803084290324,
+      "nrmse_reconstruccion": 0.03596173683257982,
+      "nrmse_zoh": 0.08201418535740794,
+      "snr_aliasing": 7.903913780707976,
+      "snr_reconstruccion": 12.951054062849106,
+      "energia_fuera_banda": 2.3883640792366716
+     },
+     {
+      "fs": 3762.002,
+      "fs_minima": 3762.0019912719727,
+      "multiplicador": 1.0000000023200486,
+      "n_muestras": 3762,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.022745238228085003,
+      "nrmse_reconstruccion": 0.011818868429101704,
+      "nrmse_zoh": 0.0488757718387806,
+      "snr_aliasing": 15.872211800352424,
+      "snr_reconstruccion": 21.558503638239085,
+      "energia_fuera_banda": 0.43675998588922604
+     },
+     {
+      "fs": 5643.003,
+      "fs_minima": 3762.0019912719727,
+      "multiplicador": 1.5000000034800727,
+      "n_muestras": 5643,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.01685039941782241,
+      "nrmse_reconstruccion": 0.006605325138549529,
+      "nrmse_zoh": 0.03871425728537782,
+      "snr_aliasing": 18.93395585297547,
+      "snr_reconstruccion": 27.068275846637086,
+      "energia_fuera_banda": 0.14063063587748156
+     },
+     {
+      "fs": 7524.004,
+      "fs_minima": 3762.0019912719727,
+      "multiplicador": 2.000000004640097,
+      "n_muestras": 7524,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.010636008231696277,
+      "nrmse_reconstruccion": 0.006652243429738575,
+      "nrmse_zoh": 0.031676858071185414,
+      "snr_aliasing": 22.89296884099938,
+      "snr_reconstruccion": 26.96917947160028,
+      "energia_fuera_banda": 0.06193292803864078
+     }
+    ]
+   },
+   "cuantizacion": {
+    "vfs": 1.0,
+    "rango_v": 2.0,
+    "bits": 16,
+    "factor_escala_v": 3.0517578125e-05,
+    "factor_escala_medio": 1.52587890625e-05,
+    "niveles": 65536,
+    "snr_teorico": 98.0896,
+    "carga": {
+     "pico": 0.7238824513061246,
+     "rango": 2.0,
+     "mitad_rango": 1.0,
+     "carga": 0.7238824513061246,
+     "satura": false
+    },
+    "casos": {
+     "16": {
+      "bits": 16,
+      "factor_escala_v": 3.0517578125e-05,
+      "delta": 3.0517578125e-05,
+      "niveles": 65536,
+      "snr_teorico": 98.0896,
+      "snr_medido": 81.85801526760251,
+      "enob": 13.303992171478342,
+      "bits_efectivos": 15.533827354044297,
+      "perdida_por_carga": 0.4661726459557034
+     },
+     "24": {
+      "bits": 24,
+      "factor_escala_v": 1.1920928955078125e-07,
+      "delta": 1.1920928955078125e-07,
+      "niveles": 16777216,
+      "snr_teorico": 146.25439999999998,
+      "snr_medido": 128.57349488197258,
+      "enob": 21.063265269569907,
+      "bits_efectivos": 23.533827354044295,
+      "perdida_por_carga": 0.4661726459557052
+     },
+     "12": {
+      "bits": 12,
+      "factor_escala_v": 0.00048828125,
+      "delta": 0.00048828125,
+      "niveles": 4096,
+      "snr_teorico": 74.0072,
+      "snr_medido": 58.669811173632596,
+      "enob": 9.452514894467761,
+      "bits_efectivos": 11.533827354044297,
+      "perdida_por_carga": 0.4661726459557034
+     },
+     "8": {
+      "bits": 8,
+      "factor_escala_v": 0.0078125,
+      "delta": 0.0078125,
+      "niveles": 256,
+      "snr_teorico": 49.9248,
+      "snr_medido": 34.58668116772175,
+      "enob": 5.4523936431122735,
+      "bits_efectivos": 7.533827354044296,
+      "perdida_por_carga": 0.4661726459557043
+     }
+    },
+    "tabla_codigos": [
+     {
+      "n": 347748,
+      "x_v": -0.6544549610717496,
+      "codigo": 11322,
+      "binario": "0010110000111010",
+      "x_q": -0.6544647216796875,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347749,
+      "x_v": -0.6709954884154996,
+      "codigo": 10780,
+      "binario": "0010101000011100",
+      "x_q": -0.6710052490234375,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347750,
+      "x_v": -0.6878106739623746,
+      "codigo": 10229,
+      "binario": "0010011111110101",
+      "x_q": -0.6878204345703125,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347751,
+      "x_v": -0.6953790333373746,
+      "codigo": 9981,
+      "binario": "0010011011111101",
+      "x_q": -0.6953887939453125,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347752,
+      "x_v": -0.7051751759154996,
+      "codigo": 9660,
+      "binario": "0010010110111100",
+      "x_q": -0.7051849365234375,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347753,
+      "x_v": -0.7186639454467496,
+      "codigo": 9218,
+      "binario": "0010010000000010",
+      "x_q": -0.7186737060546875,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347754,
+      "x_v": -0.7238824513061246,
+      "codigo": 9047,
+      "binario": "0010001101010111",
+      "x_q": -0.7238922119140625,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347755,
+      "x_v": -0.7146966602904996,
+      "codigo": 9348,
+      "binario": "0010010010000100",
+      "x_q": -0.7147064208984375,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347756,
+      "x_v": -0.6980645802123746,
+      "codigo": 9893,
+      "binario": "0010011010100101",
+      "x_q": -0.6980743408203125,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347757,
+      "x_v": -0.6742608692748746,
+      "codigo": 10673,
+      "binario": "0010100110110001",
+      "x_q": -0.6742706298828125,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347758,
+      "x_v": -0.6478021290404996,
+      "codigo": 11540,
+      "binario": "0010110100010100",
+      "x_q": -0.6478118896484375,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     },
+     {
+      "n": 347759,
+      "x_v": -0.6109368946654996,
+      "codigo": 12748,
+      "binario": "0011000111001100",
+      "x_q": -0.6109466552734375,
+      "error": -9.760607937892019e-06,
+      "error_medio_abs": 0.31983560090884566
+     }
+    ]
+   },
+   "cadena": {
+    "etapas": {
+     "cuantizador": {
+      "rmse": 9.760607937836565e-06,
+      "max_abs": 9.760607937892019e-06,
+      "snr": 81.85801526760251
+     },
+     "dac_zoh": {
+      "rmse": 0.0,
+      "max_abs": 0.0,
+      "snr": Infinity
+     }
+    },
+    "presupuesto": {
+     "cuantizador": {
+      "potencia": 9.526946731615816e-11,
+      "porcentaje": 100.0
+     },
+     "dac_zoh": {
+      "potencia": 0.0,
+      "porcentaje": 0.0
+     }
+    },
+    "snr_cadena": 81.85801526760251,
+    "nrmse_cadena": 7.125350344354235e-06,
+    "telefonica": {
+     "fs": 8000.0,
+     "bits": 8,
+     "n_muestras": 96000,
+     "presupuesto": {
+      "cuantizador_8b": {
+       "potencia": 5.083050023455392e-06,
+       "porcentaje": 100.00000000000001
+      },
+      "dac_zoh_8k": {
+       "potencia": 0.0,
+       "porcentaje": 0.0
+      }
+     },
+     "snr_cadena": 34.55261819104136,
+     "nrmse_cadena": 0.0017216015106172764,
+     "nrmse_sobre_banda_completa": 0.0033301552429701397
+    }
+   },
+   "ritmo": {
+    "bpm": 178.25,
+    "bpm_estable": 0.0,
+    "confianza": 0.5625223013476282,
+    "puntuacion": 0.12159617027845669,
+    "medible": false,
+    "cresta": 4.054281617886586,
+    "candidatos": [
+     {
+      "bpm": 154.25,
+      "puntuacion": 0.12159617027845669
+     },
+     {
+      "bpm": 154.5,
+      "puntuacion": 0.12125923084871867
+     },
+     {
+      "bpm": 154.75,
+      "puntuacion": 0.12077021451060901
+     }
+    ],
+    "periodo_s": 0.33660589060308554,
+    "fs_ventana": 0.25
+   },
+   "atencion": {
+    "indice": 80.05641491793803,
+    "por_criterio": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.5,
+      "puntos": 12.5,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 1.0,
+      "puntos": 20.0,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.9897327399756264,
+      "puntos": 19.79465479951253,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.9960396399422479,
+      "puntos": 19.920792798844957,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.5227311546387028,
+      "puntos": 7.840967319580542,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "veredicto": "favorable como fondo de estudio",
+    "tempo_no_fiable": true
+   }
+  },
+  "metal": {
+   "clave": "metal",
+   "nombre": "Metal",
+   "ficha": {
+    "clave": "metal",
+    "nombre": "Metal",
+    "género": "Metal (heavy/thrash)",
+    "músico": "Megadeth",
+    "obra": "Tornado of Souls (del álbum Youthanasia)",
+    "año": 1990,
+    "compositor": "Dave Mustaine",
+    "estilo": "Thrash/heavy metal de finales de los 80",
+    "instrumentación": "Guitarras con saturación, bajo eléctrico, batería y.msg",
+    "bpm esperado": "120-140 (tema en 4/4, riff en semicorcheas)",
+    "banda clave": "Fundamental grave del bajo (40-100 Hz) + mucha energía de guitarra hasta 8 kHz por la saturación",
+    "por qué este ejemplo": "La saturación de la guitarra no es un efecto de timbre: es multiplicación de la onda por una función no lineal, y eso genera armónicos de orden muy alto. Por eso el metal es el caso con más contenido agudo del conjunto, y el que peor se porta cuando se baja la frecuencia de muestreo: es la pista donde el aliasing se ve más claro.",
+    "fuentes": [
+     "Discografía de Megadeth: 'Youthanasia', 1990; 'Tornado of Souls' es el segundo corte del álbum.",
+     "Wikipedia (EN): Youthanasia, álbum de 1990."
+    ]
+   },
+   "pista": {
+    "archivo": "metal.wav",
+    "fs": 44100,
+    "bits": 16,
+    "canales": 1,
+    "duracion_s": 12.0,
+    "n_muestras": 529200,
+    "pico": 0.757446,
+    "formato": "pcm"
+   },
+   "parametros": {
+    "vfs": 1.0,
+    "bits": 16,
+    "umbral_db": -40.0,
+    "duracion": 12.0,
+    "ventana": "hann",
+    "orden_filtro": 8
+   },
+   "espectro": {
+    "f_max": 11666.2015914917,
+    "f_max_umbral": 11666.2015914917,
+    "f_max_energia": 13232.615947723389,
+    "f_max_por_umbral": {
+     "-40.0": 11666.2015914917,
+     "-30.0": 4467.046165466309,
+     "-50.0": 15844.273853302002
+    },
+    "umbral_db": -40.0,
+    "bandas": {
+     "subgrave": {
+      "f0": 20.0,
+      "f1": 60.0,
+      "potencia": 0.005412575812342818,
+      "fraccion": 0.1550821184480543
+     },
+     "grave": {
+      "f0": 60.0,
+      "f1": 250.0,
+      "potencia": 0.013626568314016622,
+      "fraccion": 0.3904309435252272
+     },
+     "medio": {
+      "f0": 250.0,
+      "f1": 2000.0,
+      "potencia": 0.00845578412315075,
+      "fraccion": 0.24227668312141967
+     },
+     "agudo": {
+      "f0": 2000.0,
+      "f1": 8000.0,
+      "potencia": 0.0071595048011262735,
+      "fraccion": 0.2051354493854347
+     },
+     "muy agudo": {
+      "f0": 8000.0,
+      "f1": 20000.0,
+      "potencia": 0.0002371809264816448,
+      "fraccion": 0.006795751562567859
+     }
+    },
+    "bandas_eeg": {
+     "delta": {
+      "f0": 0.5,
+      "f1": 4.0,
+      "potencia": 1.048220102943302e-06,
+      "fraccion": 3.0033795331528326e-05
+     },
+     "theta": {
+      "f0": 4.0,
+      "f1": 8.0,
+      "potencia": 1.5592744371335298e-06,
+      "fraccion": 4.467661818262756e-05
+     },
+     "alfa": {
+      "f0": 8.0,
+      "f1": 13.0,
+      "potencia": 2.0681875888225357e-06,
+      "fraccion": 5.925809147858225e-05
+     },
+     "beta": {
+      "f0": 13.0,
+      "f1": 30.0,
+      "potencia": 7.10795068766943e-05,
+      "fraccion": 0.0020365831143729428
+     },
+     "gamma": {
+      "f0": 30.0,
+      "f1": 50.0,
+      "potencia": 0.003948367676997057,
+      "fraccion": 0.1131293574427524
+     }
+    },
+    "centroide": 1002.9652276587603,
+    "planicidad": 0.004676438081945794,
+    "crest": 4.934379031707288,
+    "fs_minima": 23332.4031829834,
+    "nyquist": {
+     "f_nyquist": 22050.0,
+     "fs_minima": 23332.4031829834,
+     "margen_hz": 10383.7984085083,
+     "margen_rel": 1.890075345181874,
+     "cumple": true,
+     "caso_limite": false,
+     "veredicto": "CUMPLE (margen 1.04e+04 Hz)"
+    },
+    "ancho_banda": 15184.188652038574,
+    "pico_hz": 165.2420997619629
+   },
+   "muestreo": {
+    "fs_minima": 23332.4031829834,
+    "experimentos": [
+     {
+      "fs": 11666.202,
+      "fs_minima": 23332.4031829834,
+      "multiplicador": 0.5000000175081966,
+      "n_muestras": 11666,
+      "cumple_nyquist": false,
+      "nrmse_aliasing": 0.039850438958732366,
+      "nrmse_reconstruccion": 0.01208828132398996,
+      "nrmse_zoh": 0.03436200959732229,
+      "snr_aliasing": 9.595520419460561,
+      "snr_reconstruccion": 19.95689144009214,
+      "energia_fuera_banda": 1.0462042611954983
+     },
+     {
+      "fs": 23332.403,
+      "fs_minima": 23332.4031829834,
+      "multiplicador": 0.9999999921575417,
+      "n_muestras": 23332,
+      "cumple_nyquist": false,
+      "nrmse_aliasing": 0.018002130478336507,
+      "nrmse_reconstruccion": 0.013702091797597194,
+      "nrmse_zoh": 0.035325286479337026,
+      "snr_aliasing": 16.364792893823285,
+      "snr_reconstruccion": 18.735533540893986,
+      "energia_fuera_banda": 0.30649640693647123
+     },
+     {
+      "fs": 34998.605,
+      "fs_minima": 23332.4031829834,
+      "multiplicador": 1.5000000096657384,
+      "n_muestras": 34998,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.016984811015832,
+      "nrmse_reconstruccion": 0.014207895587509832,
+      "nrmse_zoh": 0.029564454035476816,
+      "snr_aliasing": 16.911770728799528,
+      "snr_reconstruccion": 18.462389971404605,
+      "energia_fuera_banda": 0.01841288084489642
+     }
+    ]
+   },
+   "cuantizacion": {
+    "vfs": 1.0,
+    "rango_v": 2.0,
+    "bits": 16,
+    "factor_escala_v": 3.0517578125e-05,
+    "factor_escala_medio": 1.52587890625e-05,
+    "niveles": 65536,
+    "snr_teorico": 98.0896,
+    "carga": {
+     "pico": 0.7575940650138365,
+     "rango": 2.0,
+     "mitad_rango": 1.0,
+     "carga": 0.7575940650138365,
+     "satura": false
+    },
+    "casos": {
+     "16": {
+      "bits": 16,
+      "factor_escala_v": 3.0517578125e-05,
+      "delta": 3.0517578125e-05,
+      "niveles": 65536,
+      "snr_teorico": 98.0896,
+      "snr_medido": 83.34437415262327,
+      "enob": 13.550871034884109,
+      "bits_efectivos": 15.599496939670013,
+      "perdida_por_carga": 0.40050306032998684
+     },
+     "24": {
+      "bits": 24,
+      "factor_escala_v": 1.1920928955078125e-07,
+      "delta": 1.1920928955078125e-07,
+      "niveles": 16777216,
+      "snr_teorico": 146.25439999999998,
+      "snr_medido": 139.62165198656552,
+      "enob": 22.89832441726166,
+      "bits_efectivos": 23.59949693967001,
+      "perdida_por_carga": 0.4005030603299886
+     },
+     "12": {
+      "bits": 12,
+      "factor_escala_v": 0.00048828125,
+      "delta": 0.00048828125,
+      "niveles": 4096,
+      "snr_teorico": 74.0072,
+      "snr_medido": 60.73020033568061,
+      "enob": 9.794738121728832,
+      "bits_efectivos": 11.599496939670013,
+      "perdida_por_carga": 0.40050306032998684
+     },
+     "8": {
+      "bits": 8,
+      "factor_escala_v": 0.0078125,
+      "delta": 0.0078125,
+      "niveles": 256,
+      "snr_teorico": 49.9248,
+      "snr_medido": 36.660238634105696,
+      "enob": 5.796804078348619,
+      "bits_efectivos": 7.599496939670012,
+      "perdida_por_carga": 0.4005030603299877
+     }
+    },
+    "tabla_codigos": [
+     {
+      "n": 484893,
+      "x_v": 0.5109509986075865,
+      "codigo": 49510,
+      "binario": "1100000101100110",
+      "x_q": 0.5109405517578125,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484894,
+      "x_v": 0.5650891822013365,
+      "codigo": 51284,
+      "binario": "1100100001010100",
+      "x_q": 0.5650787353515625,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484895,
+      "x_v": 0.6231030982169615,
+      "codigo": 53185,
+      "binario": "1100111111000001",
+      "x_q": 0.6230926513671875,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484896,
+      "x_v": 0.6268262427482115,
+      "codigo": 53307,
+      "binario": "1101000000111011",
+      "x_q": 0.6268157958984375,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484897,
+      "x_v": 0.6243848364982115,
+      "codigo": 53227,
+      "binario": "1100111111101011",
+      "x_q": 0.6243743896484375,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484898,
+      "x_v": 0.6810254614982115,
+      "codigo": 55083,
+      "binario": "1101011100101011",
+      "x_q": 0.6810150146484375,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484899,
+      "x_v": 0.7575940650138365,
+      "codigo": 57592,
+      "binario": "1110000011111000",
+      "x_q": 0.7575836181640625,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484900,
+      "x_v": 0.6834363501700865,
+      "codigo": 55162,
+      "binario": "1101011101111010",
+      "x_q": 0.6834259033203125,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484901,
+      "x_v": 0.5188550513419615,
+      "codigo": 49769,
+      "binario": "1100001001101001",
+      "x_q": 0.5188446044921875,
+      "error": -1.0446849774026212e-05,
+      "error_medio_abs": 0.3423223733952909
+     },
+     {
+      "n": 484902,
+      "x_v": 0.44781012946696147,
+      "codigo": 47441,
+      "binario": "1011100101010001",
+      "x_q": 0.4477996826171875,
+      "error": -1.0446849773970701e-05,
+      "error_medio_abs": 0.34232237339347193
+     },
+     {
+      "n": 484903,
+      "x_v": 0.41155524665446147,
+      "codigo": 46253,
+      "binario": "1011010010101101",
+      "x_q": 0.4115447998046875,
+      "error": -1.0446849773970701e-05,
+      "error_medio_abs": 0.34232237339347193
+     },
+     {
+      "n": 484904,
+      "x_v": 0.35961432868571147,
+      "codigo": 44551,
+      "binario": "1010111000000111",
+      "x_q": 0.3596038818359375,
+      "error": -1.0446849773970701e-05,
+      "error_medio_abs": 0.34232237339347193
+     }
+    ]
+   },
+   "cadena": {
+    "etapas": {
+     "cuantizador": {
+      "rmse": 1.0446849773977447e-05,
+      "max_abs": 1.0446849774026212e-05,
+      "snr": 83.34437415262327
+     },
+     "dac_zoh": {
+      "rmse": 0.0,
+      "max_abs": 0.0,
+      "snr": Infinity
+     }
+    },
+    "presupuesto": {
+     "cuantizador": {
+      "potencia": 1.0913667020005262e-10,
+      "porcentaje": 100.0
+     },
+     "dac_zoh": {
+      "potencia": 0.0,
+      "porcentaje": 0.0
+     }
+    },
+    "snr_cadena": 83.34437415262327,
+    "nrmse_cadena": 7.178676621937109e-06,
+    "telefonica": {
+     "fs": 8000.0,
+     "bits": 8,
+     "n_muestras": 96000,
+     "presupuesto": {
+      "cuantizador_8b": {
+       "potencia": 5.0684647196385115e-06,
+       "porcentaje": 100.0
+      },
+      "dac_zoh_8k": {
+       "potencia": 0.0,
+       "porcentaje": 0.0
+      }
+     },
+     "snr_cadena": 35.576413699454115,
+     "nrmse_cadena": 0.0018729278380197405,
+     "nrmse_sobre_banda_completa": 0.004865097634582419
+    }
+   },
+   "ritmo": {
+    "bpm": 97.5,
+    "bpm_estable": 46.94870283018868,
+    "confianza": 0.8837509725185383,
+    "puntuacion": 0.4019733680099388,
+    "medible": true,
+    "cresta": 3.126685910265489,
+    "candidatos": [
+     {
+      "bpm": 97.5,
+      "puntuacion": 0.4019733680099388
+     },
+     {
+      "bpm": 97.75,
+      "puntuacion": 0.3698720105708503
+     },
+     {
+      "bpm": 97.25,
+      "puntuacion": 0.3498533380518798
+     }
+    ],
+    "periodo_s": 0.6153846153846154,
+    "fs_ventana": 0.25
+   },
+   "atencion": {
+    "indice": 63.879985261190704,
+    "por_criterio": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.8333333333333334,
+      "puntos": 20.833333333333336,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.712873701114876,
+      "puntos": 14.25747402229752,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.5897291012291306,
+      "puntos": 11.794582024582612,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.6447930105690961,
+      "puntos": 12.895860211381923,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.2732490446396877,
+      "puntos": 4.098735669595316,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "veredicto": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   }
+  },
+  "salsa": {
+   "clave": "salsa",
+   "nombre": "Salsa",
+   "ficha": {
+    "clave": "salsa",
+    "nombre": "Salsa",
+    "género": "Salsa (salsa romántica, montuno)",
+    "músico": "Frankie Ruiz y La Solución",
+    "obra": "La Rueda (compositor: Víctor Manuel Mato)",
+    "año": 1980,
+    "compositor": "Víctor Manuel Mato (ranchera Colombian, años 50)",
+    "estilo": "Salsa romántica con montuno y percusión latina",
+    "instrumentación": "Voz, trombones y clarinetes, percusión latina (timbales, congas, cowbell), bajo y guitarra",
+    "bpm esperado": "90-110 (son clave, 2-3)",
+    "banda clave": "250 Hz-2 kHz (timbal y montuno) con bajo en 60-120 Hz",
+    "por qué este ejemplo": "Es el género con la percusión más 'química' del conjunto: el timbal y la cowbell tienen su energía justo en la banda de 2-6 kHz, que es la banda que en el punto (e) se asocia con activación. Sirve para ver cómo un mismo género cambia de fisonomía según la época: aquí viene de la salsa de los 80, con un sonido de orquesta de viento muy presente.",
+    "fuentes": [
+     "Wikipedia (ES): Frankie Ruiz — 'La rueda' se incluye en el segundo álbum de Orquesta La Solución, 'Orquesta La Solución' (LAD Records, 1980).",
+     "RPP (2026): 'Originally it was a ranchera by composer Víctor Matos, recorded in the mid-1950s'; Frankie la grabó con La Solución a partir de 1978.",
+     "Wikipedia (EN): 'Historia Musical de Frankie Ruiz' (1987)."
+    ]
+   },
+   "pista": {
+    "archivo": "salsa.wav",
+    "fs": 44100,
+    "bits": 16,
+    "canales": 1,
+    "duracion_s": 12.0,
+    "n_muestras": 529200,
+    "pico": 0.939667,
+    "formato": "pcm"
+   },
+   "parametros": {
+    "vfs": 1.0,
+    "bits": 16,
+    "umbral_db": -40.0,
+    "duracion": 12.0,
+    "ventana": "hann",
+    "orden_filtro": 8
+   },
+   "espectro": {
+    "f_max": 9332.37247467041,
+    "f_max_umbral": 9332.37247467041,
+    "f_max_energia": 11593.653202056885,
+    "f_max_por_umbral": {
+     "-40.0": 9332.37247467041,
+     "-30.0": 2329.1187286376953,
+     "-50.0": 12161.885833740234
+    },
+    "umbral_db": -40.0,
+    "bandas": {
+     "subgrave": {
+      "f0": 20.0,
+      "f1": 60.0,
+      "potencia": 0.0007894537861944282,
+      "fraccion": 0.01391615675267044
+     },
+     "grave": {
+      "f0": 60.0,
+      "f1": 250.0,
+      "potencia": 0.013812264712908069,
+      "fraccion": 0.24347674837405686
+     },
+     "medio": {
+      "f0": 250.0,
+      "f1": 2000.0,
+      "potencia": 0.037411943937104494,
+      "fraccion": 0.6594818916007362
+     },
+     "agudo": {
+      "f0": 2000.0,
+      "f1": 8000.0,
+      "potencia": 0.004113135314474556,
+      "fraccion": 0.07250460607338884
+     },
+     "muy agudo": {
+      "f0": 8000.0,
+      "f1": 20000.0,
+      "potencia": 0.0005988134732597697,
+      "fraccion": 0.010555630114416441
+     }
+    },
+    "bandas_eeg": {
+     "delta": {
+      "f0": 0.5,
+      "f1": 4.0,
+      "potencia": 3.76440257002554e-07,
+      "fraccion": 6.6357293055947355e-06
+     },
+     "theta": {
+      "f0": 4.0,
+      "f1": 8.0,
+      "potencia": 7.63240316686467e-07,
+      "fraccion": 1.3454076822111601e-05
+     },
+     "alfa": {
+      "f0": 8.0,
+      "f1": 13.0,
+      "potencia": 7.095481483085007e-07,
+      "fraccion": 1.2507614034035827e-05
+     },
+     "beta": {
+      "f0": 13.0,
+      "f1": 30.0,
+      "potencia": 8.933970409126294e-06,
+      "fraccion": 0.00015748424393077952
+     },
+     "gamma": {
+      "f0": 30.0,
+      "f1": 50.0,
+      "potencia": 0.0005892211037829172,
+      "fraccion": 0.010386539890765864
+     }
+    },
+    "centroide": 923.2476283426245,
+    "planicidad": 6.773861112528774e-05,
+    "crest": 4.760177335975772,
+    "fs_minima": 18664.74494934082,
+    "nyquist": {
+     "f_nyquist": 22050.0,
+     "fs_minima": 18664.74494934082,
+     "margen_hz": 12717.62752532959,
+     "margen_rel": 2.362743242390648,
+     "cumple": true,
+     "caso_limite": false,
+     "veredicto": "CUMPLE (margen 1.27e+04 Hz)"
+    },
+    "ancho_banda": 11937.974166870117,
+    "pico_hz": 87.35246658325195
+   },
+   "muestreo": {
+    "fs_minima": 18664.74494934082,
+    "experimentos": [
+     {
+      "fs": 9332.372,
+      "fs_minima": 18664.74494934082,
+      "multiplicador": 0.49999997456860984,
+      "n_muestras": 9332,
+      "cumple_nyquist": false,
+      "nrmse_aliasing": 0.02493926173971781,
+      "nrmse_reconstruccion": 0.007901728002926722,
+      "nrmse_zoh": 0.03303254174360562,
+      "snr_aliasing": 13.608742605291855,
+      "snr_reconstruccion": 23.591972947174405,
+      "energia_fuera_banda": 1.3837317181139825
+     },
+     {
+      "fs": 18664.745,
+      "fs_minima": 18664.74494934082,
+      "multiplicador": 1.000000002714164,
+      "n_muestras": 18664,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.016420580107569492,
+      "nrmse_reconstruccion": 0.009133021648664719,
+      "nrmse_zoh": 0.02519771298519954,
+      "snr_aliasing": 17.44929280248661,
+      "snr_reconstruccion": 22.54477297760264,
+      "energia_fuera_banda": 0.17597975271945906
+     },
+     {
+      "fs": 27997.117,
+      "fs_minima": 18664.74494934082,
+      "multiplicador": 1.499999977282774,
+      "n_muestras": 27997,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.0133039188361934,
+      "nrmse_reconstruccion": 0.009863112143964592,
+      "nrmse_zoh": 0.022339280748603245,
+      "snr_aliasing": 19.242138251298627,
+      "snr_reconstruccion": 21.841450563364972,
+      "energia_fuera_banda": 0.00011259376017491942
+     },
+     {
+      "fs": 37329.49,
+      "fs_minima": 18664.74494934082,
+      "multiplicador": 2.000000005428328,
+      "n_muestras": 37329,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.011820599818953404,
+      "nrmse_reconstruccion": 0.010695815342225235,
+      "nrmse_zoh": 0.020785920360115295,
+      "snr_aliasing": 20.30022644593558,
+      "snr_reconstruccion": 21.168738811782532,
+      "energia_fuera_banda": 4.264173711775381e-05
+     }
+    ]
+   },
+   "cuantizacion": {
+    "vfs": 1.0,
+    "rango_v": 2.0,
+    "bits": 16,
+    "factor_escala_v": 3.0517578125e-05,
+    "factor_escala_medio": 1.52587890625e-05,
+    "niveles": 65536,
+    "snr_teorico": 98.0896,
+    "carga": {
+     "pico": 0.9395941689765913,
+     "rango": 2.0,
+     "mitad_rango": 1.0,
+     "carga": 0.9395941689765913,
+     "satura": false
+    },
+    "casos": {
+     "16": {
+      "bits": 16,
+      "factor_escala_v": 3.0517578125e-05,
+      "delta": 3.0517578125e-05,
+      "niveles": 65536,
+      "snr_teorico": 98.0896,
+      "snr_medido": 94.50745944643626,
+      "enob": 15.405019341334128,
+      "bits_efectivos": 15.91010966657036,
+      "perdida_por_carga": 0.08989033342963992
+     },
+     "24": {
+      "bits": 24,
+      "factor_escala_v": 1.1920928955078125e-07,
+      "delta": 1.1920928955078125e-07,
+      "niveles": 16777216,
+      "snr_teorico": 146.25439999999998,
+      "snr_medido": 133.8180223218702,
+      "enob": 21.934362409372852,
+      "bits_efectivos": 23.91010966657036,
+      "perdida_por_carga": 0.08989033342963992
+     },
+     "12": {
+      "bits": 12,
+      "factor_escala_v": 0.00048828125,
+      "delta": 0.00048828125,
+      "niveles": 4096,
+      "snr_teorico": 74.0072,
+      "snr_medido": 62.936256235759586,
+      "enob": 10.161156070119189,
+      "bits_efectivos": 11.91010966657036,
+      "perdida_por_carga": 0.08989033342963992
+     },
+     "8": {
+      "bits": 8,
+      "factor_escala_v": 0.0078125,
+      "delta": 0.0078125,
+      "niveles": 256,
+      "snr_teorico": 49.9248,
+      "snr_medido": 38.835869199980706,
+      "enob": 6.158168488187342,
+      "bits_efectivos": 7.91010966657036,
+      "perdida_por_carga": 0.08989033342963992
+     }
+    },
+    "tabla_codigos": [
+     {
+      "n": 19990,
+      "x_v": 0.1385687783515913,
+      "codigo": 37308,
+      "binario": "1001000110111100",
+      "x_q": 0.1385650634765625,
+      "error": -3.7148750287874233e-06,
+      "error_medio_abs": 0.12172902494330629
+     },
+     {
+      "n": 19991,
+      "x_v": 0.11397161038284129,
+      "codigo": 36502,
+      "binario": "1000111010010110",
+      "x_q": 0.1139678955078125,
+      "error": -3.7148750287874233e-06,
+      "error_medio_abs": 0.12172902494330629
+     },
+     {
+      "n": 19992,
+      "x_v": 0.11696233303909129,
+      "codigo": 36600,
+      "binario": "1000111011111000",
+      "x_q": 0.1169586181640625,
+      "error": -3.7148750287874233e-06,
+      "error_medio_abs": 0.12172902494330629
+     },
+     {
+      "n": 19993,
+      "x_v": 0.11543645413284129,
+      "codigo": 36550,
+      "binario": "1000111011000110",
+      "x_q": 0.1154327392578125,
+      "error": -3.7148750287874233e-06,
+      "error_medio_abs": 0.12172902494330629
+     },
+     {
+      "n": 19994,
+      "x_v": 0.3462103799140913,
+      "codigo": 44112,
+      "binario": "1010110001010000",
+      "x_q": 0.3462066650390625,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     },
+     {
+      "n": 19995,
+      "x_v": 0.7676886513984663,
+      "codigo": 57923,
+      "binario": "1110001001000011",
+      "x_q": 0.7676849365234375,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     },
+     {
+      "n": 19996,
+      "x_v": 0.9395941689765913,
+      "codigo": 63556,
+      "binario": "1111100001000100",
+      "x_q": 0.9395904541015625,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     },
+     {
+      "n": 19997,
+      "x_v": 0.7167853310859663,
+      "codigo": 56255,
+      "binario": "1101101110111111",
+      "x_q": 0.7167816162109375,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     },
+     {
+      "n": 19998,
+      "x_v": 0.4601935342109663,
+      "codigo": 47847,
+      "binario": "1011101011100111",
+      "x_q": 0.4601898193359375,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     },
+     {
+      "n": 19999,
+      "x_v": 0.4155157998359663,
+      "codigo": 46383,
+      "binario": "1011010100101111",
+      "x_q": 0.4155120849609375,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     },
+     {
+      "n": 20000,
+      "x_v": 0.4155157998359663,
+      "codigo": 46383,
+      "binario": "1011010100101111",
+      "x_q": 0.4155120849609375,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     },
+     {
+      "n": 20001,
+      "x_v": 0.3022650674140913,
+      "codigo": 42672,
+      "binario": "1010011010110000",
+      "x_q": 0.3022613525390625,
+      "error": -3.714875028815179e-06,
+      "error_medio_abs": 0.12172902494421578
+     }
+    ]
+   },
+   "cadena": {
+    "etapas": {
+     "cuantizador": {
+      "rmse": 3.7148750287928667e-06,
+      "max_abs": 3.714875028815179e-06,
+      "snr": 94.50745944643626
+     },
+     "dac_zoh": {
+      "rmse": 0.0,
+      "max_abs": 0.0,
+      "snr": Infinity
+     }
+    },
+    "presupuesto": {
+     "cuantizador": {
+      "potencia": 1.3800296479548801e-11,
+      "porcentaje": 100.0
+     },
+     "dac_zoh": {
+      "potencia": 0.0,
+      "porcentaje": 0.0
+     }
+    },
+    "snr_cadena": 94.50745944643626,
+    "nrmse_cadena": 2.0081995668385355e-06,
+    "telefonica": {
+     "fs": 8000.0,
+     "bits": 8,
+     "n_muestras": 96000,
+     "presupuesto": {
+      "cuantizador_8b": {
+       "potencia": 5.088648196566533e-06,
+       "porcentaje": 100.0
+      },
+      "dac_zoh_8k": {
+       "potencia": 0.0,
+       "porcentaje": 0.0
+      }
+     },
+     "snr_cadena": 38.30870502843078,
+     "nrmse_cadena": 0.001330760996798208,
+     "nrmse_sobre_banda_completa": 0.006441030224447071
+    }
+   },
+   "ritmo": {
+    "bpm": 101.25,
+    "bpm_estable": 0.0,
+    "confianza": 0.8541130600478971,
+    "puntuacion": 0.2546950147685223,
+    "medible": true,
+    "cresta": 5.2846724353799726,
+    "candidatos": [
+     {
+      "bpm": 101.0,
+      "puntuacion": 0.2546950147685223
+     },
+     {
+      "bpm": 100.75,
+      "puntuacion": 0.25438189046853243
+     },
+     {
+      "bpm": 101.25,
+      "puntuacion": 0.2494543035746589
+     }
+    ],
+    "periodo_s": 0.5925925925925926,
+    "fs_ventana": 0.25
+   },
+   "atencion": {
+    "indice": 62.60102058411603,
+    "por_criterio": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.75,
+      "puntos": 18.75,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.7508344626939883,
+      "puntos": 15.016689253879766,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.8549907878532224,
+      "puntos": 17.099815757064448,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.5867257786585908,
+      "puntos": 11.734515573171816,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "veredicto": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   }
+  },
+  "reggaeton": {
+   "clave": "reggaeton",
+   "nombre": "Reggaetón",
+   "ficha": {
+    "clave": "reggaeton",
+    "nombre": "Reggaetón",
+    "género": "Reggaetón",
+    "músico": "Feid y ATL Jacob",
+    "obra": "LUNA (del EP Ferxxocalipsis)",
+    "año": 2023,
+    "compositor": "Salomón Villada (Feid) y ATL Jacob",
+    "estilo": "Reggaetón colombiano contemporary (2020s)",
+    "instrumentación": "Bombo sintetizado (dembow), pads, voz con autotune, sintetizadores de alta frecuencia",
+    "bpm esperado": "90-100 (dembow en 2-4)",
+    "banda clave": "40-60 Hz (bombo sintetizado) y 60-250 Hz (bajo y voz); muy poca energía por encima de 4 kHz",
+    "por qué este ejemplo": "El reggaetón moderno es EL caso de la música con la energía más concentrada en el graves: el bombo es un seno sintetizado y la voz va con poca información armónica alta. Es, junto con la barroca, el otro extremo del conjunto, y el que da la mayor دينامica (el bombo ataca y la voz no).",
+    "fuentes": [
+     "Wikipedia (EN): 'Luna (Feid and ATL Jacob song)', single del EP 'Ferxxocalipsis' (2023), lanzamiento el 1 de diciembre de 2023.",
+     "Apple Music / Shazam: fecha de publicación 1-dic-2023."
+    ]
+   },
+   "pista": {
+    "archivo": "reggaeton.wav",
+    "fs": 44100,
+    "bits": 16,
+    "canales": 1,
+    "duracion_s": 12.0,
+    "n_muestras": 529200,
+    "pico": 0.999969,
+    "formato": "pcm"
+   },
+   "parametros": {
+    "vfs": 1.0,
+    "bits": 16,
+    "umbral_db": -40.0,
+    "duracion": 12.0,
+    "ventana": "hann",
+    "orden_filtro": 8
+   },
+   "espectro": {
+    "f_max": 7943.438816070557,
+    "f_max_umbral": 7943.438816070557,
+    "f_max_energia": 17289.900398254395,
+    "f_max_por_umbral": {
+     "-40.0": 7943.438816070557,
+     "-30.0": 706.8946838378906,
+     "-50.0": 17686.582374572754
+    },
+    "umbral_db": -40.0,
+    "bandas": {
+     "subgrave": {
+      "f0": 20.0,
+      "f1": 60.0,
+      "potencia": 0.04854668333957839,
+      "fraccion": 0.267454625934126
+     },
+     "grave": {
+      "f0": 60.0,
+      "f1": 250.0,
+      "potencia": 0.07049606088015381,
+      "fraccion": 0.388378696452771
+     },
+     "medio": {
+      "f0": 250.0,
+      "f1": 2000.0,
+      "potencia": 0.03913126060750094,
+      "fraccion": 0.21558293889826946
+     },
+     "agudo": {
+      "f0": 2000.0,
+      "f1": 8000.0,
+      "potencia": 0.015593850575707863,
+      "fraccion": 0.08591003927962305
+     },
+     "muy agudo": {
+      "f0": 8000.0,
+      "f1": 20000.0,
+      "potencia": 0.004590396552531798,
+      "fraccion": 0.02528952975549155
+     }
+    },
+    "bandas_eeg": {
+     "delta": {
+      "f0": 0.5,
+      "f1": 4.0,
+      "potencia": 1.251246868132366e-05,
+      "fraccion": 6.893401156300186e-05
+     },
+     "theta": {
+      "f0": 4.0,
+      "f1": 8.0,
+      "potencia": 1.935095999469707e-05,
+      "fraccion": 0.00010660880230778891
+     },
+     "alfa": {
+      "f0": 8.0,
+      "f1": 13.0,
+      "potencia": 2.8401397022027153e-05,
+      "fraccion": 0.00015646970079086851
+     },
+     "beta": {
+      "f0": 13.0,
+      "f1": 30.0,
+      "potencia": 0.028677228773506997,
+      "fraccion": 0.1579893201106224
+     },
+     "gamma": {
+      "f0": 30.0,
+      "f1": 50.0,
+      "potencia": 0.018141025224048923,
+      "fraccion": 0.0999429988125258
+     }
+    },
+    "centroide": 830.0582157325297,
+    "planicidad": 0.011129148103077337,
+    "crest": 2.8818096919519816,
+    "fs_minima": 15886.877632141113,
+    "nyquist": {
+     "f_nyquist": 22050.0,
+     "fs_minima": 15886.877632141113,
+     "margen_hz": 14106.561183929443,
+     "margen_rel": 2.7758758530864656,
+     "cumple": true,
+     "caso_limite": false,
+     "veredicto": "CUMPLE (margen 1.41e+04 Hz)"
+    },
+    "ancho_banda": 18373.121452331543,
+    "pico_hz": 21.785545349121094
+   },
+   "muestreo": {
+    "fs_minima": 15886.877632141113,
+    "experimentos": [
+     {
+      "fs": 7943.439,
+      "fs_minima": 15886.877632141113,
+      "multiplicador": 0.5000000115774444,
+      "n_muestras": 7943,
+      "cumple_nyquist": false,
+      "nrmse_aliasing": 0.06540756717104539,
+      "nrmse_reconstruccion": 0.017767548152410235,
+      "nrmse_zoh": 0.041965307729414966,
+      "snr_aliasing": 7.776964222776101,
+      "snr_reconstruccion": 19.096974118256423,
+      "energia_fuera_banda": 7.14438514350277
+     },
+     {
+      "fs": 15886.878,
+      "fs_minima": 15886.877632141113,
+      "multiplicador": 1.000000023154889,
+      "n_muestras": 15886,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.045751911526813356,
+      "nrmse_reconstruccion": 0.014373297852863988,
+      "nrmse_zoh": 0.04007637250286288,
+      "snr_aliasing": 10.878421731729947,
+      "snr_reconstruccion": 20.93547809800001,
+      "energia_fuera_banda": 2.9338457542201963
+     },
+     {
+      "fs": 23830.316,
+      "fs_minima": 15886.877632141113,
+      "multiplicador": 1.4999999717873027,
+      "n_muestras": 23830,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.036656876973239605,
+      "nrmse_reconstruccion": 0.016777925516335106,
+      "nrmse_zoh": 0.039355982012823344,
+      "snr_aliasing": 12.623240034725116,
+      "snr_reconstruccion": 19.411584032655114,
+      "energia_fuera_banda": 0.9669759719880326
+     },
+     {
+      "fs": 31773.755,
+      "fs_minima": 15886.877632141113,
+      "multiplicador": 1.9999999833647473,
+      "n_muestras": 31773,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.0334882715681537,
+      "nrmse_reconstruccion": 0.019391423980293292,
+      "nrmse_zoh": 0.039315729150495596,
+      "snr_aliasing": 13.473750155603177,
+      "snr_reconstruccion": 18.21941077236707,
+      "energia_fuera_banda": 0.23348200867533775
+     }
+    ]
+   },
+   "cuantizacion": {
+    "vfs": 1.0,
+    "rango_v": 2.0,
+    "bits": 16,
+    "factor_escala_v": 3.0517578125e-05,
+    "factor_escala_medio": 1.52587890625e-05,
+    "niveles": 65536,
+    "snr_teorico": 98.0896,
+    "carga": {
+     "pico": 1.0003457830173899,
+     "rango": 2.0,
+     "mitad_rango": 1.0,
+     "carga": 1.0,
+     "satura": true
+    },
+    "casos": {
+     "16": {
+      "bits": 16,
+      "factor_escala_v": 3.0517578125e-05,
+      "delta": 3.0517578125e-05,
+      "niveles": 65536,
+      "snr_teorico": 98.0896,
+      "snr_medido": 90.82865594292025,
+      "enob": 14.793983314440462,
+      "bits_efectivos": 16.0,
+      "perdida_por_carga": 0.0
+     },
+     "24": {
+      "bits": 24,
+      "factor_escala_v": 1.1920928955078125e-07,
+      "delta": 1.1920928955078125e-07,
+      "niveles": 16777216,
+      "snr_teorico": 146.25439999999998,
+      "snr_medido": 92.55948078497315,
+      "enob": 15.081467093806786,
+      "bits_efectivos": 24.0,
+      "perdida_por_carga": 0.0
+     },
+     "12": {
+      "bits": 12,
+      "factor_escala_v": 0.00048828125,
+      "delta": 0.00048828125,
+      "niveles": 4096,
+      "snr_teorico": 74.0072,
+      "snr_medido": 67.7958802751578,
+      "enob": 10.96832213984616,
+      "bits_efectivos": 12.0,
+      "perdida_por_carga": 0.0
+     },
+     "8": {
+      "bits": 8,
+      "factor_escala_v": 0.0078125,
+      "delta": 0.0078125,
+      "niveles": 256,
+      "snr_teorico": 49.9248,
+      "snr_medido": 43.744903601441266,
+      "enob": 6.973541441291776,
+      "bits_efectivos": 8.0,
+      "perdida_por_carga": 0.0
+     }
+    },
+    "tabla_codigos": [
+     {
+      "n": 685,
+      "x_v": -0.5665689275486399,
+      "codigo": 14202,
+      "binario": "0011011101111010",
+      "x_q": -0.5665740966796875,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 686,
+      "x_v": -0.7396341130955149,
+      "codigo": 8531,
+      "binario": "0010000101010011",
+      "x_q": -0.7396392822265625,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 687,
+      "x_v": -0.8490396306736399,
+      "codigo": 4946,
+      "binario": "0001001101010010",
+      "x_q": -0.8490447998046875,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 688,
+      "x_v": -0.6963296697361399,
+      "codigo": 9950,
+      "binario": "0010011011011110",
+      "x_q": -0.6963348388671875,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 689,
+      "x_v": -0.7084146306736399,
+      "codigo": 9554,
+      "binario": "0010010101010010",
+      "x_q": -0.7084197998046875,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 690,
+      "x_v": -0.9744973943455149,
+      "codigo": 835,
+      "binario": "0000001101000011",
+      "x_q": -0.9745025634765625,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 691,
+      "x_v": -1.0003457830173899,
+      "codigo": 0,
+      "binario": "0000000000000000",
+      "x_q": -0.9999847412109375,
+      "error": 0.00036104180645235573,
+      "error_medio_abs": 11.830617913830793
+     },
+     {
+      "n": 692,
+      "x_v": -0.9133706853611399,
+      "codigo": 2838,
+      "binario": "0000101100010110",
+      "x_q": -0.9133758544921875,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 693,
+      "x_v": -0.7974344060642649,
+      "codigo": 6637,
+      "binario": "0001100111101101",
+      "x_q": -0.7974395751953125,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 694,
+      "x_v": -0.7507730291111399,
+      "codigo": 8166,
+      "binario": "0001111111100110",
+      "x_q": -0.7507781982421875,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 695,
+      "x_v": -0.8536172673923899,
+      "codigo": 4796,
+      "binario": "0001001010111100",
+      "x_q": -0.8536224365234375,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     },
+     {
+      "n": 696,
+      "x_v": -0.8118081853611399,
+      "codigo": 6166,
+      "binario": "0001100000010110",
+      "x_q": -0.8118133544921875,
+      "error": -5.169131047644271e-06,
+      "error_medio_abs": 0.16938208616920747
+     }
+    ]
+   },
+   "cadena": {
+    "etapas": {
+     "cuantizador": {
+      "rmse": 9.978196470358894e-06,
+      "max_abs": 0.00036104180645235573,
+      "snr": 90.82865594292025
+     },
+     "dac_zoh": {
+      "rmse": 0.0,
+      "max_abs": 0.0,
+      "snr": Infinity
+     }
+    },
+    "presupuesto": {
+     "cuantizador": {
+      "potencia": 9.956440480108269e-11,
+      "porcentaje": 99.99999999999999
+     },
+     "dac_zoh": {
+      "potencia": 0.0,
+      "porcentaje": 0.0
+     }
+    },
+    "snr_cadena": 90.82865594292025,
+    "nrmse_cadena": 4.989326628427208e-06,
+    "telefonica": {
+     "fs": 8000.0,
+     "bits": 8,
+     "n_muestras": 96000,
+     "presupuesto": {
+      "cuantizador_8b": {
+       "potencia": 5.216619176868739e-06,
+       "porcentaje": 100.0
+      },
+      "dac_zoh_8k": {
+       "potencia": 0.0,
+       "porcentaje": 0.0
+      }
+     },
+     "snr_cadena": 42.941523230003405,
+     "nrmse_cadena": 0.001084772978942012,
+     "nrmse_sobre_banda_completa": 0.004929116895827137
+    }
+   },
+   "ritmo": {
+    "bpm": 100.0,
+    "bpm_estable": 26.502403846153847,
+    "confianza": 0.9424655682625104,
+    "puntuacion": 0.4016289577196889,
+    "medible": true,
+    "cresta": 8.417366435473506,
+    "candidatos": [
+     {
+      "bpm": 100.0,
+      "puntuacion": 0.4016289577196889
+     },
+     {
+      "bpm": 99.75,
+      "puntuacion": 0.36997993368997906
+     },
+     {
+      "bpm": 100.25,
+      "puntuacion": 0.3660974441534065
+     }
+    ],
+    "periodo_s": 0.6,
+    "fs_ventana": 0.25
+   },
+   "atencion": {
+    "indice": 59.82539766140547,
+    "por_criterio": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.7777777777777778,
+      "puntos": 19.444444444444446,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.7952103734607001,
+      "puntos": 15.904207469214002,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.8281799214407539,
+      "puntos": 16.563598428815077,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.5275431545954626,
+      "puntos": 7.91314731893194,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "veredicto": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   }
+  },
+  "popular": {
+   "clave": "popular",
+   "nombre": "Popular colombiana",
+   "ficha": {
+    "clave": "popular",
+    "nombre": "Popular colombiana",
+    "género": "Música popular colombiana (cantina / ranchera costeña)",
+    "músico": "Fredy Montoya ft. Luisito Muñoz",
+    "obra": "Ángel o Demonio",
+    "año": 2016,
+    "compositor": "Fernando (Fredy) Montoya",
+    "estilo": "Cantina colombiana de la costa (despecho costeño), con influencia del vallenato",
+    "instrumentación": "Guitarra acústica, Bajo, percusión de raspas y pandereta, voz de Contralto",
+    "bpm esperado": "70-90 (balada con pulso binario)",
+    "banda clave": "250 Hz-2 kHz (voz y guitarra), casi sin graves fuertes ni agudos",
+    "por qué este ejemplo": "Es el género del enunciado que los demás llaman 'cantina al hombro': la música popular colombiana de la costa, la que cantan Jessi Uribe o Paola Jara. Su perfil es de banda media, con voz y guitarra, y es un buen contraste con el resto: no tiene bombo, no tiene guitarra saturada y no tiene nada inesperado. Es el perfil 'neutro' del conjunto.",
+    "fuentes": [
+     "Apple Music: 'Ángel o Demonio (feat. Luisito Muñoz) - Single', 2016.",
+     "Shazam / Qobuz: compositor Fernando Montoya; remix oficial con Álzate, Jessi Uribe, Luisito Muñoz y Fredy Montoya (marzo de 2026).",
+     "Tropicana Colombia (2026): 'Ángel o Demonio', clásico de la música popular colombiana."
+    ]
+   },
+   "pista": {
+    "archivo": "popular.wav",
+    "fs": 44100,
+    "bits": 16,
+    "canales": 1,
+    "duracion_s": 12.0,
+    "n_muestras": 529200,
+    "pico": 0.999969,
+    "formato": "pcm"
+   },
+   "parametros": {
+    "vfs": 1.0,
+    "bits": 16,
+    "umbral_db": -40.0,
+    "duracion": 12.0,
+    "ventana": "hann",
+    "orden_filtro": 8
+   },
+   "espectro": {
+    "f_max": 9952.671718597412,
+    "f_max_umbral": 9952.671718597412,
+    "f_max_energia": 11977.886295318604,
+    "f_max_por_umbral": {
+     "-40.0": 9952.671718597412,
+     "-30.0": 2943.529987335205,
+     "-50.0": 13517.552375793457
+    },
+    "umbral_db": -40.0,
+    "bandas": {
+     "subgrave": {
+      "f0": 20.0,
+      "f1": 60.0,
+      "potencia": 0.0038296643222193545,
+      "fraccion": 0.019202865125795998
+     },
+     "grave": {
+      "f0": 60.0,
+      "f1": 250.0,
+      "potencia": 0.032015133224444575,
+      "fraccion": 0.16053163764941228
+     },
+     "medio": {
+      "f0": 250.0,
+      "f1": 2000.0,
+      "potencia": 0.14366981907802764,
+      "fraccion": 0.7203952948032962
+     },
+     "agudo": {
+      "f0": 2000.0,
+      "f1": 8000.0,
+      "potencia": 0.017591417696962916,
+      "fraccion": 0.08820763204921202
+     },
+     "muy agudo": {
+      "f0": 8000.0,
+      "f1": 20000.0,
+      "potencia": 0.002292467795669322,
+      "fraccion": 0.011494989163947767
+     }
+    },
+    "bandas_eeg": {
+     "delta": {
+      "f0": 0.5,
+      "f1": 4.0,
+      "potencia": 3.7871799932032935e-06,
+      "fraccion": 1.898983840297801e-05
+     },
+     "theta": {
+      "f0": 4.0,
+      "f1": 8.0,
+      "potencia": 4.230450854679853e-06,
+      "fraccion": 2.121250594011528e-05
+     },
+     "alfa": {
+      "f0": 8.0,
+      "f1": 13.0,
+      "potencia": 7.4022350507840085e-06,
+      "fraccion": 3.7116600659994686e-05
+     },
+     "beta": {
+      "f0": 13.0,
+      "f1": 30.0,
+      "potencia": 7.539336805374762e-05,
+      "fraccion": 0.00037804062087525367
+     },
+     "gamma": {
+      "f0": 30.0,
+      "f1": 50.0,
+      "potencia": 0.0011657772958952389,
+      "fraccion": 0.005845489916677144
+     }
+    },
+    "centroide": 1116.087870309437,
+    "planicidad": 0.0021659498143225286,
+    "crest": 2.8104232899204025,
+    "fs_minima": 19905.343437194824,
+    "nyquist": {
+     "f_nyquist": 22050.0,
+     "fs_minima": 19905.343437194824,
+     "margen_hz": 12097.328281402588,
+     "margen_rel": 2.215485512176364,
+     "cumple": true,
+     "caso_limite": false,
+     "veredicto": "CUMPLE (margen 1.21e+04 Hz)"
+    },
+    "ancho_banda": 13142.529773712158,
+    "pico_hz": 673.4172821044922
+   },
+   "muestreo": {
+    "fs_minima": 19905.343437194824,
+    "experimentos": [
+     {
+      "fs": 9952.672,
+      "fs_minima": 19905.343437194824,
+      "multiplicador": 0.5000000141370375,
+      "n_muestras": 9952,
+      "cumple_nyquist": false,
+      "nrmse_aliasing": 0.027581137237852382,
+      "nrmse_reconstruccion": 0.009539169422267468,
+      "nrmse_zoh": 0.03298280346599256,
+      "snr_aliasing": 14.513947424583634,
+      "snr_reconstruccion": 23.735979564726644,
+      "energia_fuera_banda": 0.9087395582085938
+     },
+     {
+      "fs": 19905.343,
+      "fs_minima": 19905.343437194824,
+      "multiplicador": 0.9999999780363085,
+      "n_muestras": 19905,
+      "cumple_nyquist": false,
+      "nrmse_aliasing": 0.01638405433529696,
+      "nrmse_reconstruccion": 0.009531201678846413,
+      "nrmse_zoh": 0.026534906682428173,
+      "snr_aliasing": 19.076687472170462,
+      "snr_reconstruccion": 23.78216187855655,
+      "energia_fuera_banda": 0.08933819962754608
+     },
+     {
+      "fs": 29858.015,
+      "fs_minima": 19905.343437194824,
+      "multiplicador": 1.499999992173346,
+      "n_muestras": 29858,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.012894458699527264,
+      "nrmse_reconstruccion": 0.01083582646507784,
+      "nrmse_zoh": 0.024036450601935305,
+      "snr_aliasing": 21.23106472475143,
+      "snr_reconstruccion": 22.741886209748053,
+      "energia_fuera_banda": 3.383096551885632e-05
+     },
+     {
+      "fs": 39810.687,
+      "fs_minima": 19905.343437194824,
+      "multiplicador": 2.0000000063103833,
+      "n_muestras": 39810,
+      "cumple_nyquist": true,
+      "nrmse_aliasing": 0.012177727030580789,
+      "nrmse_reconstruccion": 0.011281552134932952,
+      "nrmse_zoh": 0.021574155598822607,
+      "snr_aliasing": 21.735981324539644,
+      "snr_reconstruccion": 22.399928928355195,
+      "energia_fuera_banda": 7.47931884055545e-07
+     }
+    ]
+   },
+   "cuantizacion": {
+    "vfs": 1.0,
+    "rango_v": 2.0,
+    "bits": 16,
+    "factor_escala_v": 3.0517578125e-05,
+    "factor_escala_medio": 1.52587890625e-05,
+    "niveles": 65536,
+    "snr_teorico": 98.0896,
+    "carga": {
+     "pico": 0.9999648531728501,
+     "rango": 2.0,
+     "mitad_rango": 1.0,
+     "carga": 0.9999648531728501,
+     "satura": false
+    },
+    "casos": {
+     "16": {
+      "bits": 16,
+      "factor_escala_v": 3.0517578125e-05,
+      "delta": 3.0517578125e-05,
+      "niveles": 65536,
+      "snr_teorico": 98.0896,
+      "snr_medido": 90.49397055539914,
+      "enob": 14.738393275653447,
+      "bits_efectivos": 15.999949292956398,
+      "perdida_por_carga": 5.070704360221612e-05
+     },
+     "24": {
+      "bits": 24,
+      "factor_escala_v": 1.1920928955078125e-07,
+      "delta": 1.1920928955078125e-07,
+      "niveles": 16777216,
+      "snr_teorico": 146.25439999999998,
+      "snr_medido": 139.05033663360197,
+      "enob": 22.803430992525993,
+      "bits_efectivos": 23.999949292956398,
+      "perdida_por_carga": 5.070704360221612e-05
+     },
+     "12": {
+      "bits": 12,
+      "factor_escala_v": 0.00048828125,
+      "delta": 0.00048828125,
+      "niveles": 4096,
+      "snr_teorico": 74.0072,
+      "snr_medido": 68.01486345988782,
+      "enob": 11.004694459005384,
+      "bits_efectivos": 11.999949292956398,
+      "perdida_por_carga": 5.070704360221612e-05
+     },
+     "8": {
+      "bits": 8,
+      "factor_escala_v": 0.0078125,
+      "delta": 0.0078125,
+      "niveles": 256,
+      "snr_teorico": 49.9248,
+      "snr_medido": 43.94460308050295,
+      "enob": 7.006710806315476,
+      "bits_efectivos": 7.999949292956397,
+      "perdida_por_carga": 5.0707043603104296e-05
+     }
+    },
+    "tabla_codigos": [
+     {
+      "n": 41918,
+      "x_v": -0.8393813570791001,
+      "codigo": 5263,
+      "binario": "0001010010001111",
+      "x_q": -0.8393707275390625,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41919,
+      "x_v": -0.7986709078603501,
+      "codigo": 6597,
+      "binario": "0001100111000101",
+      "x_q": -0.7986602783203125,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41920,
+      "x_v": -0.8152724703603501,
+      "codigo": 6053,
+      "binario": "0001011110100101",
+      "x_q": -0.8152618408203125,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41921,
+      "x_v": -0.8661452730947251,
+      "codigo": 4386,
+      "binario": "0001000100100010",
+      "x_q": -0.8661346435546875,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41922,
+      "x_v": -0.9276687105947251,
+      "codigo": 2370,
+      "binario": "0000100101000010",
+      "x_q": -0.9276580810546875,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41923,
+      "x_v": -0.9887343844228501,
+      "codigo": 369,
+      "binario": "0000000101110001",
+      "x_q": -0.9887237548828125,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41924,
+      "x_v": -0.9999648531728501,
+      "codigo": 1,
+      "binario": "0000000000000001",
+      "x_q": -0.9999542236328125,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41925,
+      "x_v": -0.9999648531728501,
+      "codigo": 1,
+      "binario": "0000000000000001",
+      "x_q": -0.9999542236328125,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41926,
+      "x_v": -0.9999648531728501,
+      "codigo": 1,
+      "binario": "0000000000000001",
+      "x_q": -0.9999542236328125,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41927,
+      "x_v": -0.9999648531728501,
+      "codigo": 1,
+      "binario": "0000000000000001",
+      "x_q": -0.9999542236328125,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41928,
+      "x_v": -0.9944106539541001,
+      "codigo": 183,
+      "binario": "0000000010110111",
+      "x_q": -0.9944000244140625,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     },
+     {
+      "n": 41929,
+      "x_v": -0.9894973238759751,
+      "codigo": 344,
+      "binario": "0000000101011000",
+      "x_q": -0.9894866943359375,
+      "error": 1.0629540037609964e-05,
+      "error_medio_abs": 0.3483087679524033
+     }
+    ]
+   },
+   "cadena": {
+    "etapas": {
+     "cuantizador": {
+      "rmse": 1.0629540037595246e-05,
+      "max_abs": 1.0629540037609964e-05,
+      "snr": 90.49397055539914
+     },
+     "dac_zoh": {
+      "rmse": 0.0,
+      "max_abs": 0.0,
+      "snr": Infinity
+     }
+    },
+    "presupuesto": {
+     "cuantizador": {
+      "potencia": 1.1298712141084035e-10,
+      "porcentaje": 100.0
+     },
+     "dac_zoh": {
+      "potencia": 0.0,
+      "porcentaje": 0.0
+     }
+    },
+    "snr_cadena": 90.49397055539914,
+    "nrmse_cadena": 5.315013320799002e-06,
+    "telefonica": {
+     "fs": 8000.0,
+     "bits": 8,
+     "n_muestras": 96000,
+     "presupuesto": {
+      "cuantizador_8b": {
+       "potencia": 1.6239106526656716e-05,
+       "porcentaje": 100.0
+      },
+      "dac_zoh_8k": {
+       "potencia": 0.0,
+       "porcentaje": 0.0
+      }
+     },
+     "snr_cadena": 38.37627061342534,
+     "nrmse_cadena": 0.0017028223508251303,
+     "nrmse_sobre_banda_completa": 0.008208949900672011
+    }
+   },
+   "ritmo": {
+    "bpm": 112.25,
+    "bpm_estable": 19.25951086956522,
+    "confianza": 0.8358477263234351,
+    "puntuacion": 0.17761939222224102,
+    "medible": false,
+    "cresta": 5.2850847148764375,
+    "candidatos": [
+     {
+      "bpm": 111.25,
+      "puntuacion": 0.17761939222224102
+     },
+     {
+      "bpm": 111.5,
+      "puntuacion": 0.1772927797538473
+     },
+     {
+      "bpm": 111.0,
+      "puntuacion": 0.1749015482653706
+     }
+    ],
+    "periodo_s": 0.534521158129176,
+    "fs_ventana": 0.25
+   },
+   "atencion": {
+    "indice": 42.15181023889403,
+    "por_criterio": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.5,
+      "puntos": 12.5,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.6590057760431253,
+      "puntos": 13.180115520862506,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.823584735901576,
+      "puntos": 16.47169471803152,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "veredicto": "discutible como fondo de estudio",
+    "tempo_no_fiable": true
+   }
+  }
+ },
+ "faltantes": [],
+ "comparativa": {
+  "comparativa": [
+   {
+    "clave": "barroca",
+    "nombre": "Clásica · Barroca",
+    "genero": "Clásica — Barroca",
+    "musico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
+    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
+    "anio": 1722,
+    "f_max": 1881.0009956359863,
+    "f_max_energia": 3658.920192718506,
+    "fs_minima": 3762.0019912719727,
+    "centroide": 289.6355020509129,
+    "planicidad": 0.00012536937516632537,
+    "crest": 5.988118919826744,
+    "bpm": null,
+    "bpm_texto": "no medible",
+    "indice": 80.05641491793803,
+    "veredicto_indice": "favorable como fondo de estudio",
+    "tempo_no_fiable": true
+   },
+   {
+    "clave": "metal",
+    "nombre": "Metal",
+    "genero": "Metal (heavy/thrash)",
+    "musico": "Megadeth",
+    "obra": "Tornado of Souls (del álbum Youthanasia)",
+    "anio": 1990,
+    "f_max": 11666.2015914917,
+    "f_max_energia": 13232.615947723389,
+    "fs_minima": 23332.4031829834,
+    "centroide": 1002.9652276587603,
+    "planicidad": 0.004676438081945794,
+    "crest": 4.934379031707288,
+    "bpm": 97.5,
+    "bpm_texto": "98",
+    "indice": 63.879985261190704,
+    "veredicto_indice": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   },
+   {
+    "clave": "salsa",
+    "nombre": "Salsa",
+    "genero": "Salsa (salsa romántica, montuno)",
+    "musico": "Frankie Ruiz y La Solución",
+    "obra": "La Rueda (compositor: Víctor Manuel Mato)",
+    "anio": 1980,
+    "f_max": 9332.37247467041,
+    "f_max_energia": 11593.653202056885,
+    "fs_minima": 18664.74494934082,
+    "centroide": 923.2476283426245,
+    "planicidad": 6.773861112528774e-05,
+    "crest": 4.760177335975772,
+    "bpm": 101.25,
+    "bpm_texto": "101",
+    "indice": 62.60102058411603,
+    "veredicto_indice": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   },
+   {
+    "clave": "reggaeton",
+    "nombre": "Reggaetón",
+    "genero": "Reggaetón",
+    "musico": "Feid y ATL Jacob",
+    "obra": "LUNA (del EP Ferxxocalipsis)",
+    "anio": 2023,
+    "f_max": 7943.438816070557,
+    "f_max_energia": 17289.900398254395,
+    "fs_minima": 15886.877632141113,
+    "centroide": 830.0582157325297,
+    "planicidad": 0.011129148103077337,
+    "crest": 2.8818096919519816,
+    "bpm": 100.0,
+    "bpm_texto": "100",
+    "indice": 59.82539766140547,
+    "veredicto_indice": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   },
+   {
+    "clave": "popular",
+    "nombre": "Popular colombiana",
+    "genero": "Música popular colombiana (cantina / ranchera costeña)",
+    "musico": "Fredy Montoya ft. Luisito Muñoz",
+    "obra": "Ángel o Demonio",
+    "anio": 2016,
+    "f_max": 9952.671718597412,
+    "f_max_energia": 11977.886295318604,
+    "fs_minima": 19905.343437194824,
+    "centroide": 1116.087870309437,
+    "planicidad": 0.0021659498143225286,
+    "crest": 2.8104232899204025,
+    "bpm": null,
+    "bpm_texto": "no medible",
+    "indice": 42.15181023889403,
+    "veredicto_indice": "discutible como fondo de estudio",
+    "tempo_no_fiable": true
+   }
+  ],
+  "ranking": [
+   {
+    "clave": "barroca",
+    "nombre": "Clásica · Barroca",
+    "genero": "Clásica — Barroca",
+    "musico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
+    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
+    "anio": 1722,
+    "f_max": 1881.0009956359863,
+    "f_max_energia": 3658.920192718506,
+    "fs_minima": 3762.0019912719727,
+    "centroide": 289.6355020509129,
+    "planicidad": 0.00012536937516632537,
+    "crest": 5.988118919826744,
+    "bpm": null,
+    "bpm_texto": "no medible",
+    "indice": 80.05641491793803,
+    "veredicto_indice": "favorable como fondo de estudio",
+    "tempo_no_fiable": true
+   },
+   {
+    "clave": "metal",
+    "nombre": "Metal",
+    "genero": "Metal (heavy/thrash)",
+    "musico": "Megadeth",
+    "obra": "Tornado of Souls (del álbum Youthanasia)",
+    "anio": 1990,
+    "f_max": 11666.2015914917,
+    "f_max_energia": 13232.615947723389,
+    "fs_minima": 23332.4031829834,
+    "centroide": 1002.9652276587603,
+    "planicidad": 0.004676438081945794,
+    "crest": 4.934379031707288,
+    "bpm": 97.5,
+    "bpm_texto": "98",
+    "indice": 63.879985261190704,
+    "veredicto_indice": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   },
+   {
+    "clave": "salsa",
+    "nombre": "Salsa",
+    "genero": "Salsa (salsa romántica, montuno)",
+    "musico": "Frankie Ruiz y La Solución",
+    "obra": "La Rueda (compositor: Víctor Manuel Mato)",
+    "anio": 1980,
+    "f_max": 9332.37247467041,
+    "f_max_energia": 11593.653202056885,
+    "fs_minima": 18664.74494934082,
+    "centroide": 923.2476283426245,
+    "planicidad": 6.773861112528774e-05,
+    "crest": 4.760177335975772,
+    "bpm": 101.25,
+    "bpm_texto": "101",
+    "indice": 62.60102058411603,
+    "veredicto_indice": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   },
+   {
+    "clave": "reggaeton",
+    "nombre": "Reggaetón",
+    "genero": "Reggaetón",
+    "musico": "Feid y ATL Jacob",
+    "obra": "LUNA (del EP Ferxxocalipsis)",
+    "anio": 2023,
+    "f_max": 7943.438816070557,
+    "f_max_energia": 17289.900398254395,
+    "fs_minima": 15886.877632141113,
+    "centroide": 830.0582157325297,
+    "planicidad": 0.011129148103077337,
+    "crest": 2.8818096919519816,
+    "bpm": 100.0,
+    "bpm_texto": "100",
+    "indice": 59.82539766140547,
+    "veredicto_indice": "aceptable como fondo de estudio",
+    "tempo_no_fiable": false
+   },
+   {
+    "clave": "popular",
+    "nombre": "Popular colombiana",
+    "genero": "Música popular colombiana (cantina / ranchera costeña)",
+    "musico": "Fredy Montoya ft. Luisito Muñoz",
+    "obra": "Ángel o Demonio",
+    "anio": 2016,
+    "f_max": 9952.671718597412,
+    "f_max_energia": 11977.886295318604,
+    "fs_minima": 19905.343437194824,
+    "centroide": 1116.087870309437,
+    "planicidad": 0.0021659498143225286,
+    "crest": 2.8104232899204025,
+    "bpm": null,
+    "bpm_texto": "no medible",
+    "indice": 42.15181023889403,
+    "veredicto_indice": "discutible como fondo de estudio",
+    "tempo_no_fiable": true
+   }
+  ],
+  "criterios": {
+   "barroca": {
+    "nombre": "Clásica · Barroca",
+    "criterios": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.5,
+      "puntos": 12.5,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 1.0,
+      "puntos": 20.0,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.9897327399756264,
+      "puntos": 19.79465479951253,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.9960396399422479,
+      "puntos": 19.920792798844957,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.5227311546387028,
+      "puntos": 7.840967319580542,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "indice": 80.05641491793803,
+    "veredicto": "favorable como fondo de estudio"
+   },
+   "metal": {
+    "nombre": "Metal",
+    "criterios": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.8333333333333334,
+      "puntos": 20.833333333333336,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.712873701114876,
+      "puntos": 14.25747402229752,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.5897291012291306,
+      "puntos": 11.794582024582612,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.6447930105690961,
+      "puntos": 12.895860211381923,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.2732490446396877,
+      "puntos": 4.098735669595316,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "indice": 63.879985261190704,
+    "veredicto": "aceptable como fondo de estudio"
+   },
+   "salsa": {
+    "nombre": "Salsa",
+    "criterios": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.75,
+      "puntos": 18.75,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.7508344626939883,
+      "puntos": 15.016689253879766,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.8549907878532224,
+      "puntos": 17.099815757064448,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.5867257786585908,
+      "puntos": 11.734515573171816,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "indice": 62.60102058411603,
+    "veredicto": "aceptable como fondo de estudio"
+   },
+   "reggaeton": {
+    "nombre": "Reggaetón",
+    "criterios": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.7777777777777778,
+      "puntos": 19.444444444444446,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.7952103734607001,
+      "puntos": 15.904207469214002,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.8281799214407539,
+      "puntos": 16.563598428815077,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.5275431545954626,
+      "puntos": 7.91314731893194,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "indice": 59.82539766140547,
+    "veredicto": "aceptable como fondo de estudio"
+   },
+   "popular": {
+    "nombre": "Popular colombiana",
+    "criterios": [
+     {
+      "clave": "tempo",
+      "nombre": "Tempo en la ventana 60-90 BPM",
+      "peso": 25,
+      "valor": 0.5,
+      "puntos": 12.5,
+      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+     },
+     {
+      "clave": "brillo",
+      "nombre": "Bajo centroide espectral (poco brillo)",
+      "peso": 20,
+      "valor": 0.6590057760431253,
+      "puntos": 13.180115520862506,
+      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+     },
+     {
+      "clave": "agudos",
+      "nombre": "Poca energía en 2-8 kHz",
+      "peso": 20,
+      "valor": 0.823584735901576,
+      "puntos": 16.47169471803152,
+      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+     },
+     {
+      "clave": "dinamica",
+      "nombre": "Rango dinámico (no está comprimida)",
+      "peso": 20,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+     },
+     {
+      "clave": "voz",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "peso": 15,
+      "valor": 0.0,
+      "puntos": 0.0,
+      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+     }
+    ],
+    "indice": 42.15181023889403,
+    "veredicto": "discutible como fondo de estudio"
+   }
+  },
+  "veredicto": {
+   "ganador": "Clásica · Barroca",
+   "clave_ganador": "barroca",
+   "indice": 80.05641491793803,
+   "segundo": "Metal",
+   "indice_segundo": 63.879985261190704,
+   "razones": [
+    "el centroide espectral: 20.0 de 20 puntos",
+    "la energía en 2-8 kHz: 19.8 de 20 puntos",
+    "el rango dinámico: 19.9 de 20 puntos",
+    "la energía en la banda de la voz: 7.8 de 15 puntos",
+    "su tempo no es medible (no hay percusión), y por eso el criterio de tempo se puntúa como neutro"
+   ],
+   "condiciones": [
+    "La comparación es entre UNA pista por género: con otra elección de tema (o con el mismo tema en otra masterización) el orden puede cambiar. Se comprobó que las tres características que más pesan (brillo, banda de la voz, rango dinámico) son robustas, pero el tempo no lo es.",
+    "Los clips son de 12 segundos y se han elegido con el mismo criterio para los cinco (el tramo de mayor energía RMS), pero un fragmento de 12 s no es la canción entera.",
+    "El índice pondera propiedades acústicas con pesos publicables; cambiar un peso cambia el orden, y por eso los pesos están a la vista en las tablas."
+   ],
+   "avisos": [
+    "Un espectro de audio NO es un EEG. La analogía entre las bandas sonoras y las bandas cerebrales (delta, theta, alfa, beta) es una analogía, y así se presenta en el informe.",
+    "No hay ninguna afirmación clínica aquí. Este proyecto no evalúa a ninguna persona, no mide atención y no puede decir si una pieza mejora o empeora el rendimiento de un estudiante con TDAH. Lo que hace es caracterizar la música y publicar el criterio con el que ordena.",
+    "La evidencia de la literatura sobre música y TDAH es de asociación, no de causalidad, y la mayoría de los estudios usa música rock/pop en lugar dezar la música classical, que es el caso menos estudiado de los cinco."
+   ],
+   "resumen": "Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80.1 de 100), seguido de Metal (63.9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.",
+   "tabla": [
+    {
+     "clave": "barroca",
+     "nombre": "Clásica · Barroca",
+     "genero": "Clásica — Barroca",
+     "musico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
+     "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
+     "anio": 1722,
+     "f_max": 1881.0009956359863,
+     "f_max_energia": 3658.920192718506,
+     "fs_minima": 3762.0019912719727,
+     "centroide": 289.6355020509129,
+     "planicidad": 0.00012536937516632537,
+     "crest": 5.988118919826744,
+     "bpm": null,
+     "bpm_texto": "no medible",
+     "indice": 80.05641491793803,
+     "veredicto_indice": "favorable como fondo de estudio",
+     "tempo_no_fiable": true
+    },
+    {
+     "clave": "metal",
+     "nombre": "Metal",
+     "genero": "Metal (heavy/thrash)",
+     "musico": "Megadeth",
+     "obra": "Tornado of Souls (del álbum Youthanasia)",
+     "anio": 1990,
+     "f_max": 11666.2015914917,
+     "f_max_energia": 13232.615947723389,
+     "fs_minima": 23332.4031829834,
+     "centroide": 1002.9652276587603,
+     "planicidad": 0.004676438081945794,
+     "crest": 4.934379031707288,
+     "bpm": 97.5,
+     "bpm_texto": "98",
+     "indice": 63.879985261190704,
+     "veredicto_indice": "aceptable como fondo de estudio",
+     "tempo_no_fiable": false
+    },
+    {
+     "clave": "salsa",
+     "nombre": "Salsa",
+     "genero": "Salsa (salsa romántica, montuno)",
+     "musico": "Frankie Ruiz y La Solución",
+     "obra": "La Rueda (compositor: Víctor Manuel Mato)",
+     "anio": 1980,
+     "f_max": 9332.37247467041,
+     "f_max_energia": 11593.653202056885,
+     "fs_minima": 18664.74494934082,
+     "centroide": 923.2476283426245,
+     "planicidad": 6.773861112528774e-05,
+     "crest": 4.760177335975772,
+     "bpm": 101.25,
+     "bpm_texto": "101",
+     "indice": 62.60102058411603,
+     "veredicto_indice": "aceptable como fondo de estudio",
+     "tempo_no_fiable": false
+    },
+    {
+     "clave": "reggaeton",
+     "nombre": "Reggaetón",
+     "genero": "Reggaetón",
+     "musico": "Feid y ATL Jacob",
+     "obra": "LUNA (del EP Ferxxocalipsis)",
+     "anio": 2023,
+     "f_max": 7943.438816070557,
+     "f_max_energia": 17289.900398254395,
+     "fs_minima": 15886.877632141113,
+     "centroide": 830.0582157325297,
+     "planicidad": 0.011129148103077337,
+     "crest": 2.8818096919519816,
+     "bpm": 100.0,
+     "bpm_texto": "100",
+     "indice": 59.82539766140547,
+     "veredicto_indice": "aceptable como fondo de estudio",
+     "tempo_no_fiable": false
+    },
+    {
+     "clave": "popular",
+     "nombre": "Popular colombiana",
+     "genero": "Música popular colombiana (cantina / ranchera costeña)",
+     "musico": "Fredy Montoya ft. Luisito Muñoz",
+     "obra": "Ángel o Demonio",
+     "anio": 2016,
+     "f_max": 9952.671718597412,
+     "f_max_energia": 11977.886295318604,
+     "fs_minima": 19905.343437194824,
+     "centroide": 1116.087870309437,
+     "planicidad": 0.0021659498143225286,
+     "crest": 2.8104232899204025,
+     "bpm": null,
+     "bpm_texto": "no medible",
+     "indice": 42.15181023889403,
+     "veredicto_indice": "discutible como fondo de estudio",
+     "tempo_no_fiable": true
+    }
+   ]
+  },
+  "f_max_energia": [
+   {
+    "nombre": "Clásica · Barroca",
+    "f_max_energia": 3658.920192718506
+   },
+   {
+    "nombre": "Metal",
+    "f_max_energia": 13232.615947723389
+   },
+   {
+    "nombre": "Salsa",
+    "f_max_energia": 11593.653202056885
+   },
+   {
+    "nombre": "Reggaetón",
+    "f_max_energia": 17289.900398254395
+   },
+   {
+    "nombre": "Popular colombiana",
+    "f_max_energia": 11977.886295318604
+   }
+  ],
+  "bandas": {
+   "barroca": {
+    "subgrave": {
+     "f0": 20.0,
+     "f1": 60.0,
+     "potencia": 0.00011087381569348608,
+     "fraccion": 0.004349770746380708
+    },
+    "grave": {
+     "f0": 60.0,
+     "f1": 250.0,
+     "potencia": 0.01851395160221418,
+     "fraccion": 0.7263342077253931
+    },
+    "medio": {
+     "f0": 250.0,
+     "f1": 2000.0,
+     "potencia": 0.006707409517125941,
+     "fraccion": 0.2631432274527922
+    },
+    "agudo": {
+     "f0": 2000.0,
+     "f1": 8000.0,
+     "potencia": 0.00013085405668410223,
+     "fraccion": 0.005133630012186826
+    },
+    "muy agudo": {
+     "f0": 8000.0,
+     "f1": 20000.0,
+     "potencia": 2.3170836113924894e-06,
+     "fraccion": 9.090318076196012e-05
+    }
+   },
+   "metal": {
+    "subgrave": {
+     "f0": 20.0,
+     "f1": 60.0,
+     "potencia": 0.005412575812342818,
+     "fraccion": 0.1550821184480543
+    },
+    "grave": {
+     "f0": 60.0,
+     "f1": 250.0,
+     "potencia": 0.013626568314016622,
+     "fraccion": 0.3904309435252272
+    },
+    "medio": {
+     "f0": 250.0,
+     "f1": 2000.0,
+     "potencia": 0.00845578412315075,
+     "fraccion": 0.24227668312141967
+    },
+    "agudo": {
+     "f0": 2000.0,
+     "f1": 8000.0,
+     "potencia": 0.0071595048011262735,
+     "fraccion": 0.2051354493854347
+    },
+    "muy agudo": {
+     "f0": 8000.0,
+     "f1": 20000.0,
+     "potencia": 0.0002371809264816448,
+     "fraccion": 0.006795751562567859
+    }
+   },
+   "salsa": {
+    "subgrave": {
+     "f0": 20.0,
+     "f1": 60.0,
+     "potencia": 0.0007894537861944282,
+     "fraccion": 0.01391615675267044
+    },
+    "grave": {
+     "f0": 60.0,
+     "f1": 250.0,
+     "potencia": 0.013812264712908069,
+     "fraccion": 0.24347674837405686
+    },
+    "medio": {
+     "f0": 250.0,
+     "f1": 2000.0,
+     "potencia": 0.037411943937104494,
+     "fraccion": 0.6594818916007362
+    },
+    "agudo": {
+     "f0": 2000.0,
+     "f1": 8000.0,
+     "potencia": 0.004113135314474556,
+     "fraccion": 0.07250460607338884
+    },
+    "muy agudo": {
+     "f0": 8000.0,
+     "f1": 20000.0,
+     "potencia": 0.0005988134732597697,
+     "fraccion": 0.010555630114416441
+    }
+   },
+   "reggaeton": {
+    "subgrave": {
+     "f0": 20.0,
+     "f1": 60.0,
+     "potencia": 0.04854668333957839,
+     "fraccion": 0.267454625934126
+    },
+    "grave": {
+     "f0": 60.0,
+     "f1": 250.0,
+     "potencia": 0.07049606088015381,
+     "fraccion": 0.388378696452771
+    },
+    "medio": {
+     "f0": 250.0,
+     "f1": 2000.0,
+     "potencia": 0.03913126060750094,
+     "fraccion": 0.21558293889826946
+    },
+    "agudo": {
+     "f0": 2000.0,
+     "f1": 8000.0,
+     "potencia": 0.015593850575707863,
+     "fraccion": 0.08591003927962305
+    },
+    "muy agudo": {
+     "f0": 8000.0,
+     "f1": 20000.0,
+     "potencia": 0.004590396552531798,
+     "fraccion": 0.02528952975549155
+    }
+   },
+   "popular": {
+    "subgrave": {
+     "f0": 20.0,
+     "f1": 60.0,
+     "potencia": 0.0038296643222193545,
+     "fraccion": 0.019202865125795998
+    },
+    "grave": {
+     "f0": 60.0,
+     "f1": 250.0,
+     "potencia": 0.032015133224444575,
+     "fraccion": 0.16053163764941228
+    },
+    "medio": {
+     "f0": 250.0,
+     "f1": 2000.0,
+     "potencia": 0.14366981907802764,
+     "fraccion": 0.7203952948032962
+    },
+    "agudo": {
+     "f0": 2000.0,
+     "f1": 8000.0,
+     "potencia": 0.017591417696962916,
+     "fraccion": 0.08820763204921202
+    },
+    "muy agudo": {
+     "f0": 8000.0,
+     "f1": 20000.0,
+     "potencia": 0.002292467795669322,
+     "fraccion": 0.011494989163947767
+    }
+   }
+  },
+  "bandas_eeg": {
+   "barroca": {
+    "delta": {
+     "f0": 0.5,
+     "f1": 4.0,
+     "potencia": 2.2859851729434852e-06,
+     "fraccion": 8.968313546111505e-05
+    },
+    "theta": {
+     "f0": 4.0,
+     "f1": 8.0,
+     "potencia": 4.341970630978105e-06,
+     "fraccion": 0.0001703429859804342
+    },
+    "alfa": {
+     "f0": 8.0,
+     "f1": 13.0,
+     "potencia": 5.933610472493795e-06,
+     "fraccion": 0.0002327857582264851
+    },
+    "beta": {
+     "f0": 13.0,
+     "f1": 30.0,
+     "potencia": 6.311454909600992e-05,
+     "fraccion": 0.002476092462514231
+    },
+    "gamma": {
+     "f0": 30.0,
+     "f1": 50.0,
+     "potencia": 4.59581876527611e-05,
+     "fraccion": 0.0018030188548873042
+    }
+   },
+   "metal": {
+    "delta": {
+     "f0": 0.5,
+     "f1": 4.0,
+     "potencia": 1.048220102943302e-06,
+     "fraccion": 3.0033795331528326e-05
+    },
+    "theta": {
+     "f0": 4.0,
+     "f1": 8.0,
+     "potencia": 1.5592744371335298e-06,
+     "fraccion": 4.467661818262756e-05
+    },
+    "alfa": {
+     "f0": 8.0,
+     "f1": 13.0,
+     "potencia": 2.0681875888225357e-06,
+     "fraccion": 5.925809147858225e-05
+    },
+    "beta": {
+     "f0": 13.0,
+     "f1": 30.0,
+     "potencia": 7.10795068766943e-05,
+     "fraccion": 0.0020365831143729428
+    },
+    "gamma": {
+     "f0": 30.0,
+     "f1": 50.0,
+     "potencia": 0.003948367676997057,
+     "fraccion": 0.1131293574427524
+    }
+   },
+   "salsa": {
+    "delta": {
+     "f0": 0.5,
+     "f1": 4.0,
+     "potencia": 3.76440257002554e-07,
+     "fraccion": 6.6357293055947355e-06
+    },
+    "theta": {
+     "f0": 4.0,
+     "f1": 8.0,
+     "potencia": 7.63240316686467e-07,
+     "fraccion": 1.3454076822111601e-05
+    },
+    "alfa": {
+     "f0": 8.0,
+     "f1": 13.0,
+     "potencia": 7.095481483085007e-07,
+     "fraccion": 1.2507614034035827e-05
+    },
+    "beta": {
+     "f0": 13.0,
+     "f1": 30.0,
+     "potencia": 8.933970409126294e-06,
+     "fraccion": 0.00015748424393077952
+    },
+    "gamma": {
+     "f0": 30.0,
+     "f1": 50.0,
+     "potencia": 0.0005892211037829172,
+     "fraccion": 0.010386539890765864
+    }
+   },
+   "reggaeton": {
+    "delta": {
+     "f0": 0.5,
+     "f1": 4.0,
+     "potencia": 1.251246868132366e-05,
+     "fraccion": 6.893401156300186e-05
+    },
+    "theta": {
+     "f0": 4.0,
+     "f1": 8.0,
+     "potencia": 1.935095999469707e-05,
+     "fraccion": 0.00010660880230778891
+    },
+    "alfa": {
+     "f0": 8.0,
+     "f1": 13.0,
+     "potencia": 2.8401397022027153e-05,
+     "fraccion": 0.00015646970079086851
+    },
+    "beta": {
+     "f0": 13.0,
+     "f1": 30.0,
+     "potencia": 0.028677228773506997,
+     "fraccion": 0.1579893201106224
+    },
+    "gamma": {
+     "f0": 30.0,
+     "f1": 50.0,
+     "potencia": 0.018141025224048923,
+     "fraccion": 0.0999429988125258
+    }
+   },
+   "popular": {
+    "delta": {
+     "f0": 0.5,
+     "f1": 4.0,
+     "potencia": 3.7871799932032935e-06,
+     "fraccion": 1.898983840297801e-05
+    },
+    "theta": {
+     "f0": 4.0,
+     "f1": 8.0,
+     "potencia": 4.230450854679853e-06,
+     "fraccion": 2.121250594011528e-05
+    },
+    "alfa": {
+     "f0": 8.0,
+     "f1": 13.0,
+     "potencia": 7.4022350507840085e-06,
+     "fraccion": 3.7116600659994686e-05
+    },
+    "beta": {
+     "f0": 13.0,
+     "f1": 30.0,
+     "potencia": 7.539336805374762e-05,
+     "fraccion": 0.00037804062087525367
+    },
+    "gamma": {
+     "f0": 30.0,
+     "f1": 50.0,
+     "potencia": 0.0011657772958952389,
+     "fraccion": 0.005845489916677144
+    }
+   }
+  }
+ }
+}

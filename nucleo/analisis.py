@@ -1,0 +1,750 @@
+"""
+analisis.py — el pipeline completo de una pista: del WAV al veredicto.
+
+QUÉ HACE, PASO A PASO
+---------------------
+Para cada archivo de `audio/` este módulo recorre la cadena entera del
+enunciado, y deja todas las cifras en un diccionario:
+
+    1. LECTURA        `wav_io.leer_pista` + mono + sin DC
+    2. TIEMPO         x(t) del clip y un zoom con las muestras marcadas
+    3. ESPECTRO       magnitud en dB, `f_max` medido, bandas, centroide
+    4. NYQUIST        `f_s,min = 2·f_max` y cuatro experimentos de muestreo
+    5. CUANTIZACIÓN   el factor de escala en V y en bits, el SNR, los
+                      bits efectivos, y la tabla de códigos binarios
+    6. CADENA ADC-DAC cuantizar → reconstruir → medir
+    7. RITMO          el tempo, por autocorrelación del flujo espectral
+    8. ATENCIÓN       el índice del punto (e), con sus pesos a la vista
+
+LA CADENA ADC-DAC, EN ORDEN
+---------------------------
+    x(t)  --filtro AA-->  --muestreo-->  --cuantizador-->  --DAC-->  x̂(t)
+
+y en cada etapa se mide el error que introduce, para poder decir QUIÉN se
+equivoca. Es el mismo espíritu que el "presupuesto de error" del proyecto
+Nyquist_Shannon, pero aplicado a audio real.
+
+EL ERROR DE ALIASING, MEDIDO CONTRA ALGO
+-----------------------------------------
+Cuando se submuestrea, la comparación hay que hacerla contra la señal
+FILTRADA, no contra la original: si se compara contra la original, el
+error del filtro antialiasing se cuenta como error de muestreo y no se
+puede distinguir una cosa de la otra.
+
+Así que la referencia es:
+
+    ref(f_s) = x filtrada a 0,45 · f_s/2
+
+y se comparan DOS reconstrucciones contra ella:
+
+    · la de las muestras SIN filtrar (con aliasing): aísla el aliasing,
+    · la de las muestras CON filtro: aísla el error de reconstrucción.
+
+Las dos usan el mismo reconstructor (Shannon), de modo que la diferencia
+entre ellas es exactamente el coste de no filtrar.
+
+EL FACTOR DE ESCALA, Y POR QUÉ HAY DOS VERSIONES
+------------------------------------------------
+El enunciado pide el factor de escala (y) "en V" y "en bits":
+
+    · EN VOLTIOS:  y = V_fs / 2^(b-1)      [V por nivel, el LSB]
+    · EN BITS:     b nominal frente a los BITS EFECTIVOS (ENOB) medidos
+
+No es lo mismo. El número de bits del convertidor es una decisión de
+diseño; los bits efectivos son lo que la señal REAL consigue, y salen
+del SNR medido:
+
+    ENOB = (SNR_medido - 1,76) / 6,0206
+
+La diferencia entre los dos es lo que se pierde por no llenar el rango
+(carga) y por el ruido. Un ADC de 16 bits al que se le mete una señal
+que solo ocupa el 20 % del rango no da 16 bits útiles: da menos, y este
+proyecto lo mide en vez de suponerlo.
+"""
+
+from __future__ import annotations
+
+import pathlib
+from dataclasses import dataclass
+
+import numpy as np
+
+try:
+    from ._rutas import asegurar_rutas
+except ImportError:
+    from _rutas import asegurar_rutas
+
+asegurar_rutas()
+
+try:
+    from Nyquist_Shannon import metricas, muestreo, realistic
+except ImportError as exc:                              # pragma: no cover
+    raise ImportError(
+        "Hace falta la biblioteca Nyquist_Shannon (una carpeta más arriba)"
+    ) from exc
+
+try:
+    from . import dsp_audio as dsp
+    from . import wav_io
+    from .catalogo import Genero, obtener
+except ImportError:
+    import dsp_audio as dsp
+    import wav_io
+    from catalogo import Genero, obtener
+
+
+# =============================================================================
+# PARÁMETROS
+# =============================================================================
+
+@dataclass
+class Parametros:
+    """Los ajustes del análisis. Todos tienen valor por defecto."""
+
+    #: Fondo de escala del convertidor, en voltios (±).
+    vfs: float = 1.0
+    #: Bits del ADC que se simula en la cadena principal.
+    bits: int = 16
+    #: Bits extra que se cuantizan además, para la tabla comparativa.
+    bits_extra: tuple[int, ...] = (24, 12, 8)
+    #: Umbral (dB bajo el pico) para medir `f_max`.
+    umbral_db: float = -40.0
+    #: Umbrales alternativos, para mostrar de qué depende la medida.
+    umbrales_alternativos: tuple[float, ...] = (-30.0, -50.0)
+    #: Duración del clip analizado, en segundos.
+    duracion: float = 12.0
+    #: Orden del filtro antialiasing.
+    orden_filtro: int = 8
+    #: Semilla del ruido (para el dither).
+    semilla: int = 0
+    #: Número de muestras que se muestran en la tabla de códigos binarios.
+    n_muestras_tabla: int = 12
+    #: Multiplicadores de `f_s,min` en los experimentos de muestreo.
+    multiplicadores_fs: tuple[float, ...] = (0.5, 1.0, 1.5, 2.0)
+    #: Ventana de la FFT.
+    ventana: str = "hann"
+    #: Si se hace el diagnóstico de dither en la cadena completa.
+    con_dither: bool = False
+
+
+# =============================================================================
+# UTILIDADES
+# =============================================================================
+
+def _bits_a_codigo(valor: float, delta: float, rango: float,
+                   bits: int) -> int:
+    """El código entero de una muestra, como lo daría un ADC.
+
+        código = floor((x + rango/2) / Δ)   recortado a [0, 2^b - 1]
+
+    Es la misma cuenta que hace `realistic.cuantizar`, pero devolviendo el
+    CÓDIGO y no la tensión: lo que sale del convertidor es un entero, y
+    ese entero es lo que se quiere ver escrito en binario.
+    """
+    niveles = 2 ** bits
+    c = int(np.floor((valor + rango / 2.0) / delta))
+    return int(np.clip(c, 0, niveles - 1))
+
+
+def _tabla_codigos(x_v: np.ndarray, delta: float, rango: float,
+                   bits: int, n: int) -> list[dict]:
+    """Una tabla de `n` muestras con su código binario y su error.
+
+    Se eligen las muestras de la zona de mayor señal (donde el error de
+    cuantización es más visible) y se escriben en binario, que es como
+    un ADC entrega la muestra: un número entero de `b` bits.
+    """
+    if len(x_v) == 0:
+        return []
+    centro = int(np.argmax(np.abs(x_v)))
+    inicio = max(0, min(centro - n // 2, len(x_v) - n))
+    filas = []
+    for i in range(inicio, min(inicio + n, len(x_v))):
+        codigo = _bits_a_codigo(x_v[i], delta, rango, bits)
+        reconstruido = -rango / 2.0 + (codigo + 0.5) * delta
+        filas.append({
+            "n": i,
+            "x_v": float(x_v[i]),
+            "codigo": codigo,
+            "binario": format(codigo, f"0{bits}b"),
+            "x_q": float(reconstruido),
+            "error": float(reconstruido - x_v[i]),
+            "error_medio_abs": abs(reconstruido - x_v[i]) / delta,
+        })
+    return filas
+
+
+def _rejilla_densa(duracion: float, fs: float, n: int = 4001) -> np.ndarray:
+    """La rejilla de evaluación: densa, y NO múltiplo de la de muestreo.
+
+    Es la misma decisión que en el proyecto Nyquist_Shannon: si la
+    rejilla de evaluación coincidiera con la de muestreo, la tabla de
+    errores sería una tabla de ceros y no distinguiría nada.
+    """
+    return np.linspace(0.0, duracion, int(n))
+
+
+# =============================================================================
+# EL ANÁLISIS DE UNA PISTA
+# =============================================================================
+
+def analizar_pista(ruta: str | pathlib.Path, params: Parametros | None = None,
+                   genero: Genero | None = None) -> dict:
+    """Analiza un archivo WAV completo y devuelve todas las cifras.
+
+    Parámetros
+    ----------
+    ruta : str o pathlib.Path
+        El WAV a analizar.
+    params : Parametros
+        Los ajustes; si no se pasan, se usan los de por defecto.
+    genero : Genero
+        La ficha del catálogo, si se conoce; si no, se busca por el
+        nombre del fichero.
+
+    Devuelve
+    --------
+    dict
+        Con las secciones "pista", "tiempo", "espectro", "muestreo",
+        "cuantizacion", "cadena", "ritmo" y "atencion".
+    """
+    p = params or Parametros()
+    ruta = pathlib.Path(ruta)
+    pista = wav_io.leer_pista(ruta, duracion=p.duracion)
+    if genero is None:
+        genero = obtener(pista.etiqueta)
+
+    x = dsp.quitar_dc(pista.x)
+    fs = pista.fs
+
+    # ---------------------------------------------------------------- tiempo
+    tiempo = {
+        "t": np.arange(len(x)) / fs,
+        "x": x,
+        "zoom": _zoom_con_muestras(x, fs),
+    }
+
+    # -------------------------------------------------------------- espectro
+    esp = dsp.espectro_magnitud(x, fs, ventana=p.ventana)
+    f_max_umbral = dsp.f_max_umbral(esp, p.umbral_db)
+    f_max_energia = dsp.f_max_energia(esp, 0.999)
+    # El f_max DE TRABAJO es el menor de los dos criterios. Motivo: en
+    # una.masterización moderna con mucho brillo, el ruido de la
+    # grabación llega hasta el final de la banda, y el criterio de
+    # umbral devuelve fs/2 (que no es información: es el techo del
+    # convertidor). El criterio de energía acumulada, en cambio, no
+    # depende del suelo de ruido y sí discrimina.
+    f_max = min(f_max_umbral, f_max_energia)
+    f_max_por_umbral = {
+        str(u): dsp.f_max_umbral(esp, u)
+        for u in (p.umbral_db,) + tuple(p.umbrales_alternativos)
+    }
+    bandas = dsp.energias_por_banda(esp)
+    bandas_eeg = dsp.energias_por_banda(esp, dsp.BANDAS_EEG)
+    centroide = dsp.centroide_espectral(esp)
+    planicidad = dsp.planicidad_espectral(esp)
+    crest = dsp.crest_factor(x)
+
+    fs_min = dsp.fs_minima_nyquist(f_max)
+    diag_nyquist = muestreo.diagnostico_nyquist(f_max, fs)
+
+    espectro = {
+        "espectro": esp,
+        "f_max": f_max,
+        "f_max_umbral": f_max_umbral,
+        "f_max_energia": f_max_energia,
+        "f_max_por_umbral": f_max_por_umbral,
+        "umbral_db": p.umbral_db,
+        "bandas": bandas,
+        "bandas_eeg": bandas_eeg,
+        "centroide": centroide,
+        "planicidad": planicidad,
+        "crest": crest,
+        "fs_minima": fs_min,
+        "nyquist": diag_nyquist,
+        "ancho_banda": dsp.ancho_banda_ocupado(esp, p.umbral_db),
+        "pico_hz": esp["pico_hz"],
+    }
+
+    # -------------------------------------------------------------- muestreo
+    muestreo_ = {
+        "fs_minima": fs_min,
+        "experimentos": _experimentos_de_muestreo(x, fs, fs_min, p),
+    }
+
+    # ---------------------------------------------------------- cuantización
+    cuanti = _analisis_de_cuantizacion(x, p)
+
+    # ------------------------------------------------------------- la cadena
+    cadena = _cadena_adc_dac(x, fs, p)
+
+    # ---------------------------------------------------------------- ritmo
+    ritmo = dsp.bpm(x, fs)
+
+    # ------------------------------------------------------------- atención
+    atencion = dsp.indice_atencion({
+        "bpm": ritmo["bpm"],
+        "bpm_estable": ritmo["bpm_estable"],
+        "confianza_bpm": ritmo["confianza"],
+        "tempo_medible": ritmo["medible"],
+        "centroide": centroide,
+        "frac_agudos": bandas["agudo"]["fraccion"],
+        "frac_voz": _fraccion_voz(esp),
+        "crest": crest,
+    })
+
+    return {
+        "clave": genero.clave,
+        "nombre": genero.nombre,
+        "ficha": genero.ficha(),
+        "pista": pista.resumen(),
+        "parametros": {
+            "vfs": p.vfs, "bits": p.bits, "umbral_db": p.umbral_db,
+            "duracion": p.duracion, "ventana": p.ventana,
+            "orden_filtro": p.orden_filtro,
+        },
+        "tiempo": tiempo,
+        "espectro": espectro,
+        "muestreo": muestreo_,
+        "cuantizacion": cuanti,
+        "cadena": cadena,
+        "ritmo": ritmo,
+        "atencion": atencion,
+    }
+
+
+def _zoom_con_muestras(x: np.ndarray, fs: float,
+                       duracion_zoom: float = 0.02) -> dict:
+    """Un trozo corto con los instantes de muestreo marcados.
+
+    Es la figura que responde al punto (c) del enunciado: "van a graficar
+    la señal x(t)". Se dibuja el tramo entero del clip y, debajo, 20 ms
+    con las muestras encima, que es donde se ve de verdad el muestreo.
+    """
+    n_zoom = max(8, int(duracion_zoom * fs))
+    n_zoom = min(n_zoom, len(x))
+    t = np.arange(n_zoom) / fs
+    return {
+        "t": t,
+        "x": x[:n_zoom],
+        "fs": fs,
+        "n_zoom": n_zoom,
+    }
+
+
+def _experimentos_de_muestreo(x: np.ndarray, fs: float, fs_min: float,
+                              p: Parametros) -> list[dict]:
+    """Submuestrea a varias frecuencias y mide el error de aliasing.
+
+    Para cada `f_s` del barrido se hacen DOS muestreos:
+
+        · SIN filtro  → el contenido por encima de f_s/2 se pliega (aliasing)
+        · CON filtro  → el contenido se elimina antes de muestrear
+
+    y se reconstruye ambos con Shannon (senos cardinales) sobre una
+    rejilla densa, comparando contra la señal de banda limitada ideal.
+    Así:
+
+        NRMSE(aliasing)  =  el contenido de arriba de f_s/2, plegado
+        NRMSE(filtro)    =  lo que le cuesta al filtro real de 0,45·f_s/2
+
+    que es la cifra que demuestra el teorema de Nyquist-Shannon sobre
+    audio real.
+
+    EL ERROR DE ALIASING NO BAJA DE FORMA MONÓTONA
+    ----------------------------------------------
+    El error de aliasing depende de QUÉ contenido se pliega y DÓNDE cae
+    al plegarse. Un componente estrecho que se pliega en una zona
+    silenciosa apenas se nota; un transitorio broadband que se pliega
+    justo encima de un pico, mucho. Por eso la tendencia general es
+    clara (al bajar f_s, el error crece) pero la curva no es
+    estrictamente monótona, y decirlo de otra cosa sería mentir en la
+    gráfica.
+
+    POR QUÉ UN EXTRACTO DE 1 SEGUNDO Y NO EL CLIP ENTERO
+    ----------------------------------------------------
+    La referencia (la señal filtrada) hay que evaluarla en la rejilla
+    densa donde se compara con la reconstrucción. Si esa rejilla es
+    gruesa (3 ms en un clip de 12 s), la interpolación de la referencia
+    mete un error del orden del 7 % en un componente de 10 kHz, y ese
+    error se mezclaría con el del aliasing, que es justo lo que se quiere
+    medir.
+
+    Con un extracto de 1 s y una rejilla de 20 001 puntos (50 µs de
+    separación), el error de interpolación de la referencia baja a
+    ~3·10⁻⁶: despreciable frente a los errores que se miden, que son de
+    orden 10⁻².
+    """
+    fs_pruebas = []
+    for mult in p.multiplicadores_fs:
+        f = fs_min * mult
+        if f >= 200.0 and f < fs * 0.999:
+            fs_pruebas.append(float(f))
+    fs_pruebas = sorted(set(round(f, 3) for f in fs_pruebas))
+
+    n_ex = int(min(1.0 * fs, len(x)))
+    x_e = x[:n_ex]
+    duracion = n_ex / fs
+    t_ref = _rejilla_densa(duracion, fs, n=20001)
+
+    filas = []
+    for f_s in fs_pruebas:
+        # LA REFERENCIA: la señal con TODO lo que pasa de f_s/2 eliminado,
+        # es decir, la señal de banda limitada ideal que una f_s de
+        # muestreo podría representar sin pérdida. Se hace con un
+        # Butterworth de orden 12 aplicado dos veces (filtfilt), que a
+        # efectos prácticos es un muro de ladrillo.
+        #
+        # Esto es lo que separa las dos cifras:
+        #
+        #   · contra esta referencia, la reconstrucción SIN filtro tiene
+        #     exactamente el error del ALIASING (el contenido de arriba
+        #     de f_s/2, plegado dentro de la banda);
+        #   · la reconstrucción CON filtro tiene el error del FILTRO
+        #     (la banda de 0,45·f_s/2 a f_s/2 que el filtro real se
+        #     come, y la fuga por encima de f_s/2).
+        #
+        # Si la referencia fuera el filtro del 0,45 (que es lo que se
+        # hizo en la primera versión), las dos cifras mezclarían el
+        # aliasing con el efecto del filtro, y el "error de aliasing"
+        # no bajaba de forma monótona al subir f_s. Se comprobó: a
+        # 5,4 kHz el error SUBÍA respecto a 3,6 kHz, porque lo que se
+        # estaba midiendo era la banda que el filtro de referencia se
+        # había llevado, no el plegado.
+        ref_full = dsp._filtro_pasabajos(x_e, fs, 0.5 * f_s / 2.0, 12)
+        ref = np.interp(t_ref, np.arange(n_ex) / fs, ref_full)
+
+        # (a) muestreo SIN filtro antialiasing
+        x_alias = dsp.muestrear(x_e, fs, f_s, con_filtro=False)
+        t_m = np.arange(len(x_alias)) / f_s
+        xhat_alias = muestreo.reconstruir_sinc(t_ref, t_m, x_alias, fs=f_s)
+
+        # (b) muestreo CON filtro antialiasing (el del 45 %)
+        x_limpio = dsp.antialias(x_e, fs, f_s, orden=p.orden_filtro)
+        xhat_limpio = muestreo.reconstruir_sinc(t_ref, t_m, x_limpio, fs=f_s)
+
+        # (c) reconstrucción con retenedor de orden cero (el DAC barato)
+        xhat_zoh = muestreo.reconstruir_zoh(t_ref, t_m, x_limpio)
+
+        filas.append({
+            "fs": f_s,
+            "fs_minima": fs_min,
+            "multiplicador": f_s / fs_min if fs_min else 0.0,
+            "n_muestras": int(len(x_alias)),
+            "cumple_nyquist": bool(f_s >= fs_min - 1e-9),
+            "nrmse_aliasing": metricas.nrmse_por_rango(ref, xhat_alias),
+            "nrmse_reconstruccion": metricas.nrmse_por_rango(ref, xhat_limpio),
+            "nrmse_zoh": metricas.nrmse_por_rango(ref, xhat_zoh),
+            "snr_aliasing": metricas.snr_db(ref, ref - xhat_alias),
+            "snr_reconstruccion": metricas.snr_db(ref, ref - xhat_limpio),
+            "energia_fuera_banda": _energia_fuera_de_banda(x_e, fs, f_s, p),
+            "ref": ref,
+            "x_alias": x_alias,
+            "x_limpio": x_limpio,
+            "t_ref": t_ref,
+            "xhat_alias": xhat_alias,
+            "xhat_limpio": xhat_limpio,
+        })
+    return filas
+
+
+def _energia_fuera_de_banda(x: np.ndarray, fs: float, f_s: float,
+                            p: Parametros) -> float:
+    """La fracción de energía que queda por encima de f_s/2 (en %).
+
+    Es la medida "previolación de Nyquist": si se submuestrea a f_s, ¿qué
+    tanto de la energía original estaba por encima de f_s/2? Si es cero,
+    el teorema se cumple y no hay aliasing posible; si es mucho, el
+    contenido se pliega.
+
+    Se mide sobre el espectro, sin ventana, para no contaminar con el
+    lóbulo principal de la ventana.
+    """
+    esp = dsp.espectro_magnitud(x, fs, ventana="rectangular")
+    P = esp["A"] ** 2
+    f = esp["f"]
+    total = float(np.sum(P))
+    if total <= 0:
+        return 0.0
+    fuera = float(np.sum(P[f > f_s / 2.0]))
+    return 100.0 * fuera / total
+
+
+def _fraccion_voz(espectro: dict) -> float:
+    """La fracción de energía en la banda de la voz humana: 300-3500 Hz.
+
+    Es la banda de la primera formante, donde está la inteligibilidad del
+    habla. Una pieza con cantante tiene mucha energía ahí, y esa es
+    exactamente la banda que necesita el estudiante para seguir la voz
+    del profesor.
+    """
+    f = espectro["f"]
+    P = espectro["A"] ** 2
+    total = float(np.sum(P))
+    if total <= 0:
+        return 0.0
+    dentro = (f >= 300.0) & (f < 3500.0)
+    return float(np.sum(P[dentro]) / total)
+
+
+def _analisis_de_cuantizacion(x: np.ndarray, p: Parametros) -> dict:
+    """El punto (d) del enunciado: cuantizar, factor de escala y bits.
+
+    Devuelve, para el número de bits principal y para los alternativos:
+
+        · el factor de escala y en VOLTIOS (V por nivel),
+        · el factor de escala en BITS (nominal y efectivo),
+        · el SNR medido y el teórico,
+        · la carga (dBFS) y los bits perdidos por no llenar el rango,
+        · una tabla de códigos binarios de las muestras más grandes.
+    """
+    vfs = p.vfs
+    rango = 2.0 * vfs
+    x_v = wav_io.a_voltios(x, vfs)          # la señal, en voltios
+    escala = wav_io.factor_de_escala(vfs, p.bits)
+    carga = realistic.factor_carga(x_v, rango)
+    parametros = realistic.parametros_cuantiizador(p.bits, rango)
+
+    casos = {}
+    for bits in (p.bits,) + tuple(bits_extra for bits_extra in p.bits_extra
+                                  if bits_extra != p.bits):
+        esc = wav_io.factor_de_escala(vfs, bits)
+        xq = realistic.cuantizar(x_v, bits, rango, saturar=True)
+        e = xq - x_v
+        snr = metricas.snr_db(x_v, e)
+        enob = (snr - 1.76) / 6.0206
+        carga_b = realistic.factor_carga(x_v, rango)
+        bits_ef = realistic.bits_efectivos(x_v, bits, rango)
+        casos[str(bits)] = {
+            "bits": bits,
+            "factor_escala_v": esc["y_voltios"],
+            "delta": esc["delta"],
+            "niveles": esc["niveles"],
+            "snr_teorico": esc["snr_teorico_db"],
+            "snr_medido": float(snr),
+            "enob": float(enob),
+            "bits_efectivos": float(bits_ef),
+            "carga_dbfs": carga_b.get("dbfs"),
+            "perdida_por_carga": float(bits) - float(bits_ef),
+            "x_q": xq,
+            "error": e,
+        }
+
+    principal = casos[str(p.bits)]
+    tabla = _tabla_codigos(x_v, principal["delta"], rango, p.bits,
+                           p.n_muestras_tabla)
+
+    return {
+        "vfs": vfs,
+        "rango_v": rango,
+        "bits": p.bits,
+        "factor_escala_v": escala["y_voltios"],
+        "factor_escala_voltios": escala["y_voltios"],
+        "factor_escala_medio": escala["y_voltios"] / 2.0,
+        "niveles": escala["niveles"],
+        "snr_teorico": escala["snr_teorico_db"],
+        "parametros": parametros,
+        "carga": carga,
+        "casos": casos,
+        "tabla_codigos": tabla,
+        "x_v": x_v,
+    }
+
+
+def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
+    """La cadena completa: ADC → cuantizador → DAC, y el error de cada paso.
+
+    Se mide en la señal ORIGINAL (no submuestreada), para aislar el efecto
+    de la cuantización del efecto del muestreo. Y se hace con y sin
+    dither, porque el dither es el ejemplo bonito de que "mejorar el
+    carácter del error" y "mejorar la calidad" son cosas distintas.
+    """
+    vfs = p.vfs
+    rango = 2.0 * vfs
+    x_v = wav_io.a_voltios(x, vfs)               # la señal, en voltios
+    escala = wav_io.factor_de_escala(vfs, p.bits)
+
+    xq = realistic.cuantizar(x_v, p.bits, rango, saturar=True)
+    e_cuanti = xq - x_v
+
+    # el DAC: retenedor de orden cero sobre las muestras cuantizadas
+    t = np.arange(len(x_v)) / fs
+    x_zoh = muestreo.reconstruir_zoh(t, t, xq)
+    # el error DE LA ETAPA DAC se mide contra la señal YA CUANTIZADA, no
+    # contra la original: si se midiera contra la original, el error de
+    # cuantización volvería a aparecer aquí y el presupuesto sumaría dos
+    # veces la misma energía (que es el defecto que tenía el proyecto
+    # Nyquist_Shannon y que aquí se evita a propósito).
+    e_dac = x_zoh - xq
+
+    # el DAC con dither: el error se dispersa (y el SNR empeora)
+    xq_dither = xq
+    if p.con_dither:
+        d = realistic.dither(len(x_v), escala["delta"], tipo="tpdf",
+                             semilla=p.semilla, amplitud=1.0)
+        xq_dither = realistic.cuantizar(x_v + d, p.bits, rango, saturar=True)
+
+    etapas = {
+        "cuantizador": {
+            "rmse": float(np.sqrt(np.mean(e_cuanti ** 2))),
+            "max_abs": float(np.max(np.abs(e_cuanti))),
+            "snr": metricas.snr_db(x_v, e_cuanti),
+            "error": e_cuanti,
+        },
+        "dac_zoh": {
+            "rmse": float(np.sqrt(np.mean(e_dac ** 2))),
+            "max_abs": float(np.max(np.abs(e_dac))),
+            "snr": metricas.snr_db(x_v, e_dac),
+            "error": e_dac,
+        },
+    }
+    if p.con_dither:
+        e_d = xq_dither - x_v
+        etapas["dither"] = {
+            "rmse": float(np.sqrt(np.mean(e_d ** 2))),
+            "max_abs": float(np.max(np.abs(e_d))),
+            "snr": metricas.snr_db(x_v, e_d),
+            "error": e_d,
+        }
+
+    # el presupuesto: qué tanto del error total aporta cada etapa
+    error_total = x_zoh - x_v
+    potencia_total = float(np.mean(error_total ** 2))
+    presupuesto = {}
+    for nombre, dato in etapas.items():
+        p_etapa = float(np.mean(dato["error"] ** 2))
+        presupuesto[nombre] = {
+            "potencia": p_etapa,
+            "porcentaje": (100.0 * p_etapa / potencia_total
+                           if potencia_total > 0 else 0.0),
+        }
+    return {
+        "etapas": etapas,
+        "presupuesto": presupuesto,
+        "snr_cadena": metricas.snr_db(x_v, error_total),
+        "nrmse_cadena": metricas.nrmse_por_rango(x_v, x_zoh),
+        "x_v": x_v,
+        "x_q": xq,
+        "x_zoh": x_zoh,
+        "xq_dither": xq_dither,
+        "telefonica": _cadena_telefonica(x, fs, p),
+    }
+
+
+#: La tasa de muestreo de la телефонía analógica: 8 kHz, banda de 300 Hz
+#: a 3,4 kHz. Es el caso en el que la cadena ADC-DAC se nota de verdad.
+FS_TELEFONICA = 8000.0
+
+
+def _cadena_telefonica(x: np.ndarray, fs: float, p: Parametros) -> dict:
+    """La misma cadena, pero como una llamada telefónica: 8 kHz.
+
+    A 44,1 kHz y 16 bits, el error de cuantización es tan pequeño que
+    desaparece al lado del error del retenedor de orden cero, y el
+    presupuesto queda aburrido. Bajando a 8 kHz (la tasa de la
+    telefonía analógica) las cosas se ponen interesantes:
+
+        · el filtro antialiasing recorta la banda a 4 kHz, y se pierde
+          toda la información de 4 kHz hacia arriba,
+        · el muestreo a 8 kHz no puede representar más de 4 kHz,
+        · el cuantizador de 8 bits (el de un codecs de voz de la época)
+          introduce un error audible.
+
+    Es el experimento que hace tangible por qué la música por teléfono
+    suena peor, y es la mejor forma de mostrar la cadena completa.
+    """
+    vfs = p.vfs
+    rango = 2.0 * vfs
+    fs_o = FS_TELEFONICA
+
+    n = int(len(x) * fs_o / fs)
+    x8 = dsp.antialias(x, fs, fs_o, orden=p.orden_filtro)[:n]
+    x8_v = wav_io.a_voltios(x8, vfs)
+
+    xq8 = realistic.cuantizar(x8_v, 8, rango, saturar=True)
+    e_cuanti = xq8 - x8_v
+    t8 = np.arange(len(xq8)) / fs_o
+    x8_zoh = muestreo.reconstruir_zoh(t8, t8, xq8)
+    e_dac = x8_zoh - xq8
+
+    # la referencia "correcta": la señal con la banda de 4 kHz eliminada
+    ref = dsp._filtro_pasabajos(x, fs, 0.45 * fs_o / 2.0, p.orden_filtro)
+    ref = np.interp(np.arange(len(x8)) / fs_o,
+                    np.arange(len(x)) / fs, ref)
+
+    error_total = x8_zoh - x8_v
+    potencia_total = float(np.mean(error_total ** 2))
+    etapas = {
+        "cuantizador_8b": {
+            "rmse": float(np.sqrt(np.mean(e_cuanti ** 2))),
+            "snr": metricas.snr_db(x8_v, e_cuanti),
+            "error": e_cuanti,
+        },
+        "dac_zoh_8k": {
+            "rmse": float(np.sqrt(np.mean(e_dac ** 2))),
+            "snr": metricas.snr_db(x8_v, e_dac),
+            "error": e_dac,
+        },
+    }
+    presupuesto = {}
+    for nombre, dato in etapas.items():
+        p_etapa = float(np.mean(dato["error"] ** 2))
+        presupuesto[nombre] = {
+            "potencia": p_etapa,
+            "porcentaje": (100.0 * p_etapa / potencia_total
+                           if potencia_total > 0 else 0.0),
+        }
+
+    return {
+        "fs": fs_o,
+        "bits": 8,
+        "n_muestras": int(len(x8)),
+        "etapas": etapas,
+        "presupuesto": presupuesto,
+        "snr_cadena": metricas.snr_db(x8_v, error_total),
+        "nrmse_cadena": metricas.nrmse_por_rango(x8_v, x8_zoh),
+        "nrmse_sobre_banda_completa": metricas.nrmse_por_rango(ref, x8_zoh),
+        "x_v": x8_v,
+        "x_q": xq8,
+        "x_zoh": x8_zoh,
+        "ref": ref,
+    }
+
+
+# =============================================================================
+# EL CONJUNTO
+# =============================================================================
+
+def analizar_catalogo(params: Parametros | None = None,
+                       claves: list[str] | None = None,
+                       directorio: str | pathlib.Path | None = None
+                       ) -> dict:
+    """Analiza las pistas que haya en `audio/` y devuelve un dict por clave.
+
+    Las pistas que falten se saltan (y se avisa), para que el programa
+    funcione con un subconjunto: es lo que pasa cuando se sube un WAV
+    propio desde la interfaz web.
+    """
+    p = params or Parametros()
+    if directorio is None:
+        directorio = pathlib.Path(__file__).resolve().parent.parent / "audio"
+    directorio = pathlib.Path(directorio)
+
+    resultados = {}
+    faltantes = []
+
+    try:
+        from .catalogo import CATALOGO
+    except ImportError:                    # ejecución suelta
+        from catalogo import CATALOGO
+    seleccion = claves if claves is not None else [g.clave for g in CATALOGO]
+    for clave in seleccion:
+        ruta = directorio / f"{clave}.wav"
+        if not ruta.exists():
+            faltantes.append(clave)
+            continue
+        ficha = obtener(clave)
+        resultados[clave] = analizar_pista(ruta, p, ficha)
+
+    return {"resultados": resultados, "faltantes": faltantes,
+            "parametros": p}

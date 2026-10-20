@@ -1,0 +1,89 @@
+{% extends "motor/base.html" %}
+{% load motor_tags %}
+
+{% block titulo %}DSP aplicado a ADC-DAC sobre audio musical{% endblock %}
+
+{% block cuerpo %}
+
+<h1>DSP aplicado a ADC-DAC sobre audio musical</h1>
+<p class="entradilla">
+  Cinco géneros, la cadena completa de conversión (muestreo, cuantización
+  y reconstrucción) y el teorema de Nyquist–Shannon medido sobre audio real.
+</p>
+
+<div class="cifras">
+  <div class="cifra">
+    <div class="etiqueta">Pistas</div>
+    <div class="valor">{{ resultados|length }}</div>
+    <div class="nota">un WAV por género, 12 s cada uno</div>
+  </div>
+  <div class="cifra">
+    <div class="etiqueta">Mejor índice de atención</div>
+    <div class="valor">{{ veredicto.indice|recorta }}</div>
+    <div class="nota">{{ veredicto.ganador }}</div>
+  </div>
+  <div class="cifra">
+    <div class="etiqueta">f_s mínima del conjunto</div>
+    <div class="valor">{{ fs_minima_max|num:0 }} Hz</div>
+    <div class="nota">2·f_max de la pista más exigente</div>
+  </div>
+  <div class="cifra">
+    <div class="etiqueta">Factor de escala (16 bits)</div>
+    <div class="valor">{{ factor_escala|num:7 }} V</div>
+    <div class="nota">V por nivel, con ±1 V de fondo de escala</div>
+  </div>
+</div>
+
+{% if faltantes %}
+<div class="panel aviso">
+  <strong>Faltan pistas:</strong> {{ faltantes|join:", " }}.
+  Se pueden bajar con <code>python -m nucleo.descarga</code>.
+</div>
+{% endif %}
+
+<div class="panel acento">
+  <span class="etiqueta-veredicto">El veredicto del punto (e)</span>
+  <p class="veredicto">{{ veredicto.resumen }}</p>
+  <p class="nota" style="color:var(--suave);font-size:14px">
+    Es una hipótesis sobre el uso como música de fondo, construida con un
+    índice cuyos pesos están publicados. No es un estudio clínico y no
+    mide la atención de ninguna persona.
+  </p>
+</div>
+
+<h2>Las cinco pistas</h2>
+<p>
+  Cada ficha lleva la investigación breve que pide el enunciado: quién lo
+  interpretó, qué obra es y de qué año es.
+</p>
+
+<div class="rejilla">
+  {% for f in fichas %}
+  <a class="tarjeta" href="{% url 'genero' f.clave %}">
+    <div class="titulo">{{ f.nombre }}</div>
+    <div class="obra">{{ f.musico }}</div>
+    <div class="obra">{{ f.obra }}</div>
+    <div class="obra">{{ f.anio }}</div>
+    <div class="barra"><i style="width: {{ f.indice }}%"></i></div>
+    <div class="obra">índice de atención {{ f.indice|floatformat:1 }} ·
+      f_max {{ f.f_max|floatformat:0 }} Hz</div>
+  </a>
+  {% endfor %}
+</div>
+
+<h2>Qué se puede hacer aquí</h2>
+<ul class="limpio">
+  <li><a href="{% url 'comparativa' %}">Comparar los cinco</a>: la gráfica
+      única de los espectros, la energía por bandas y el índice de
+      atención con el detalle de sus cinco criterios.</li>
+  <li><a href="{% url 'subir' %}">Subir tu propio WAV</a> y analizarlo con
+      el mismo instrumental: es el requisito de "cargar audios cortos en
+      formato Wav", en su versión interactiva.</li>
+  <li>En la ficha de cada género, <strong>escuchar</strong> el audio
+      original, el cuantizado a 8 y a 12 bits, y el de la cadena
+      telefónica a 8 kHz. Lo que los gráficos muestran, se oye.</li>
+  <li>Descargar el <a href="{% url 'informe' %}">informe completo</a> en
+      markdown, con todas las figuras.</li>
+</ul>
+
+{% endblock %}

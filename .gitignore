@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+
+# El motor de cálculo
+.tmp_descarga/
+
+# Los ficheros subidos por los usuarios durante las pruebas
+audio/subido_*
+
+# Sistema
+Thumbs.db
+.DS_Store
+
+# NOTA SOBRE `audio/*.wav`
+# ------------------------
+# Los clips de la muestra son extractos de obras con derechos de autor,
+# y están aquí para poder repetir las medidas. Si el repositorio es
+# PÚBLICO, coméntalo y bórralo: no se redistribuyen.
+#
+#     audio/*.wav
+#
+# Con los audios fuera, la web sigue funcionando (el JSON con los
+# números y las figuras están en `salida/`), y solo se pierde la parte
+# de "escúchalo": para tenerla, vuelve a bajar las pistas con
+# `python -m nucleo.descarga`.

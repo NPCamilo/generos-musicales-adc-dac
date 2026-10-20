@@ -1,0 +1,17 @@
+# Lo que Vercel NO necesita en el despliegue.
+#
+# Vercel empaqueta el repositorio entero (con un límite de 250 MB), así
+# que conviene quitar lo que no se usa: los ficheros de prueba, los
+# módulos de consola y la carpeta de otro proyecto.
+
+nucleo/test_*.py
+nucleo/comprobar_todo.py
+nucleo/descarga.py
+pruebas/
+docs/
+*.pyc
+__pycache__/
+.git/
+.gitignore
+db.sqlite3
+.venv/

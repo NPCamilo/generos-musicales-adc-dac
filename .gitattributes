@@ -1,0 +1,19 @@
+# Normalizar los finales de línea a LF.
+#
+# En Windows, git guarda los ficheros con CRLF y en Linux (donde se
+# despliega) los lee con LF. Sin esto, cada commit tiene un aviso
+# "LF will be replaced by CRLF" que no significa nada pero asusta, y
+# los ficheros `.py` pueden llegar a Linux con los dos finales.
+
+* text=auto eol=lf
+
+*.py    text diff=python
+*.md    text
+*.html  text
+*.css   text
+*.json  text
+*.txt   text
+
+*.wav   binary
+*.png   binary
+*.zip   binary

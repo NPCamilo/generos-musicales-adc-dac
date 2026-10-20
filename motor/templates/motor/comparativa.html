@@ -1,0 +1,105 @@
+{% extends "motor/base.html" %}
+{% load motor_tags %}
+
+{% block titulo %}Comparativa de los cinco géneros{% endblock %}
+
+{% block cuerpo %}
+
+<h1>Los cinco géneros, en la misma gráfica</h1>
+<p class="entradilla">
+  El punto (e) del enunciado: comparar las frecuencias de cada género y
+  ver cuál aporta mejores frecuencias para un estudiante con TDAH.
+</p>
+
+<h2>Los cinco espectros de magnitud</h2>
+<p>
+  Cada pista normalizada a su propio pico y suavizada a 250 Hz, para que
+  se puedan comparar las FORMAS y no los niveles de la masterización.
+  La banda sombreada es la de la voz humana (300 Hz-3,5 kHz): la misma
+  en la que el estudiante tiene que seguir al profesor.
+</p>
+<figure>
+  <img src="{% url 'figura' 'x' 'espectros_comparados' %}" alt="Los cinco espectros comparados">
+  <figcaption>Los cinco espectros de magnitud en el mismo eje.</figcaption>
+</figure>
+
+<h2>La energía por bandas</h2>
+<figure>
+  <img src="{% url 'figura' 'x' 'bandas_comparadas' %}" alt="La energía por bandas">
+  <figcaption>Dónde está la energía de cada género, y el índice de atención de cada uno.</figcaption>
+</figure>
+
+<h2>La tabla con todas las cifras</h2>
+<table>
+  <tr>
+    <th>Género</th><th class="num">f_max (Hz)</th><th class="num">f_s,min (Hz)</th>
+    <th class="num">centroide (Hz)</th><th class="num">BPM</th>
+    <th class="num">planicidad</th><th class="num">cresta</th>
+    <th class="num">índice</th>
+  </tr>
+  {% for f in comp.ranking %}
+  <tr {% if forloop.first %}class="destacada"{% endif %}>
+    <td><a href="{% url 'genero' f.clave %}">{{ f.nombre }}</a></td>
+    <td class="num">{{ f.f_max|num }}</td>
+    <td class="num">{{ f.fs_minima|num }}</td>
+    <td class="num">{{ f.centroide|num }}</td>
+    <td class="num">{{ f.bpm_texto }}</td>
+    <td class="num">{{ f.planicidad|num:4 }}</td>
+    <td class="num">{{ f.crest|num:2 }}</td>
+    <td class="num">{{ f.indice|recorta }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>El índice de atención</h2>
+<figure>
+  <img src="{% url 'figura' 'x' 'indice_atencion' %}" alt="El índice de atención">
+  <figcaption>Tempo frente a brillo, y el detalle de los cinco criterios del mejor.</figcaption>
+</figure>
+
+<h3>Los cinco criterios, género por género</h3>
+<table>
+  <tr><th>Género</th><th>criterio</th><th class="num">peso</th>
+      <th class="num">valor</th><th class="num">puntos</th></tr>
+  {% for clave, det in comp.criterios.items %}
+    {% for c in det.criterios %}
+    <tr>
+      <td>{% if forloop.first %}<strong>{{ det.nombre }}</strong>{% endif %}</td>
+      <td>{{ c.nombre }}</td>
+      <td class="num">{{ c.peso }}</td>
+      <td class="num">{{ c.valor|num:2 }}</td>
+      <td class="num">{{ c.puntos|recorta }}</td>
+    </tr>
+    {% endfor %}
+  {% endfor %}
+</table>
+
+<h2>El veredicto</h2>
+<div class="panel acento">
+  <span class="etiqueta-veredicto">Resultado</span>
+  <p class="veredicto">{{ veredicto.resumen }}</p>
+</div>
+
+<h3>Por qué</h3>
+<ul class="limpio">
+  {% for razon in veredicto.razones %}<li>{{ razon }}</li>{% endfor %}
+</ul>
+
+<h3>Las condiciones del resultado</h3>
+<ul class="limpio">
+  {% for c in veredicto.condiciones %}<li>{{ c }}</li>{% endfor %}
+</ul>
+
+<div class="panel aviso">
+  <h3 style="margin-top:0">Lo que este trabajo NO demuestra</h3>
+  <ul class="limpio">
+    {% for a in veredicto.avisos %}<li>{{ a }}</li>{% endfor %}
+  </ul>
+</div>
+
+<figure>
+  <img src="{% url 'figura' 'x' 'veredicto' %}" alt="El resumen del punto e">
+  <figcaption>El resumen numérico del punto (e).</figcaption>
+</figure>
+
+{% endblock %}

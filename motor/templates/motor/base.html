@@ -1,0 +1,28 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}DSP aplicado a ADC-DAC sobre audio musical{% endblock %}</title>
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="envoltorio">
+    <div class="marca">ADC–DAC sobre audio musical <span>· Comunicaciones I</span></div>
+    <nav class="menu">
+      <a href="{% url 'portada' %}" class="{% if request.resolver_match.url_name == 'portada' %}activo{% endif %}">Inicio</a>
+      <a href="{% url 'comparativa' %}" class="{% if request.resolver_match.url_name == 'comparativa' %}activo{% endif %}">Comparativa</a>
+      <a href="{% url 'subir' %}" class="{% if request.resolver_match.url_name == 'subir' %}activo{% endif %}">Subir un WAV</a>
+      <a href="{% url 'informe' %}" class="{% if request.resolver_match.url_name == 'informe' %}activo{% endif %}">Informe</a>
+    </nav>
+  </div>
+</header>
+
+<main class="envoltorio">
+{% block cuerpo %}{% endblock %}
+</main>
+
+</body>
+</html>

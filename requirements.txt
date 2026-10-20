@@ -1,0 +1,12 @@
+# Las dependencias de la aplicación, para Vercel (y para cualquier otro
+# despliegue). Vercel las instala con `pip install -r requirements.txt`.
+#
+# Nota: `yt-dlp` NO está aquí a propósito. Se usa solo para bajar las
+# pistas de la muestra (`python -m nucleo.descarga`), que es una tarea
+# local, y en el servidor no hace falta. Instalarlo en el despliegue
+# añadiría unos 20 MB al paquete sin ningún uso.
+
+Django>=5.0,<7.0
+numpy>=1.26
+scipy>=1.11
+matplotlib>=3.8
