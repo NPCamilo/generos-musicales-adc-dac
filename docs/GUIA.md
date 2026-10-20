@@ -35,7 +35,7 @@ un veredicto honesto sobre el punto del TDAH.
 | f_s de los archivos | 44 100 Hz | los WAV tal cual, sin re-muestrear |
 | f_max de la barroca | 1 881 Hz | criterio del −40 dB |
 | f_max del reggaetón | 7 943 Hz | criterio del −40 dB |
-| f_s mínima del conjunto | 15 887 Hz | 2·f_max del reggaetón |
+| f_s mínima del conjunto | 23 332 Hz | 2·f_max del metal, la pista más exigente |
 | factor de escala a 16 bits | 3,052·10⁻⁵ V/nivel | V_fs / 2^(b−1), con V_fs = 1 V |
 | SNR medido a 16 bits | 81-94 dB | según la pista |
 | bits efectivos a 12 bits | 9,4-11,0 | (SNR − 1,76) / 6,0206 |
