@@ -85,10 +85,6 @@ Hay tres versiones del mismo contenido, generadas desde el mismo código:
 Se regeneran los tres con `python construir.py`, y la web los sirve en
 `/descargas/`: el PDF, el markdown y un ZIP con las figuras.
 
-> **⚠ Recordatorio: el viernes, pon el repositorio en privado.** Los
-> clips de `audio/` son extractos de obras con derechos de autor. Está
-> documentado en `docs/PUBLICAR.md` §2, con las tres opciones.
-
 La guía completa de despliegue está en
 **[`docs/PUBLICAR.md`](docs/PUBLICAR.md)**. Lo esencial:
 
