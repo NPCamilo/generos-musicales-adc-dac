@@ -109,7 +109,7 @@ La guía completa de despliegue está en
 La biblioteca `Nyquist_Shannon/`, que está un nivel más arriba, es el
 origen de la metodología; las primitivas que este proyecto usa están
 copiadas y adaptadas en `nucleo/primitivas.py` para que el repositorio
-se pueda desplegar por sí solo.
+se pueda desplegar automáticamente por si solo.
 
 ## Lo que hace cada módulo
 
