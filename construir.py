@@ -73,14 +73,18 @@ def main() -> int:
     else:
         print("      (ya estaba)")
 
-    # 4. el resumen
-    print("[4/4] el resumen...")
+    # 4. el PDF del proyecto
+    print("[4/4] el PDF del proyecto...")
+    from nucleo import pdf
+    pdf.generar_pdf()
+
+    # el resumen
     n_figuras = len(list(informe.SALIDA.glob("*.png")))
+    print()
     print(f"      {len(res['resultados'])} pistas · {n_figuras} figuras · "
-          f"datos.json listo")
+          f"datos.json y PDF listos")
     if res["faltantes"]:
         print(f"      AVISO: faltan pistas: {res['faltantes']}")
-    print()
     print("Listo. Ahora hay que subir `salida/` y `public/` al repositorio.")
     return 0
 

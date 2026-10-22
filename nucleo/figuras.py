@@ -426,7 +426,7 @@ def figura_codigos(r: dict) -> plt.Figure:
 # 5 — LA CADENA COMPLETA
 # =============================================================================
 
-def figura_cadena(r: dict) -> plt.Figure:
+def figura_cadena(r: dict, vertical: bool = False) -> plt.Figure:
     """La cadena ADC-DAC explicada: qué pasa en cada etapa y cuánto cuesta.
 
     POR QUÉ ESTA FIGURA ESTA HECHA ASÍ
@@ -450,17 +450,31 @@ def figura_cadena(r: dict) -> plt.Figure:
 
     Con esto, la figura cuenta una historia y no solo reparte un
     porcentaje.
+
+    LA VARIANTE VERTICAL
+    --------------------
+    En horizontal (13,2 × 7,6 pulgadas) la figura va bien en una
+    pantalla, pero impresa en un A4 los cuatro paneles de abajo quedan
+    ilegibles. Con `vertical=True` se rehace en 5 filas: el viaje del SNR
+    arriba a todo el ancho, y las cuatro etapas debajo, una por fila. Es
+    la versión que usa el PDF.
     """
     _aplicar_tema()
     cadena = r["cadena"]
     tel = cadena["telefonica"]
     fs = r["pista"]["fs"]
 
-    fig = plt.figure(figsize=(13.2, 7.6), layout="constrained")
-    rejilla = fig.add_gridspec(2, 4, height_ratios=[1.0, 1.0])
+    if vertical:
+        fig = plt.figure(figsize=(9.6, 9.2), layout="constrained")
+        rejilla = fig.add_gridspec(5, 1, height_ratios=[1.35, 1, 1, 1, 1])
+        fila_viaje, filas_error = 0, [1, 2, 3, 4]
+    else:
+        fig = plt.figure(figsize=(13.2, 7.6), layout="constrained")
+        rejilla = fig.add_gridspec(2, 4, height_ratios=[1.0, 1.0])
+        fila_viaje, filas_error = 0, [1, 1, 1, 1]
 
     # ---------------------------------------------------------------- arriba
-    ax = fig.add_subplot(rejilla[0, :])
+    ax = fig.add_subplot(rejilla[fila_viaje, :])
     etapas_nativas = [e["etapa"] for e in cadena["viaje"]]
     etapas_tel = [e["etapa"] for e in tel["viaje"]]
     assert len(etapas_nativas) == len(etapas_tel), \
@@ -538,7 +552,10 @@ def figura_cadena(r: dict) -> plt.Figure:
         ("4 · cadena completa", cadena["viaje"][4], "#D55E00"),
     ]
     for k, (titulo, etapa, color) in enumerate(paneles):
-        axk = fig.add_subplot(rejilla[1, k])
+        if vertical:
+            axk = fig.add_subplot(rejilla[filas_error[k], :])
+        else:
+            axk = fig.add_subplot(rejilla[1, k])
         error = etapa["error"]
         if error is None:
             axk.axis("off")

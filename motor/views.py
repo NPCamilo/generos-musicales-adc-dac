@@ -332,6 +332,18 @@ def descarga_informe(request):
     return respuesta
 
 
+def descarga_pdf(request):
+    """El PDF del proyecto, con la investigación, los resultados y las
+    preguntas de evaluación."""
+    ruta = SALIDA / "informe_proyecto.pdf"
+    if not ruta.exists():
+        raise Http404("El PDF todavía no se ha generado")
+    respuesta = FileResponse(open(ruta, "rb"), content_type="application/pdf")
+    respuesta["Content-Disposition"] = (
+        'attachment; filename="informe_proyecto.pdf"')
+    return respuesta
+
+
 def descarga_figuras(request):
     """Todas las figuras en un ZIP, para descargarlo de una vez."""
     import zipfile

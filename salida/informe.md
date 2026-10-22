@@ -2,7 +2,7 @@
 
 ### Cinco géneros, cinco perfiles espectrales, una comparación
 
-**Proyecto de Comunicaciones I · 20/10/2026**
+**Proyecto de Comunicaciones I · 21/10/2026**
 
 ---
 

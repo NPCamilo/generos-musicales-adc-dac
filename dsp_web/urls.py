@@ -24,6 +24,8 @@ urlpatterns = [
     path("informe/", views.informe, name="informe"),
     path("estilo.css", views.estilo, name="estilo"),
     path("descargas/informe.md", views.descarga_informe, name="descarga_informe"),
+    path("descargas/informe_proyecto.pdf", views.descarga_pdf,
+         name="descarga_pdf"),
     path("descargas/figuras.zip", views.descarga_figuras, name="descarga_figuras"),
     path("figura/<str:clave>/<str:nombre>.png", views.figura, name="figura"),
     path("audio/<str:clave>/<str:variante>.wav", views.audio, name="audio"),

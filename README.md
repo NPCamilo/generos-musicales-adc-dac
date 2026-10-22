@@ -72,6 +72,19 @@ que es además la que más se diferencia entre pistas.
 El repositorio está enlazado al proyecto de Vercel, así que **cada
 `git push` a `main` despliega la web automáticamente**.
 
+## El entregable escrito
+
+Hay tres versiones del mismo contenido, generadas desde el mismo código:
+
+| fichero | para qué |
+|---|---|
+| `salida/informe_proyecto.pdf` | **el documento del proyecto**: la correspondencia con el enunciado, los conceptos de la clase aplicados, las decisiones de método, los resultados, el punto (e) con sus límites, y 30 preguntas de evaluación con su respuesta. 18 páginas. |
+| `salida/informe.md` | el informe completo, con las 39 figuras y todas las tablas, en markdown. |
+| `salida/datos.json` | los números, en JSON, que es lo que lee la web en el despliegue. |
+
+Se regeneran los tres con `python construir.py`, y la web los sirve en
+`/descargas/`: el PDF, el markdown y un ZIP con las figuras.
+
 > **⚠ Recordatorio: el viernes, pon el repositorio en privado.** Los
 > clips de `audio/` son extractos de obras con derechos de autor. Está
 > documentado en `docs/PUBLICAR.md` §2, con las tres opciones.
