@@ -430,9 +430,9 @@ def _conceptos(d: dict) -> list:
     return [
         _h1("3. Los conceptos de la clase, y dónde se aplican"),
         _p("Esta sección conecta cada concepto del temario con la parte "
-           "del proyecto donde se usa. La columna de la derecha es "
-           "explícitamente el lugar del código o de la figura, para que "
-           "se pueda comprobar."),
+           "del proyecto donde se usa. Cada apartado termina diciendo "
+           "dónde está el resultado, en el código o en la figura, para "
+           "que se pueda comprobar."),
 
         _h2("3.1 Señal analógica y señal digital"),
         _p("Una señal analógica es continua en el tiempo y en amplitud. Una "
@@ -754,8 +754,8 @@ def _tdh(d: dict) -> list:
         _p("La evidencia de la literatura sobre música y atención es de "
            "asociación, no de causalidad. Husain, Loewenstein y Schoultz "
            "(2002) y Strayer y Perona (2006) relacionan el tempo con la "
-           "activación, y Brown et al. (2001) Burgundy muestran que el "
-           "ruido marrón a 60-70 Hz mejora certain tareas. Los tamaños "
+           "activación, y Brown et al. (2001) muestran que el "
+           "ruido marrón a 60-70 Hz mejora ciertas tareas. Los tamaños "
            "del efecto son pequeños y los resultados dependen de la tarea. "
            "Por eso la conclusión del proyecto es una hipótesis con un "
            "criterio publicable."),
