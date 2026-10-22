@@ -172,6 +172,29 @@ def main() -> int:
     chk("la energía fuera de banda baja al subir f_s",
         all(exps[i]["energia_fuera_banda"] >= exps[i + 1]["energia_fuera_banda"]
             for i in range(len(exps) - 1)))
+    # LA FILA DEL MULTIPLICADOR 1,0
+    # ----------------------------
+    # Regresión: las f_s del barrido se redondeaban a 3 decimales, y al
+    # redondear el f_s del multiplicador 1,0 quedaba un pelo POR DEBAJO
+    # de f_s,min (en el metal, 23332,403 < 23332,4031829834). La fila
+    # decía entonces "1,00× | NO cumple Nyquist", que se contradice a sí
+    # misma: si el multiplicador es 1,00, el f_s ES f_s,min y el teorema
+    # se cumple (eso sí, en el límite exacto).
+    fs_min = r["muestreo"]["fs_minima"]
+    chk("el f_s del multiplicador 1,00× no queda por debajo de f_s,min",
+        all(e["fs"] >= fs_min - 1e-6 * max(1.0, fs_min) for e in exps
+            if abs(e["multiplicador"] - 1.0) < 1e-9),
+        f" (f_s,min = {fs_min:.6f})")
+    chk("la fila con multiplicador 1,00× cumple Nyquist",
+        all(e["cumple_nyquist"] for e in exps
+            if abs(e["multiplicador"] - 1.0) < 1e-9),
+        f" ({[(round(e['fs'], 3), e['cumple_nyquist']) for e in exps]})")
+    chk("la fila con multiplicador 1,00× se marca como caso límite",
+        all(e.get("caso_limite") for e in exps
+            if abs(e["multiplicador"] - 1.0) < 1e-9))
+    chk("las filas por debajo de f_s,min NO cumplen Nyquist",
+        all(not e["cumple_nyquist"] for e in exps
+            if e["fs"] < fs_min - 1e-6 * max(1.0, fs_min)))
 
     # ---------------------------------------------------------------- 5
     _seccion("5) La cadena ADC-DAC")

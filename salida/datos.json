@@ -1,6 +1,6 @@
 {
  "version": 2,
- "generado": "2026-10-21 20:25",
+ "generado": "2026-10-21 21:54",
  "resultados": {
   "barroca": {
    "clave": "barroca",
@@ -56,14 +56,14 @@
      "subgrave": {
       "f0": 20.0,
       "f1": 60.0,
-      "potencia": 0.00011087381569348608,
-      "fraccion": 0.004349770746380708
+      "potencia": 0.00011087381569348607,
+      "fraccion": 0.0043497707463807074
      },
      "grave": {
       "f0": 60.0,
       "f1": 250.0,
-      "potencia": 0.01851395160221418,
-      "fraccion": 0.7263342077253931
+      "potencia": 0.018513951602214175,
+      "fraccion": 0.726334207725393
      },
      "medio": {
       "f0": 250.0,
@@ -80,8 +80,8 @@
      "muy agudo": {
       "f0": 8000.0,
       "f1": 20000.0,
-      "potencia": 2.3170836113924894e-06,
-      "fraccion": 9.090318076196012e-05
+      "potencia": 2.3170836113924903e-06,
+      "fraccion": 9.090318076196015e-05
      }
     },
     "bandas_eeg": {
@@ -117,7 +117,7 @@
      }
     },
     "centroide": 289.6355020509129,
-    "planicidad": 0.00012536937516632537,
+    "planicidad": 0.00012536937516632494,
     "crest": 5.988118919826744,
     "fs_minima": 3762.0019912719727,
     "nyquist": {
@@ -136,56 +136,60 @@
     "fs_minima": 3762.0019912719727,
     "experimentos": [
      {
-      "fs": 1881.001,
+      "fs": 1881.0009956359863,
       "fs_minima": 3762.0019912719727,
-      "multiplicador": 0.5000000011600243,
+      "multiplicador": 0.5,
       "n_muestras": 1881,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.06429803084290324,
-      "nrmse_reconstruccion": 0.03596173683257982,
-      "nrmse_zoh": 0.08201418535740794,
-      "snr_aliasing": 7.903913780707976,
-      "snr_reconstruccion": 12.951054062849106,
-      "energia_fuera_banda": 2.3883640792366716
+      "caso_limite": false,
+      "nrmse_aliasing": 0.0642980523837903,
+      "nrmse_reconstruccion": 0.03596175997578129,
+      "nrmse_zoh": 0.08201418529861865,
+      "snr_aliasing": 7.903910873597072,
+      "snr_reconstruccion": 12.95104847584345,
+      "energia_fuera_banda": 2.388364079236672
      },
      {
-      "fs": 3762.002,
+      "fs": 3762.0019912719727,
       "fs_minima": 3762.0019912719727,
-      "multiplicador": 1.0000000023200486,
+      "multiplicador": 1.0,
       "n_muestras": 3762,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.022745238228085003,
-      "nrmse_reconstruccion": 0.011818868429101704,
-      "nrmse_zoh": 0.0488757718387806,
-      "snr_aliasing": 15.872211800352424,
-      "snr_reconstruccion": 21.558503638239085,
-      "energia_fuera_banda": 0.43675998588922604
+      "caso_limite": true,
+      "nrmse_aliasing": 0.022745311477820534,
+      "nrmse_reconstruccion": 0.011818989466370557,
+      "nrmse_zoh": 0.04887577178397935,
+      "snr_aliasing": 15.872183824770499,
+      "snr_reconstruccion": 21.558414683106978,
+      "energia_fuera_banda": 0.43675998588922615
      },
      {
-      "fs": 5643.003,
+      "fs": 5643.002986907959,
       "fs_minima": 3762.0019912719727,
-      "multiplicador": 1.5000000034800727,
+      "multiplicador": 1.5,
       "n_muestras": 5643,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.01685039941782241,
-      "nrmse_reconstruccion": 0.006605325138549529,
-      "nrmse_zoh": 0.03871425728537782,
-      "snr_aliasing": 18.93395585297547,
-      "snr_reconstruccion": 27.068275846637086,
+      "caso_limite": false,
+      "nrmse_aliasing": 0.01685052582097272,
+      "nrmse_reconstruccion": 0.006605629044595766,
+      "nrmse_zoh": 0.03871425727690919,
+      "snr_aliasing": 18.933890696255524,
+      "snr_reconstruccion": 27.06787622474915,
       "energia_fuera_banda": 0.14063063587748156
      },
      {
-      "fs": 7524.004,
+      "fs": 7524.003982543945,
       "fs_minima": 3762.0019912719727,
-      "multiplicador": 2.000000004640097,
+      "multiplicador": 2.0,
       "n_muestras": 7524,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.010636008231696277,
-      "nrmse_reconstruccion": 0.006652243429738575,
-      "nrmse_zoh": 0.031676858071185414,
-      "snr_aliasing": 22.89296884099938,
-      "snr_reconstruccion": 26.96917947160028,
-      "energia_fuera_banda": 0.06193292803864078
+      "caso_limite": false,
+      "nrmse_aliasing": 0.01063623339894526,
+      "nrmse_reconstruccion": 0.006652577672682601,
+      "nrmse_zoh": 0.03167685806524905,
+      "snr_aliasing": 22.89278496210805,
+      "snr_reconstruccion": 26.968743060627695,
+      "energia_fuera_banda": 0.06193292803864079
      }
     ]
    },
@@ -451,18 +455,18 @@
    "ritmo": {
     "bpm": 178.25,
     "bpm_estable": 0.0,
-    "confianza": 0.5625223013476282,
-    "puntuacion": 0.12159617027845669,
+    "confianza": 0.5625223013476283,
+    "puntuacion": 0.1215961702784567,
     "medible": false,
     "cresta": 4.054281617886586,
     "candidatos": [
      {
       "bpm": 154.25,
-      "puntuacion": 0.12159617027845669
+      "puntuacion": 0.1215961702784567
      },
      {
       "bpm": 154.5,
-      "puntuacion": 0.12125923084871867
+      "puntuacion": 0.12125923084871869
      },
      {
       "bpm": 154.75,
@@ -573,68 +577,68 @@
      "subgrave": {
       "f0": 20.0,
       "f1": 60.0,
-      "potencia": 0.005412575812342818,
-      "fraccion": 0.1550821184480543
+      "potencia": 0.005412575812342817,
+      "fraccion": 0.15508211844805425
      },
      "grave": {
       "f0": 60.0,
       "f1": 250.0,
       "potencia": 0.013626568314016622,
-      "fraccion": 0.3904309435252272
+      "fraccion": 0.3904309435252271
      },
      "medio": {
       "f0": 250.0,
       "f1": 2000.0,
       "potencia": 0.00845578412315075,
-      "fraccion": 0.24227668312141967
+      "fraccion": 0.24227668312141962
      },
      "agudo": {
       "f0": 2000.0,
       "f1": 8000.0,
-      "potencia": 0.0071595048011262735,
-      "fraccion": 0.2051354493854347
+      "potencia": 0.007159504801126274,
+      "fraccion": 0.20513544938543468
      },
      "muy agudo": {
       "f0": 8000.0,
       "f1": 20000.0,
-      "potencia": 0.0002371809264816448,
-      "fraccion": 0.006795751562567859
+      "potencia": 0.00023718092648164482,
+      "fraccion": 0.006795751562567858
      }
     },
     "bandas_eeg": {
      "delta": {
       "f0": 0.5,
       "f1": 4.0,
-      "potencia": 1.048220102943302e-06,
-      "fraccion": 3.0033795331528326e-05
+      "potencia": 1.0482201029433019e-06,
+      "fraccion": 3.0033795331528313e-05
      },
      "theta": {
       "f0": 4.0,
       "f1": 8.0,
       "potencia": 1.5592744371335298e-06,
-      "fraccion": 4.467661818262756e-05
+      "fraccion": 4.4676618182627555e-05
      },
      "alfa": {
       "f0": 8.0,
       "f1": 13.0,
-      "potencia": 2.0681875888225357e-06,
+      "potencia": 2.068187588822536e-06,
       "fraccion": 5.925809147858225e-05
      },
      "beta": {
       "f0": 13.0,
       "f1": 30.0,
-      "potencia": 7.10795068766943e-05,
+      "potencia": 7.107950687669432e-05,
       "fraccion": 0.0020365831143729428
      },
      "gamma": {
       "f0": 30.0,
       "f1": 50.0,
       "potencia": 0.003948367676997057,
-      "fraccion": 0.1131293574427524
+      "fraccion": 0.11312935744275239
      }
     },
-    "centroide": 1002.9652276587603,
-    "planicidad": 0.004676438081945794,
+    "centroide": 1002.9652276587602,
+    "planicidad": 0.00467643808194576,
     "crest": 4.934379031707288,
     "fs_minima": 23332.4031829834,
     "nyquist": {
@@ -653,43 +657,46 @@
     "fs_minima": 23332.4031829834,
     "experimentos": [
      {
-      "fs": 11666.202,
+      "fs": 11666.2015914917,
       "fs_minima": 23332.4031829834,
-      "multiplicador": 0.5000000175081966,
+      "multiplicador": 0.5,
       "n_muestras": 11666,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.039850438958732366,
-      "nrmse_reconstruccion": 0.01208828132398996,
-      "nrmse_zoh": 0.03436200959732229,
-      "snr_aliasing": 9.595520419460561,
-      "snr_reconstruccion": 19.95689144009214,
-      "energia_fuera_banda": 1.0462042611954983
+      "caso_limite": false,
+      "nrmse_aliasing": 0.0398552894880871,
+      "nrmse_reconstruccion": 0.012088350155337093,
+      "nrmse_zoh": 0.03436043194805016,
+      "snr_aliasing": 9.594463237179722,
+      "snr_reconstruccion": 19.95684196776051,
+      "energia_fuera_banda": 1.0462042611954985
      },
      {
-      "fs": 23332.403,
+      "fs": 23332.4031829834,
       "fs_minima": 23332.4031829834,
-      "multiplicador": 0.9999999921575417,
+      "multiplicador": 1.0,
       "n_muestras": 23332,
-      "cumple_nyquist": false,
-      "nrmse_aliasing": 0.018002130478336507,
-      "nrmse_reconstruccion": 0.013702091797597194,
-      "nrmse_zoh": 0.035325286479337026,
-      "snr_aliasing": 16.364792893823285,
-      "snr_reconstruccion": 18.735533540893986,
+      "cumple_nyquist": true,
+      "caso_limite": true,
+      "nrmse_aliasing": 0.01800264408173869,
+      "nrmse_reconstruccion": 0.013702224038249076,
+      "nrmse_zoh": 0.035317699153135,
+      "snr_aliasing": 16.364545082211166,
+      "snr_reconstruccion": 18.735449707207678,
       "energia_fuera_banda": 0.30649640693647123
      },
      {
-      "fs": 34998.605,
+      "fs": 34998.6047744751,
       "fs_minima": 23332.4031829834,
-      "multiplicador": 1.5000000096657384,
+      "multiplicador": 1.5,
       "n_muestras": 34998,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.016984811015832,
-      "nrmse_reconstruccion": 0.014207895587509832,
-      "nrmse_zoh": 0.029564454035476816,
-      "snr_aliasing": 16.911770728799528,
-      "snr_reconstruccion": 18.462389971404605,
-      "energia_fuera_banda": 0.01841288084489642
+      "caso_limite": false,
+      "nrmse_aliasing": 0.0169874187861559,
+      "nrmse_reconstruccion": 0.014210912328340958,
+      "nrmse_zoh": 0.02956775819838059,
+      "snr_aliasing": 16.910437239864393,
+      "snr_reconstruccion": 18.460545905983818,
+      "energia_fuera_banda": 0.018412880844896423
      }
     ]
    },
@@ -956,17 +963,17 @@
     "bpm": 97.5,
     "bpm_estable": 46.94870283018868,
     "confianza": 0.8837509725185383,
-    "puntuacion": 0.4019733680099388,
+    "puntuacion": 0.4019733680099389,
     "medible": true,
-    "cresta": 3.126685910265489,
+    "cresta": 3.1266859102654894,
     "candidatos": [
      {
       "bpm": 97.5,
-      "puntuacion": 0.4019733680099388
+      "puntuacion": 0.4019733680099389
      },
      {
       "bpm": 97.75,
-      "puntuacion": 0.3698720105708503
+      "puntuacion": 0.3698720105708504
      },
      {
       "bpm": 97.25,
@@ -977,7 +984,7 @@
     "fs_ventana": 0.25
    },
    "atencion": {
-    "indice": 63.879985261190704,
+    "indice": 63.87998526119071,
     "por_criterio": [
      {
       "clave": "tempo",
@@ -1015,8 +1022,8 @@
       "clave": "voz",
       "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
       "peso": 15,
-      "valor": 0.2732490446396877,
-      "puntos": 4.098735669595316,
+      "valor": 0.2732490446396879,
+      "puntos": 4.098735669595318,
       "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
      }
     ],
@@ -1078,20 +1085,20 @@
      "subgrave": {
       "f0": 20.0,
       "f1": 60.0,
-      "potencia": 0.0007894537861944282,
-      "fraccion": 0.01391615675267044
+      "potencia": 0.0007894537861944281,
+      "fraccion": 0.013916156752670439
      },
      "grave": {
       "f0": 60.0,
       "f1": 250.0,
-      "potencia": 0.013812264712908069,
-      "fraccion": 0.24347674837405686
+      "potencia": 0.013812264712908067,
+      "fraccion": 0.24347674837405683
      },
      "medio": {
       "f0": 250.0,
       "f1": 2000.0,
-      "potencia": 0.037411943937104494,
-      "fraccion": 0.6594818916007362
+      "potencia": 0.0374119439371045,
+      "fraccion": 0.6594818916007363
      },
      "agudo": {
       "f0": 2000.0,
@@ -1110,14 +1117,14 @@
      "delta": {
       "f0": 0.5,
       "f1": 4.0,
-      "potencia": 3.76440257002554e-07,
-      "fraccion": 6.6357293055947355e-06
+      "potencia": 3.764402570025538e-07,
+      "fraccion": 6.635729305594732e-06
      },
      "theta": {
       "f0": 4.0,
       "f1": 8.0,
-      "potencia": 7.63240316686467e-07,
-      "fraccion": 1.3454076822111601e-05
+      "potencia": 7.632403166864669e-07,
+      "fraccion": 1.34540768221116e-05
      },
      "alfa": {
       "f0": 8.0,
@@ -1139,7 +1146,7 @@
      }
     },
     "centroide": 923.2476283426245,
-    "planicidad": 6.773861112528774e-05,
+    "planicidad": 6.773861112529014e-05,
     "crest": 4.760177335975772,
     "fs_minima": 18664.74494934082,
     "nyquist": {
@@ -1158,56 +1165,60 @@
     "fs_minima": 18664.74494934082,
     "experimentos": [
      {
-      "fs": 9332.372,
+      "fs": 9332.37247467041,
       "fs_minima": 18664.74494934082,
-      "multiplicador": 0.49999997456860984,
+      "multiplicador": 0.5,
       "n_muestras": 9332,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.02493926173971781,
-      "nrmse_reconstruccion": 0.007901728002926722,
-      "nrmse_zoh": 0.03303254174360562,
-      "snr_aliasing": 13.608742605291855,
-      "snr_reconstruccion": 23.591972947174405,
+      "caso_limite": false,
+      "nrmse_aliasing": 0.024936782183798526,
+      "nrmse_reconstruccion": 0.007897343692901787,
+      "nrmse_zoh": 0.033028555510970385,
+      "snr_aliasing": 13.609606315510721,
+      "snr_reconstruccion": 23.596793773627954,
       "energia_fuera_banda": 1.3837317181139825
      },
      {
-      "fs": 18664.745,
+      "fs": 18664.74494934082,
       "fs_minima": 18664.74494934082,
-      "multiplicador": 1.000000002714164,
+      "multiplicador": 1.0,
       "n_muestras": 18664,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.016420580107569492,
-      "nrmse_reconstruccion": 0.009133021648664719,
-      "nrmse_zoh": 0.02519771298519954,
-      "snr_aliasing": 17.44929280248661,
-      "snr_reconstruccion": 22.54477297760264,
-      "energia_fuera_banda": 0.17597975271945906
+      "caso_limite": true,
+      "nrmse_aliasing": 0.016420918114479804,
+      "nrmse_reconstruccion": 0.009133558335680938,
+      "nrmse_zoh": 0.025197712956449098,
+      "snr_aliasing": 17.449114010934203,
+      "snr_reconstruccion": 22.544262580530017,
+      "energia_fuera_banda": 0.17597975271945904
      },
      {
-      "fs": 27997.117,
+      "fs": 27997.11742401123,
       "fs_minima": 18664.74494934082,
-      "multiplicador": 1.499999977282774,
+      "multiplicador": 1.5,
       "n_muestras": 27997,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.0133039188361934,
-      "nrmse_reconstruccion": 0.009863112143964592,
-      "nrmse_zoh": 0.022339280748603245,
-      "snr_aliasing": 19.242138251298627,
-      "snr_reconstruccion": 21.841450563364972,
-      "energia_fuera_banda": 0.00011259376017491942
+      "caso_limite": false,
+      "nrmse_aliasing": 0.013301082357278893,
+      "nrmse_reconstruccion": 0.009859736627712752,
+      "nrmse_zoh": 0.022331368394878634,
+      "snr_aliasing": 19.243990333482202,
+      "snr_reconstruccion": 21.844423698585622,
+      "energia_fuera_banda": 0.00011259376017491929
      },
      {
-      "fs": 37329.49,
+      "fs": 37329.48989868164,
       "fs_minima": 18664.74494934082,
-      "multiplicador": 2.000000005428328,
+      "multiplicador": 2.0,
       "n_muestras": 37329,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.011820599818953404,
-      "nrmse_reconstruccion": 0.010695815342225235,
-      "nrmse_zoh": 0.020785920360115295,
-      "snr_aliasing": 20.30022644593558,
-      "snr_reconstruccion": 21.168738811782532,
-      "energia_fuera_banda": 4.264173711775381e-05
+      "caso_limite": false,
+      "nrmse_aliasing": 0.011821315283264067,
+      "nrmse_reconstruccion": 0.01069656001900151,
+      "nrmse_zoh": 0.02078592034586254,
+      "snr_aliasing": 20.299700732024064,
+      "snr_reconstruccion": 21.16813409368214,
+      "energia_fuera_banda": 4.264173711775358e-05
      }
     ]
    },
@@ -1476,7 +1487,7 @@
     "confianza": 0.8541130600478971,
     "puntuacion": 0.2546950147685223,
     "medible": true,
-    "cresta": 5.2846724353799726,
+    "cresta": 5.284672435379973,
     "candidatos": [
      {
       "bpm": 101.0,
@@ -1627,8 +1638,8 @@
      "delta": {
       "f0": 0.5,
       "f1": 4.0,
-      "potencia": 1.251246868132366e-05,
-      "fraccion": 6.893401156300186e-05
+      "potencia": 1.2512468681323658e-05,
+      "fraccion": 6.893401156300185e-05
      },
      "theta": {
       "f0": 4.0,
@@ -1639,13 +1650,13 @@
      "alfa": {
       "f0": 8.0,
       "f1": 13.0,
-      "potencia": 2.8401397022027153e-05,
-      "fraccion": 0.00015646970079086851
+      "potencia": 2.8401397022027157e-05,
+      "fraccion": 0.00015646970079086854
      },
      "beta": {
       "f0": 13.0,
       "f1": 30.0,
-      "potencia": 0.028677228773506997,
+      "potencia": 0.028677228773507,
       "fraccion": 0.1579893201106224
      },
      "gamma": {
@@ -1675,56 +1686,60 @@
     "fs_minima": 15886.877632141113,
     "experimentos": [
      {
-      "fs": 7943.439,
+      "fs": 7943.438816070557,
       "fs_minima": 15886.877632141113,
-      "multiplicador": 0.5000000115774444,
+      "multiplicador": 0.5,
       "n_muestras": 7943,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.06540756717104539,
-      "nrmse_reconstruccion": 0.017767548152410235,
-      "nrmse_zoh": 0.041965307729414966,
-      "snr_aliasing": 7.776964222776101,
-      "snr_reconstruccion": 19.096974118256423,
-      "energia_fuera_banda": 7.14438514350277
+      "caso_limite": false,
+      "nrmse_aliasing": 0.06539627884328941,
+      "nrmse_reconstruccion": 0.01776511859478729,
+      "nrmse_zoh": 0.041961672954358695,
+      "snr_aliasing": 7.778463358276399,
+      "snr_reconstruccion": 19.098161876114446,
+      "energia_fuera_banda": 7.144385143502773
      },
      {
-      "fs": 15886.878,
+      "fs": 15886.877632141113,
       "fs_minima": 15886.877632141113,
-      "multiplicador": 1.000000023154889,
+      "multiplicador": 1.0,
       "n_muestras": 15886,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.045751911526813356,
-      "nrmse_reconstruccion": 0.014373297852863988,
-      "nrmse_zoh": 0.04007637250286288,
-      "snr_aliasing": 10.878421731729947,
-      "snr_reconstruccion": 20.93547809800001,
-      "energia_fuera_banda": 2.9338457542201963
+      "caso_limite": true,
+      "nrmse_aliasing": 0.04575384681874554,
+      "nrmse_reconstruccion": 0.014375621861930072,
+      "nrmse_zoh": 0.040074782598820594,
+      "snr_aliasing": 10.8780543362513,
+      "snr_reconstruccion": 20.934073802989623,
+      "energia_fuera_banda": 2.933845754220197
      },
      {
-      "fs": 23830.316,
+      "fs": 23830.31644821167,
       "fs_minima": 15886.877632141113,
-      "multiplicador": 1.4999999717873027,
+      "multiplicador": 1.5,
       "n_muestras": 23830,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.036656876973239605,
-      "nrmse_reconstruccion": 0.016777925516335106,
-      "nrmse_zoh": 0.039355982012823344,
-      "snr_aliasing": 12.623240034725116,
-      "snr_reconstruccion": 19.411584032655114,
-      "energia_fuera_banda": 0.9669759719880326
+      "caso_limite": false,
+      "nrmse_aliasing": 0.036648872043493375,
+      "nrmse_reconstruccion": 0.016775139166644193,
+      "nrmse_zoh": 0.03935771519918168,
+      "snr_aliasing": 12.625136933131284,
+      "snr_reconstruccion": 19.413026552497485,
+      "energia_fuera_banda": 0.9669759719880328
      },
      {
-      "fs": 31773.755,
+      "fs": 31773.755264282227,
       "fs_minima": 15886.877632141113,
-      "multiplicador": 1.9999999833647473,
+      "multiplicador": 2.0,
       "n_muestras": 31773,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.0334882715681537,
-      "nrmse_reconstruccion": 0.019391423980293292,
-      "nrmse_zoh": 0.039315729150495596,
-      "snr_aliasing": 13.473750155603177,
-      "snr_reconstruccion": 18.21941077236707,
-      "energia_fuera_banda": 0.23348200867533775
+      "caso_limite": false,
+      "nrmse_aliasing": 0.03348564659305306,
+      "nrmse_reconstruccion": 0.01938858647163062,
+      "nrmse_zoh": 0.03929384609049194,
+      "snr_aliasing": 13.474431022950073,
+      "snr_reconstruccion": 18.22068185239111,
+      "energia_fuera_banda": 0.23348200867533783
      }
     ]
    },
@@ -1956,7 +1971,7 @@
       "nota": "16 bits, Δ = 3,05e-05 V",
       "snr": 90.82865594292025,
       "exacta": false,
-      "snr_tel": 42.941523230003405,
+      "snr_tel": 42.9415232300034,
       "exacta_tel": false
      },
      {
@@ -1964,7 +1979,7 @@
       "nota": "todo junto",
       "snr": 90.82865594292025,
       "exacta": false,
-      "snr_tel": 42.941523230003405,
+      "snr_tel": 42.9415232300034,
       "exacta_tel": false
      }
     ],
@@ -1974,16 +1989,16 @@
      "n_muestras": 96000,
      "presupuesto": {
       "cuantizador_8b": {
-       "potencia": 5.216619176868739e-06,
-       "porcentaje": 100.0
+       "potencia": 5.216619176868741e-06,
+       "porcentaje": 99.99999999999999
       },
       "dac_zoh_8k": {
        "potencia": 0.0,
        "porcentaje": 0.0
       }
      },
-     "snr_cadena": 42.941523230003405,
-     "nrmse_cadena": 0.001084772978942012,
+     "snr_cadena": 42.9415232300034,
+     "nrmse_cadena": 0.0010847729789420122,
      "nrmse_sobre_banda_completa": 0.004929116895827137
     }
    },
@@ -2005,7 +2020,7 @@
      },
      {
       "bpm": 100.25,
-      "puntuacion": 0.3660974441534065
+      "puntuacion": 0.36609744415340645
      }
     ],
     "periodo_s": 0.6,
@@ -2157,7 +2172,7 @@
      "alfa": {
       "f0": 8.0,
       "f1": 13.0,
-      "potencia": 7.4022350507840085e-06,
+      "potencia": 7.402235050784008e-06,
       "fraccion": 3.7116600659994686e-05
      },
      "beta": {
@@ -2169,12 +2184,12 @@
      "gamma": {
       "f0": 30.0,
       "f1": 50.0,
-      "potencia": 0.0011657772958952389,
-      "fraccion": 0.005845489916677144
+      "potencia": 0.001165777295895239,
+      "fraccion": 0.0058454899166771445
      }
     },
     "centroide": 1116.087870309437,
-    "planicidad": 0.0021659498143225286,
+    "planicidad": 0.0021659498143225364,
     "crest": 2.8104232899204025,
     "fs_minima": 19905.343437194824,
     "nyquist": {
@@ -2193,56 +2208,60 @@
     "fs_minima": 19905.343437194824,
     "experimentos": [
      {
-      "fs": 9952.672,
+      "fs": 9952.671718597412,
       "fs_minima": 19905.343437194824,
-      "multiplicador": 0.5000000141370375,
+      "multiplicador": 0.5,
       "n_muestras": 9952,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.027581137237852382,
-      "nrmse_reconstruccion": 0.009539169422267468,
-      "nrmse_zoh": 0.03298280346599256,
-      "snr_aliasing": 14.513947424583634,
-      "snr_reconstruccion": 23.735979564726644,
-      "energia_fuera_banda": 0.9087395582085938
+      "caso_limite": false,
+      "nrmse_aliasing": 0.02758560057243654,
+      "nrmse_reconstruccion": 0.009541074858031382,
+      "nrmse_zoh": 0.0329986516211947,
+      "snr_aliasing": 14.51254192386559,
+      "snr_reconstruccion": 23.73424472868921,
+      "energia_fuera_banda": 0.9087395582085939
      },
      {
-      "fs": 19905.343,
+      "fs": 19905.343437194824,
       "fs_minima": 19905.343437194824,
-      "multiplicador": 0.9999999780363085,
+      "multiplicador": 1.0,
       "n_muestras": 19905,
-      "cumple_nyquist": false,
-      "nrmse_aliasing": 0.01638405433529696,
-      "nrmse_reconstruccion": 0.009531201678846413,
-      "nrmse_zoh": 0.026534906682428173,
-      "snr_aliasing": 19.076687472170462,
-      "snr_reconstruccion": 23.78216187855655,
-      "energia_fuera_banda": 0.08933819962754608
+      "cumple_nyquist": true,
+      "caso_limite": true,
+      "nrmse_aliasing": 0.016382942638230265,
+      "nrmse_reconstruccion": 0.009530450014719957,
+      "nrmse_zoh": 0.026541058400228086,
+      "snr_aliasing": 19.077276848389847,
+      "snr_reconstruccion": 23.78284690335792,
+      "energia_fuera_banda": 0.08933819962754606
      },
      {
-      "fs": 29858.015,
+      "fs": 29858.015155792236,
       "fs_minima": 19905.343437194824,
-      "multiplicador": 1.499999992173346,
+      "multiplicador": 1.5,
       "n_muestras": 29858,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.012894458699527264,
-      "nrmse_reconstruccion": 0.01083582646507784,
-      "nrmse_zoh": 0.024036450601935305,
-      "snr_aliasing": 21.23106472475143,
-      "snr_reconstruccion": 22.741886209748053,
-      "energia_fuera_banda": 3.383096551885632e-05
+      "caso_limite": false,
+      "nrmse_aliasing": 0.012894023071365201,
+      "nrmse_reconstruccion": 0.010835697033808354,
+      "nrmse_zoh": 0.02404040336650608,
+      "snr_aliasing": 21.231358177668422,
+      "snr_reconstruccion": 22.741989963845644,
+      "energia_fuera_banda": 3.383096551885619e-05
      },
      {
-      "fs": 39810.687,
+      "fs": 39810.68687438965,
       "fs_minima": 19905.343437194824,
-      "multiplicador": 2.0000000063103833,
+      "multiplicador": 2.0,
       "n_muestras": 39810,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.012177727030580789,
-      "nrmse_reconstruccion": 0.011281552134932952,
-      "nrmse_zoh": 0.021574155598822607,
-      "snr_aliasing": 21.735981324539644,
-      "snr_reconstruccion": 22.399928928355195,
-      "energia_fuera_banda": 7.47931884055545e-07
+      "caso_limite": false,
+      "nrmse_aliasing": 0.012178180617265217,
+      "nrmse_reconstruccion": 0.011281986197022503,
+      "nrmse_zoh": 0.021574155586143298,
+      "snr_aliasing": 21.735657804010728,
+      "snr_reconstruccion": 22.3995947406505,
+      "energia_fuera_banda": 7.479318840555375e-07
      }
     ]
    },
@@ -2509,21 +2528,21 @@
     "bpm": 112.25,
     "bpm_estable": 19.25951086956522,
     "confianza": 0.8358477263234351,
-    "puntuacion": 0.17761939222224102,
+    "puntuacion": 0.17761939222224107,
     "medible": false,
     "cresta": 5.2850847148764375,
     "candidatos": [
      {
       "bpm": 111.25,
-      "puntuacion": 0.17761939222224102
+      "puntuacion": 0.17761939222224107
      },
      {
       "bpm": 111.5,
-      "puntuacion": 0.1772927797538473
+      "puntuacion": 0.17729277975384733
      },
      {
       "bpm": 111.0,
-      "puntuacion": 0.1749015482653706
+      "puntuacion": 0.17490154826537063
      }
     ],
     "periodo_s": 0.534521158129176,
@@ -2592,7 +2611,7 @@
     "f_max_energia": 3658.920192718506,
     "fs_minima": 3762.0019912719727,
     "centroide": 289.6355020509129,
-    "planicidad": 0.00012536937516632537,
+    "planicidad": 0.00012536937516632494,
     "crest": 5.988118919826744,
     "bpm": null,
     "bpm_texto": "no medible",
@@ -2610,12 +2629,12 @@
     "f_max": 11666.2015914917,
     "f_max_energia": 13232.615947723389,
     "fs_minima": 23332.4031829834,
-    "centroide": 1002.9652276587603,
-    "planicidad": 0.004676438081945794,
+    "centroide": 1002.9652276587602,
+    "planicidad": 0.00467643808194576,
     "crest": 4.934379031707288,
     "bpm": 97.5,
     "bpm_texto": "98",
-    "indice": 63.879985261190704,
+    "indice": 63.87998526119071,
     "veredicto_indice": "aceptable como fondo de estudio",
     "tempo_no_fiable": false
    },
@@ -2630,7 +2649,7 @@
     "f_max_energia": 11593.653202056885,
     "fs_minima": 18664.74494934082,
     "centroide": 923.2476283426245,
-    "planicidad": 6.773861112528774e-05,
+    "planicidad": 6.773861112529014e-05,
     "crest": 4.760177335975772,
     "bpm": 101.25,
     "bpm_texto": "101",
@@ -2668,7 +2687,7 @@
     "f_max_energia": 11977.886295318604,
     "fs_minima": 19905.343437194824,
     "centroide": 1116.087870309437,
-    "planicidad": 0.0021659498143225286,
+    "planicidad": 0.0021659498143225364,
     "crest": 2.8104232899204025,
     "bpm": null,
     "bpm_texto": "no medible",
@@ -2689,7 +2708,7 @@
     "f_max_energia": 3658.920192718506,
     "fs_minima": 3762.0019912719727,
     "centroide": 289.6355020509129,
-    "planicidad": 0.00012536937516632537,
+    "planicidad": 0.00012536937516632494,
     "crest": 5.988118919826744,
     "bpm": null,
     "bpm_texto": "no medible",
@@ -2707,12 +2726,12 @@
     "f_max": 11666.2015914917,
     "f_max_energia": 13232.615947723389,
     "fs_minima": 23332.4031829834,
-    "centroide": 1002.9652276587603,
-    "planicidad": 0.004676438081945794,
+    "centroide": 1002.9652276587602,
+    "planicidad": 0.00467643808194576,
     "crest": 4.934379031707288,
     "bpm": 97.5,
     "bpm_texto": "98",
-    "indice": 63.879985261190704,
+    "indice": 63.87998526119071,
     "veredicto_indice": "aceptable como fondo de estudio",
     "tempo_no_fiable": false
    },
@@ -2727,7 +2746,7 @@
     "f_max_energia": 11593.653202056885,
     "fs_minima": 18664.74494934082,
     "centroide": 923.2476283426245,
-    "planicidad": 6.773861112528774e-05,
+    "planicidad": 6.773861112529014e-05,
     "crest": 4.760177335975772,
     "bpm": 101.25,
     "bpm_texto": "101",
@@ -2765,7 +2784,7 @@
     "f_max_energia": 11977.886295318604,
     "fs_minima": 19905.343437194824,
     "centroide": 1116.087870309437,
-    "planicidad": 0.0021659498143225286,
+    "planicidad": 0.0021659498143225364,
     "crest": 2.8104232899204025,
     "bpm": null,
     "bpm_texto": "no medible",
@@ -2861,12 +2880,12 @@
       "clave": "voz",
       "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
       "peso": 15,
-      "valor": 0.2732490446396877,
-      "puntos": 4.098735669595316,
+      "valor": 0.2732490446396879,
+      "puntos": 4.098735669595318,
       "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
      }
     ],
-    "indice": 63.879985261190704,
+    "indice": 63.87998526119071,
     "veredicto": "aceptable como fondo de estudio"
    },
    "salsa": {
@@ -3016,7 +3035,7 @@
    "clave_ganador": "barroca",
    "indice": 80.05641491793803,
    "segundo": "Metal",
-   "indice_segundo": 63.879985261190704,
+   "indice_segundo": 63.87998526119071,
    "razones": [
     "el centroide espectral: 20.0 de 20 puntos",
     "la energía en 2-8 kHz: 19.8 de 20 puntos",
@@ -3047,7 +3066,7 @@
      "f_max_energia": 3658.920192718506,
      "fs_minima": 3762.0019912719727,
      "centroide": 289.6355020509129,
-     "planicidad": 0.00012536937516632537,
+     "planicidad": 0.00012536937516632494,
      "crest": 5.988118919826744,
      "bpm": null,
      "bpm_texto": "no medible",
@@ -3065,12 +3084,12 @@
      "f_max": 11666.2015914917,
      "f_max_energia": 13232.615947723389,
      "fs_minima": 23332.4031829834,
-     "centroide": 1002.9652276587603,
-     "planicidad": 0.004676438081945794,
+     "centroide": 1002.9652276587602,
+     "planicidad": 0.00467643808194576,
      "crest": 4.934379031707288,
      "bpm": 97.5,
      "bpm_texto": "98",
-     "indice": 63.879985261190704,
+     "indice": 63.87998526119071,
      "veredicto_indice": "aceptable como fondo de estudio",
      "tempo_no_fiable": false
     },
@@ -3085,7 +3104,7 @@
      "f_max_energia": 11593.653202056885,
      "fs_minima": 18664.74494934082,
      "centroide": 923.2476283426245,
-     "planicidad": 6.773861112528774e-05,
+     "planicidad": 6.773861112529014e-05,
      "crest": 4.760177335975772,
      "bpm": 101.25,
      "bpm_texto": "101",
@@ -3123,7 +3142,7 @@
      "f_max_energia": 11977.886295318604,
      "fs_minima": 19905.343437194824,
      "centroide": 1116.087870309437,
-     "planicidad": 0.0021659498143225286,
+     "planicidad": 0.0021659498143225364,
      "crest": 2.8104232899204025,
      "bpm": null,
      "bpm_texto": "no medible",
@@ -3160,14 +3179,14 @@
     "subgrave": {
      "f0": 20.0,
      "f1": 60.0,
-     "potencia": 0.00011087381569348608,
-     "fraccion": 0.004349770746380708
+     "potencia": 0.00011087381569348607,
+     "fraccion": 0.0043497707463807074
     },
     "grave": {
      "f0": 60.0,
      "f1": 250.0,
-     "potencia": 0.01851395160221418,
-     "fraccion": 0.7263342077253931
+     "potencia": 0.018513951602214175,
+     "fraccion": 0.726334207725393
     },
     "medio": {
      "f0": 250.0,
@@ -3184,60 +3203,60 @@
     "muy agudo": {
      "f0": 8000.0,
      "f1": 20000.0,
-     "potencia": 2.3170836113924894e-06,
-     "fraccion": 9.090318076196012e-05
+     "potencia": 2.3170836113924903e-06,
+     "fraccion": 9.090318076196015e-05
     }
    },
    "metal": {
     "subgrave": {
      "f0": 20.0,
      "f1": 60.0,
-     "potencia": 0.005412575812342818,
-     "fraccion": 0.1550821184480543
+     "potencia": 0.005412575812342817,
+     "fraccion": 0.15508211844805425
     },
     "grave": {
      "f0": 60.0,
      "f1": 250.0,
      "potencia": 0.013626568314016622,
-     "fraccion": 0.3904309435252272
+     "fraccion": 0.3904309435252271
     },
     "medio": {
      "f0": 250.0,
      "f1": 2000.0,
      "potencia": 0.00845578412315075,
-     "fraccion": 0.24227668312141967
+     "fraccion": 0.24227668312141962
     },
     "agudo": {
      "f0": 2000.0,
      "f1": 8000.0,
-     "potencia": 0.0071595048011262735,
-     "fraccion": 0.2051354493854347
+     "potencia": 0.007159504801126274,
+     "fraccion": 0.20513544938543468
     },
     "muy agudo": {
      "f0": 8000.0,
      "f1": 20000.0,
-     "potencia": 0.0002371809264816448,
-     "fraccion": 0.006795751562567859
+     "potencia": 0.00023718092648164482,
+     "fraccion": 0.006795751562567858
     }
    },
    "salsa": {
     "subgrave": {
      "f0": 20.0,
      "f1": 60.0,
-     "potencia": 0.0007894537861944282,
-     "fraccion": 0.01391615675267044
+     "potencia": 0.0007894537861944281,
+     "fraccion": 0.013916156752670439
     },
     "grave": {
      "f0": 60.0,
      "f1": 250.0,
-     "potencia": 0.013812264712908069,
-     "fraccion": 0.24347674837405686
+     "potencia": 0.013812264712908067,
+     "fraccion": 0.24347674837405683
     },
     "medio": {
      "f0": 250.0,
      "f1": 2000.0,
-     "potencia": 0.037411943937104494,
-     "fraccion": 0.6594818916007362
+     "potencia": 0.0374119439371045,
+     "fraccion": 0.6594818916007363
     },
     "agudo": {
      "f0": 2000.0,
@@ -3354,46 +3373,46 @@
     "delta": {
      "f0": 0.5,
      "f1": 4.0,
-     "potencia": 1.048220102943302e-06,
-     "fraccion": 3.0033795331528326e-05
+     "potencia": 1.0482201029433019e-06,
+     "fraccion": 3.0033795331528313e-05
     },
     "theta": {
      "f0": 4.0,
      "f1": 8.0,
      "potencia": 1.5592744371335298e-06,
-     "fraccion": 4.467661818262756e-05
+     "fraccion": 4.4676618182627555e-05
     },
     "alfa": {
      "f0": 8.0,
      "f1": 13.0,
-     "potencia": 2.0681875888225357e-06,
+     "potencia": 2.068187588822536e-06,
      "fraccion": 5.925809147858225e-05
     },
     "beta": {
      "f0": 13.0,
      "f1": 30.0,
-     "potencia": 7.10795068766943e-05,
+     "potencia": 7.107950687669432e-05,
      "fraccion": 0.0020365831143729428
     },
     "gamma": {
      "f0": 30.0,
      "f1": 50.0,
      "potencia": 0.003948367676997057,
-     "fraccion": 0.1131293574427524
+     "fraccion": 0.11312935744275239
     }
    },
    "salsa": {
     "delta": {
      "f0": 0.5,
      "f1": 4.0,
-     "potencia": 3.76440257002554e-07,
-     "fraccion": 6.6357293055947355e-06
+     "potencia": 3.764402570025538e-07,
+     "fraccion": 6.635729305594732e-06
     },
     "theta": {
      "f0": 4.0,
      "f1": 8.0,
-     "potencia": 7.63240316686467e-07,
-     "fraccion": 1.3454076822111601e-05
+     "potencia": 7.632403166864669e-07,
+     "fraccion": 1.34540768221116e-05
     },
     "alfa": {
      "f0": 8.0,
@@ -3418,8 +3437,8 @@
     "delta": {
      "f0": 0.5,
      "f1": 4.0,
-     "potencia": 1.251246868132366e-05,
-     "fraccion": 6.893401156300186e-05
+     "potencia": 1.2512468681323658e-05,
+     "fraccion": 6.893401156300185e-05
     },
     "theta": {
      "f0": 4.0,
@@ -3430,13 +3449,13 @@
     "alfa": {
      "f0": 8.0,
      "f1": 13.0,
-     "potencia": 2.8401397022027153e-05,
-     "fraccion": 0.00015646970079086851
+     "potencia": 2.8401397022027157e-05,
+     "fraccion": 0.00015646970079086854
     },
     "beta": {
      "f0": 13.0,
      "f1": 30.0,
-     "potencia": 0.028677228773506997,
+     "potencia": 0.028677228773507,
      "fraccion": 0.1579893201106224
     },
     "gamma": {
@@ -3462,7 +3481,7 @@
     "alfa": {
      "f0": 8.0,
      "f1": 13.0,
-     "potencia": 7.4022350507840085e-06,
+     "potencia": 7.402235050784008e-06,
      "fraccion": 3.7116600659994686e-05
     },
     "beta": {
@@ -3474,8 +3493,8 @@
     "gamma": {
      "f0": 30.0,
      "f1": 50.0,
-     "potencia": 0.0011657772958952389,
-     "fraccion": 0.005845489916677144
+     "potencia": 0.001165777295895239,
+     "fraccion": 0.0058454899166771445
     }
    }
   }

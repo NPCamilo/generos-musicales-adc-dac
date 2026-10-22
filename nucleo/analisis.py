@@ -380,13 +380,49 @@ def _experimentos_de_muestreo(x: np.ndarray, fs: float, fs_min: float,
     separación), el error de interpolación de la referencia baja a
     ~3·10⁻⁶: despreciable frente a los errores que se miden, que son de
     orden 10⁻².
+
+    LA FILA DEL MULTIPLICADOR 1,0: EL CASO LÍMITE
+    ---------------------------------------------
+    Con el multiplicador 1,0 el f_s del barrido ES f_s,min = 2·f_max, o
+    sea f_s/2 ES f_max: el teorema se cumple, pero justo en el borde. La
+    fila se marca con `cumple_nyquist = True` y `caso_limite = True`, y
+    los informes la dicen "sí (al límite)".
+
+    Esto importa porque hay una trampa conocida: un SENO de exactamente
+    f_s/2 sale con todas sus muestras a cero (`sen(pi·n) = 0`), así que
+    en el límite el teorema es cierto pero la señal no es recuperable.
+    Por eso el "sí" del límite lleva su aviso, igual que lo lleva
+    `primitivas.diagnostico_nyquist`.
     """
     fs_pruebas = []
     for mult in p.multiplicadores_fs:
         f = fs_min * mult
         if f >= 200.0 and f < fs * 0.999:
             fs_pruebas.append(float(f))
-    fs_pruebas = sorted(set(round(f, 3) for f in fs_pruebas))
+    # LAS f_s NO SE REDONDEAN
+    # -----------------------
+    # Antes se redondeaban a 3 decimales ("cosmético") y eso ROMPÍA la
+    # fila del multiplicador 1,0: al redondear, el f_s quedaba un pelo
+    # POR DEBAJO de f_s,min (en el metal, 23332,403 < 23332,4031829834,
+    # es decir, 0,0002 Hz por debajo) y la comprobación
+    # `f_s >= f_s,min` fallaba. La tabla decía entonces
+    #
+    #     f_s = 23332 Hz   |   1,00×   |   NO cumple Nyquist
+    #
+    # que se contradice a sí misma: si el multiplicador es 1,00, el f_s
+    # ES f_s,min y el teorema se cumple (justo en el límite).
+    #
+    # El redondeo era solo cosmético: las plantillas y el informe
+    # formatean con `num:0` y `:.0f`, así que la cifra que se ve no
+    # cambia. Aquí se queda el valor EXACTO, que es el que se usa para
+    # muestrear de verdad.
+    fs_pruebas = sorted(set(fs_pruebas))
+
+    # La comparación con f_s,min va con tolerancia RELATIVA: en el
+    # multiplicador 1,0 el f_s es exactamente f_s,min, y el teorema se
+    # cumple en la igualdad (con el aviso de que es el caso límite: un
+    # seno de exactamente f_s/2 sale con todas sus muestras a cero).
+    tol = 1e-9 * max(1.0, abs(fs_min))
 
     n_ex = int(min(1.0 * fs, len(x)))
     x_e = x[:n_ex]
@@ -437,7 +473,10 @@ def _experimentos_de_muestreo(x: np.ndarray, fs: float, fs_min: float,
             "fs_minima": fs_min,
             "multiplicador": f_s / fs_min if fs_min else 0.0,
             "n_muestras": int(len(x_alias)),
-            "cumple_nyquist": bool(f_s >= fs_min - 1e-9),
+            "cumple_nyquist": bool(f_s >= fs_min - tol),
+            # el caso límite: f_s ES f_s,min, o sea f_s/2 ES f_max. El
+            # teorema se cumple, pero con el aviso de que es el borde.
+            "caso_limite": bool(abs(f_s - fs_min) <= tol),
             "nrmse_aliasing": primitivas.nrmse_por_rango(ref, xhat_alias),
             "nrmse_reconstruccion": primitivas.nrmse_por_rango(ref, xhat_limpio),
             "nrmse_zoh": primitivas.nrmse_por_rango(ref, xhat_zoh),

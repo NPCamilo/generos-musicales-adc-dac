@@ -241,9 +241,15 @@ decir "esta cifra depende de una decisión":
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
 | 1881 | 0.50× | NO | 6,430e-02 | 3,596e-02 | 2,39 % |
-| 3762 | 1.00× | sí | 2,275e-02 | 1,182e-02 | 0,44 % |
-| 5643 | 1.50× | sí | 1,685e-02 | 6,605e-03 | 0,14 % |
-| 7524 | 2.00× | sí | 1,064e-02 | 6,652e-03 | 0,06 % |
+| 3762 | 1.00× | sí (al límite) | 2,275e-02 | 1,182e-02 | 0,44 % |
+| 5643 | 1.50× | sí | 1,685e-02 | 6,606e-03 | 0,14 % |
+| 7524 | 2.00× | sí | 1,064e-02 | 6,653e-03 | 0,06 % |
+
+La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
+exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
+cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
+todas sus muestras a cero, así que en el límite la señal no es
+recuperable. De ahí el aviso en la tabla.
 
 ![El barrido de muestreo de Clásica · Barroca](barroca_muestreo.png)
 
@@ -373,9 +379,15 @@ decir "esta cifra depende de una decisión":
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 11666 | 0.50× | NO | 3,985e-02 | 1,209e-02 | 1,05 % |
-| 23332 | 1.00× | NO | 1,800e-02 | 1,370e-02 | 0,31 % |
-| 34999 | 1.50× | sí | 1,698e-02 | 1,421e-02 | 0,02 % |
+| 11666 | 0.50× | NO | 3,986e-02 | 1,209e-02 | 1,05 % |
+| 23332 | 1.00× | sí (al límite) | 1,800e-02 | 1,370e-02 | 0,31 % |
+| 34999 | 1.50× | sí | 1,699e-02 | 1,421e-02 | 0,02 % |
+
+La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
+exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
+cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
+todas sus muestras a cero, así que en el límite la señal no es
+recuperable. De ahí el aviso en la tabla.
 
 ![El barrido de muestreo de Metal](metal_muestreo.png)
 
@@ -505,10 +517,16 @@ decir "esta cifra depende de una decisión":
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 9332 | 0.50× | NO | 2,494e-02 | 7,902e-03 | 1,38 % |
-| 18665 | 1.00× | sí | 1,642e-02 | 9,133e-03 | 0,18 % |
-| 27997 | 1.50× | sí | 1,330e-02 | 9,863e-03 | 0,00 % |
+| 9332 | 0.50× | NO | 2,494e-02 | 7,897e-03 | 1,38 % |
+| 18665 | 1.00× | sí (al límite) | 1,642e-02 | 9,134e-03 | 0,18 % |
+| 27997 | 1.50× | sí | 1,330e-02 | 9,860e-03 | 0,00 % |
 | 37329 | 2.00× | sí | 1,182e-02 | 1,070e-02 | 0,00 % |
+
+La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
+exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
+cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
+todas sus muestras a cero, así que en el límite la señal no es
+recuperable. De ahí el aviso en la tabla.
 
 ![El barrido de muestreo de Salsa](salsa_muestreo.png)
 
@@ -638,10 +656,16 @@ decir "esta cifra depende de una decisión":
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 7943 | 0.50× | NO | 6,541e-02 | 1,777e-02 | 7,14 % |
-| 15887 | 1.00× | sí | 4,575e-02 | 1,437e-02 | 2,93 % |
-| 23830 | 1.50× | sí | 3,666e-02 | 1,678e-02 | 0,97 % |
+| 7943 | 0.50× | NO | 6,540e-02 | 1,777e-02 | 7,14 % |
+| 15887 | 1.00× | sí (al límite) | 4,575e-02 | 1,438e-02 | 2,93 % |
+| 23830 | 1.50× | sí | 3,665e-02 | 1,678e-02 | 0,97 % |
 | 31774 | 2.00× | sí | 3,349e-02 | 1,939e-02 | 0,23 % |
+
+La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
+exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
+cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
+todas sus muestras a cero, así que en el límite la señal no es
+recuperable. De ahí el aviso en la tabla.
 
 ![El barrido de muestreo de Reggaetón](reggaeton_muestreo.png)
 
@@ -771,10 +795,16 @@ decir "esta cifra depende de una decisión":
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 9953 | 0.50× | NO | 2,758e-02 | 9,539e-03 | 0,91 % |
-| 19905 | 1.00× | NO | 1,638e-02 | 9,531e-03 | 0,09 % |
+| 9953 | 0.50× | NO | 2,759e-02 | 9,541e-03 | 0,91 % |
+| 19905 | 1.00× | sí (al límite) | 1,638e-02 | 9,530e-03 | 0,09 % |
 | 29858 | 1.50× | sí | 1,289e-02 | 1,084e-02 | 0,00 % |
 | 39811 | 2.00× | sí | 1,218e-02 | 1,128e-02 | 0,00 % |
+
+La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
+exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
+cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
+todas sus muestras a cero, así que en el límite la señal no es
+recuperable. De ahí el aviso en la tabla.
 
 ![El barrido de muestreo de Popular colombiana](popular_muestreo.png)
 
