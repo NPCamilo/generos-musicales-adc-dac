@@ -51,7 +51,7 @@ python construir.py               # regenera el informe, las figuras y datos.jso
 
 Hay dos guiones en `docs/`:
 
-- **`GUION_CUATRO.md`** — el que os sirve si sois un grupo: el turno de
+- **`GUION_CUATRO.md`** — el que les sirve si son un grupo: el turno de
   80 minutos repartido en cinco tramos (Ángel, Mariano, Luis y tú), con
   la **señalización de qué tiene que estar en pantalla** en cada momento,
   las transiciones entre ponentes y la distribución de las preguntas
