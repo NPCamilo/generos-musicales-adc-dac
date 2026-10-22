@@ -115,9 +115,3 @@ se pueda desplegar por sí solo.
 | `nucleo/figuras.py` | las 39 figuras, con el tema visual del proyecto `Laboratorio_ADC_DAC` (y con un tema propio si no está). |
 | `nucleo/informe.py` | el `salida/informe.md`, escrito desde los mismos datos que dibujan las figuras. |
 
-## Una nota sobre las pistas
-
-Los clips son extracts de 12 segundos de obras con derechos de autor,
-descargados **solo para el análisis académico** de este trabajo. No se
-redistribuyen: el repositorio los trae para poder repetir las medidas, y
-`audio/descargas.json` deja constancia de cuál es cada una.
