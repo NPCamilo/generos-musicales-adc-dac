@@ -10,3 +10,5 @@ Django>=5.0,<7.0
 numpy>=1.26
 scipy>=1.11
 matplotlib>=3.8
+# El PDF del proyecto (nucleo/pdf.py) se genera con reportlab.
+reportlab>=4.0

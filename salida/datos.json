@@ -1,6 +1,6 @@
 {
  "version": 2,
- "generado": "2026-10-21 20:25",
+ "generado": "2026-10-21 22:43",
  "resultados": {
   "barroca": {
    "clave": "barroca",
@@ -10,8 +10,8 @@
     "nombre": "Clásica · Barroca",
     "género": "Clásica — Barroca",
     "músico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
-    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
-    "año": 1722,
+    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007",
+    "año": 1717,
     "compositor": "Johann Sebastian Bach (1685-1750)",
     "estilo": "Barroco tardío (Köthen), cello solo senza basso",
     "instrumentación": "Un solo violonchelo, arpegiado continuo y cadencias de acordes",
@@ -141,11 +141,11 @@
       "multiplicador": 0.5000000011600243,
       "n_muestras": 1881,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.06429803084290324,
-      "nrmse_reconstruccion": 0.03596173683257982,
-      "nrmse_zoh": 0.08201418535740794,
-      "snr_aliasing": 7.903913780707976,
-      "snr_reconstruccion": 12.951054062849106,
+      "nrmse_aliasing": 0.02339300262612051,
+      "nrmse_reconstruccion": 0.061016573360182576,
+      "nrmse_zoh": 0.08701612680540202,
+      "snr_aliasing": 15.763916843217128,
+      "snr_reconstruccion": 7.4366799472194955,
       "energia_fuera_banda": 2.3883640792366716
      },
      {
@@ -154,11 +154,11 @@
       "multiplicador": 1.0000000023200486,
       "n_muestras": 3762,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.022745238228085003,
-      "nrmse_reconstruccion": 0.011818868429101704,
-      "nrmse_zoh": 0.0488757718387806,
-      "snr_aliasing": 15.872211800352424,
-      "snr_reconstruccion": 21.558503638239085,
+      "nrmse_aliasing": 0.011483440371282443,
+      "nrmse_reconstruccion": 0.026489436083649103,
+      "nrmse_zoh": 0.05574220325694757,
+      "snr_aliasing": 22.18219943932255,
+      "snr_reconstruccion": 14.922185572297177,
       "energia_fuera_banda": 0.43675998588922604
      },
      {
@@ -167,11 +167,11 @@
       "multiplicador": 1.5000000034800727,
       "n_muestras": 5643,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.01685039941782241,
-      "nrmse_reconstruccion": 0.006605325138549529,
-      "nrmse_zoh": 0.03871425728537782,
-      "snr_aliasing": 18.93395585297547,
-      "snr_reconstruccion": 27.068275846637086,
+      "nrmse_aliasing": 0.007974617847375746,
+      "nrmse_reconstruccion": 0.017164648411178325,
+      "nrmse_zoh": 0.04177711100021648,
+      "snr_aliasing": 25.4531342839419,
+      "snr_reconstruccion": 18.794633649649903,
       "energia_fuera_banda": 0.14063063587748156
      },
      {
@@ -180,11 +180,11 @@
       "multiplicador": 2.000000004640097,
       "n_muestras": 7524,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.010636008231696277,
-      "nrmse_reconstruccion": 0.006652243429738575,
-      "nrmse_zoh": 0.031676858071185414,
-      "snr_aliasing": 22.89296884099938,
-      "snr_reconstruccion": 26.96917947160028,
+      "nrmse_aliasing": 0.006751309270949213,
+      "nrmse_reconstruccion": 0.01175996440097321,
+      "nrmse_zoh": 0.03320833318344733,
+      "snr_aliasing": 26.863946874346972,
+      "snr_reconstruccion": 22.04358679398053,
       "energia_fuera_banda": 0.06193292803864078
      }
     ]
@@ -364,29 +364,39 @@
    },
    "cadena": {
     "etapas": {
+     "filtro_aa": {
+      "rmse": 0.0006642024219764193,
+      "max_abs": 0.011975249606449904,
+      "snr": 45.201543539063216
+     },
+     "muestreo": {
+      "rmse": 0.0037990407702348365,
+      "max_abs": 0.030486648254449633,
+      "snr": 30.053882712173653
+     },
      "cuantizador": {
-      "rmse": 9.760607937836565e-06,
-      "max_abs": 9.760607937892019e-06,
-      "snr": 81.85801526760251
+      "rmse": 8.803807117212663e-06,
+      "max_abs": 1.5258777611840135e-05,
+      "snr": 82.75395141790794
      },
      "dac_zoh": {
-      "rmse": 0.0,
-      "max_abs": 0.0,
-      "snr": Infinity
+      "rmse": 0.003799046358259573,
+      "max_abs": 0.030487060545680872,
+      "snr": 30.05386972839088
      }
     },
     "presupuesto": {
-     "cuantizador": {
-      "potencia": 9.526946731615816e-11,
-      "porcentaje": 100.0
+     "filtro_aa": {
+      "potencia": 4.411648573593414e-07,
+      "porcentaje": 99.98495305297261
      },
-     "dac_zoh": {
-      "potencia": 0.0,
-      "porcentaje": 0.0
+     "cuantizador": {
+      "potencia": 7.750701975708432e-11,
+      "porcentaje": 0.017566076722597326
      }
     },
-    "snr_cadena": 81.85801526760251,
-    "nrmse_cadena": 7.125350344354235e-06,
+    "snr_cadena": 45.2008900092875,
+    "nrmse_cadena": 0.0004849115022372079,
     "viaje": [
      {
       "etapa": "x(t) original",
@@ -405,27 +415,27 @@
       "exacta_tel": false
      },
      {
-      "etapa": "muestreo + DAC",
+      "etapa": "muestreo",
       "nota": "a 44100 Hz, sin aliasing posible",
-      "snr": null,
-      "exacta": true,
-      "snr_tel": null,
-      "exacta_tel": true
+      "snr": 30.053882712173653,
+      "exacta": false,
+      "snr_tel": 16.689132280420857,
+      "exacta_tel": false
      },
      {
       "etapa": "cuantizador",
       "nota": "16 bits, Δ = 3,05e-05 V",
-      "snr": 81.85801526760251,
+      "snr": 82.75395141790794,
       "exacta": false,
       "snr_tel": 34.55261819104136,
       "exacta_tel": false
      },
      {
       "etapa": "cadena completa",
-      "nota": "todo junto",
-      "snr": 81.85801526760251,
+      "nota": "acumulado, contra la señal original",
+      "snr": 45.2008900092875,
       "exacta": false,
-      "snr_tel": 34.55261819104136,
+      "snr_tel": 21.407528865877048,
       "exacta_tel": false
      }
     ],
@@ -443,7 +453,7 @@
        "porcentaje": 0.0
       }
      },
-     "snr_cadena": 34.55261819104136,
+     "snr_cadena": 21.407528865877048,
      "nrmse_cadena": 0.0017216015106172764,
      "nrmse_sobre_banda_completa": 0.0033301552429701397
     }
@@ -481,7 +491,7 @@
       "peso": 25,
       "valor": 0.5,
       "puntos": 12.5,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -489,7 +499,7 @@
       "peso": 20,
       "valor": 1.0,
       "puntos": 20.0,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -497,7 +507,7 @@
       "peso": 20,
       "valor": 0.9897327399756264,
       "puntos": 19.79465479951253,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -505,15 +515,15 @@
       "peso": 20,
       "valor": 0.9960396399422479,
       "puntos": 19.920792798844957,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.5227311546387028,
       "puntos": 7.840967319580542,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "veredicto": "favorable como fondo de estudio",
@@ -535,7 +545,7 @@
     "instrumentación": "Guitarras con saturación, bajo eléctrico, batería y amplificación",
     "bpm esperado": "120-140 (tema en 4/4, riff en semicorcheas)",
     "banda clave": "Fundamental grave del bajo (40-100 Hz) + mucha energía de guitarra hasta 8 kHz por la saturación",
-    "por qué este ejemplo": "La saturación de la guitarra no es un efecto de timbre: es multiplicación de la onda por una función no lineal, y eso genera armónicos de orden muy alto. Por eso el metal es el caso con más contenido agudo del conjunto, y el que peor se porta cuando se baja la frecuencia de muestreo: es la pista donde el aliasing se ve más claro.",
+    "por qué este ejemplo": "La saturación de la guitarra no es un efecto de timbre: es multiplicación de la onda por una función no lineal, y eso genera armónicos de orden muy alto. Por eso el metal es el caso con más contenido agudo del conjunto, y y el que tiene más contenido agudo del conjunto, por lo que es el primero en resentir una bajada de la tasa de muestreo en términos absolutos: necesita 23 332 Hz, la mayor de las cinco.",
     "fuentes": [
      "Discografía de Megadeth: 'Youthanasia', 1990; 'Tornado of Souls' es el segundo corte del álbum.",
      "Wikipedia (EN): Youthanasia, álbum de 1990."
@@ -658,11 +668,11 @@
       "multiplicador": 0.5000000175081966,
       "n_muestras": 11666,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.039850438958732366,
-      "nrmse_reconstruccion": 0.01208828132398996,
-      "nrmse_zoh": 0.03436200959732229,
-      "snr_aliasing": 9.595520419460561,
-      "snr_reconstruccion": 19.95689144009214,
+      "nrmse_aliasing": 0.01829375212122186,
+      "nrmse_reconstruccion": 0.03688820841299403,
+      "nrmse_zoh": 0.04795032400545701,
+      "snr_aliasing": 16.17855201884063,
+      "snr_reconstruccion": 10.08685656318156,
       "energia_fuera_banda": 1.0462042611954983
      },
      {
@@ -671,11 +681,11 @@
       "multiplicador": 0.9999999921575417,
       "n_muestras": 23332,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.018002130478336507,
-      "nrmse_reconstruccion": 0.013702091797597194,
-      "nrmse_zoh": 0.035325286479337026,
-      "snr_aliasing": 16.364792893823285,
-      "snr_reconstruccion": 18.735533540893986,
+      "nrmse_aliasing": 0.016899021058743895,
+      "nrmse_reconstruccion": 0.017041291636930616,
+      "nrmse_zoh": 0.03711074547941952,
+      "snr_aliasing": 17.031455486326788,
+      "snr_reconstruccion": 16.9586362527604,
       "energia_fuera_banda": 0.30649640693647123
      },
      {
@@ -684,11 +694,11 @@
       "multiplicador": 1.5000000096657384,
       "n_muestras": 34998,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.016984811015832,
-      "nrmse_reconstruccion": 0.014207895587509832,
-      "nrmse_zoh": 0.029564454035476816,
-      "snr_aliasing": 16.911770728799528,
-      "snr_reconstruccion": 18.462389971404605,
+      "nrmse_aliasing": 0.016587715053028577,
+      "nrmse_reconstruccion": 0.016217520148987,
+      "nrmse_zoh": 0.030749618567039425,
+      "snr_aliasing": 17.199938657998896,
+      "snr_reconstruccion": 17.39598106164769,
       "energia_fuera_banda": 0.01841288084489642
      }
     ]
@@ -868,29 +878,39 @@
    },
    "cadena": {
     "etapas": {
+     "filtro_aa": {
+      "rmse": 0.01009674544821141,
+      "max_abs": 0.1771788592780681,
+      "snr": 23.640452998637524
+     },
+     "muestreo": {
+      "rmse": 0.017964812069725992,
+      "max_abs": 0.12240547918673422,
+      "snr": 18.61071935077633
+     },
      "cuantizador": {
-      "rmse": 1.0446849773977447e-05,
-      "max_abs": 1.0446849774026212e-05,
-      "snr": 83.34437415262327
+      "rmse": 8.80355620021416e-06,
+      "max_abs": 1.5258774561460742e-05,
+      "snr": 84.80601009817669
      },
      "dac_zoh": {
-      "rmse": 0.0,
-      "max_abs": 0.0,
-      "snr": Infinity
+      "rmse": 0.01796481548514358,
+      "max_abs": 0.12240600584978606,
+      "snr": 18.610718461289025
      }
     },
     "presupuesto": {
-     "cuantizador": {
-      "potencia": 1.0913667020005262e-10,
-      "porcentaje": 100.0
+     "filtro_aa": {
+      "potencia": 0.0001019442686459778,
+      "porcentaje": 100.00005564954404
      },
-     "dac_zoh": {
-      "potencia": 0.0,
-      "porcentaje": 0.0
+     "cuantizador": {
+      "potencia": 7.750260177032917e-11,
+      "porcentaje": 7.602452391837482e-05
      }
     },
-    "snr_cadena": 83.34437415262327,
-    "nrmse_cadena": 7.178676621937109e-06,
+    "snr_cadena": 23.640455415465844,
+    "nrmse_cadena": 0.006938096355088046,
     "viaje": [
      {
       "etapa": "x(t) original",
@@ -909,27 +929,27 @@
       "exacta_tel": false
      },
      {
-      "etapa": "muestreo + DAC",
+      "etapa": "muestreo",
       "nota": "a 44100 Hz, sin aliasing posible",
-      "snr": null,
-      "exacta": true,
-      "snr_tel": null,
-      "exacta_tel": true
+      "snr": 18.61071935077633,
+      "exacta": false,
+      "snr_tel": 14.632532755237476,
+      "exacta_tel": false
      },
      {
       "etapa": "cuantizador",
       "nota": "16 bits, Δ = 3,05e-05 V",
-      "snr": 83.34437415262327,
+      "snr": 84.80601009817669,
       "exacta": false,
       "snr_tel": 35.576413699454115,
       "exacta_tel": false
      },
      {
       "etapa": "cadena completa",
-      "nota": "todo junto",
-      "snr": 83.34437415262327,
+      "nota": "acumulado, contra la señal original",
+      "snr": 23.640455415465844,
       "exacta": false,
-      "snr_tel": 35.576413699454115,
+      "snr_tel": 6.752905638972563,
       "exacta_tel": false
      }
     ],
@@ -947,7 +967,7 @@
        "porcentaje": 0.0
       }
      },
-     "snr_cadena": 35.576413699454115,
+     "snr_cadena": 6.752905638972563,
      "nrmse_cadena": 0.0018729278380197405,
      "nrmse_sobre_banda_completa": 0.004865097634582419
     }
@@ -985,7 +1005,7 @@
       "peso": 25,
       "valor": 0.8333333333333334,
       "puntos": 20.833333333333336,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -993,7 +1013,7 @@
       "peso": 20,
       "valor": 0.712873701114876,
       "puntos": 14.25747402229752,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -1001,7 +1021,7 @@
       "peso": 20,
       "valor": 0.5897291012291306,
       "puntos": 11.794582024582612,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -1009,15 +1029,15 @@
       "peso": 20,
       "valor": 0.6447930105690961,
       "puntos": 12.895860211381923,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.2732490446396877,
       "puntos": 4.098735669595316,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "veredicto": "aceptable como fondo de estudio",
@@ -1163,11 +1183,11 @@
       "multiplicador": 0.49999997456860984,
       "n_muestras": 9332,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.02493926173971781,
-      "nrmse_reconstruccion": 0.007901728002926722,
-      "nrmse_zoh": 0.03303254174360562,
-      "snr_aliasing": 13.608742605291855,
-      "snr_reconstruccion": 23.591972947174405,
+      "nrmse_aliasing": 0.017589958697211396,
+      "nrmse_reconstruccion": 0.022250437624381128,
+      "nrmse_zoh": 0.03919576811480956,
+      "snr_aliasing": 16.79499616709633,
+      "snr_reconstruccion": 14.753521417848255,
       "energia_fuera_banda": 1.3837317181139825
      },
      {
@@ -1176,11 +1196,11 @@
       "multiplicador": 1.000000002714164,
       "n_muestras": 18664,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.016420580107569492,
-      "nrmse_reconstruccion": 0.009133021648664719,
-      "nrmse_zoh": 0.02519771298519954,
-      "snr_aliasing": 17.44929280248661,
-      "snr_reconstruccion": 22.54477297760264,
+      "nrmse_aliasing": 0.012074889256266975,
+      "nrmse_reconstruccion": 0.016076602958266458,
+      "nrmse_zoh": 0.028465633681307567,
+      "snr_aliasing": 20.111342368333304,
+      "snr_reconstruccion": 17.62511977168536,
       "energia_fuera_banda": 0.17597975271945906
      },
      {
@@ -1189,11 +1209,11 @@
       "multiplicador": 1.499999977282774,
       "n_muestras": 27997,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.0133039188361934,
-      "nrmse_reconstruccion": 0.009863112143964592,
-      "nrmse_zoh": 0.022339280748603245,
-      "snr_aliasing": 19.242138251298627,
-      "snr_reconstruccion": 21.841450563364972,
+      "nrmse_aliasing": 0.011520578465832857,
+      "nrmse_reconstruccion": 0.012809265137886569,
+      "nrmse_zoh": 0.0238800127513484,
+      "snr_aliasing": 20.519449934948305,
+      "snr_reconstruccion": 19.59845135604233,
       "energia_fuera_banda": 0.00011259376017491942
      },
      {
@@ -1202,11 +1222,11 @@
       "multiplicador": 2.000000005428328,
       "n_muestras": 37329,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.011820599818953404,
-      "nrmse_reconstruccion": 0.010695815342225235,
-      "nrmse_zoh": 0.020785920360115295,
-      "snr_aliasing": 20.30022644593558,
-      "snr_reconstruccion": 21.168738811782532,
+      "nrmse_aliasing": 0.01143886946181109,
+      "nrmse_reconstruccion": 0.011624262877093448,
+      "nrmse_zoh": 0.021301745400391002,
+      "snr_aliasing": 20.58136043506995,
+      "snr_reconstruccion": 20.441714058570597,
       "energia_fuera_banda": 4.264173711775381e-05
      }
     ]
@@ -1386,29 +1406,39 @@
    },
    "cadena": {
     "etapas": {
+     "filtro_aa": {
+      "rmse": 0.013223083529249346,
+      "max_abs": 0.21521079302409085,
+      "snr": 23.479688786359386
+     },
+     "muestreo": {
+      "rmse": 0.019197034995466808,
+      "max_abs": 0.1744640662151743,
+      "snr": 20.21241907752978
+     },
      "cuantizador": {
-      "rmse": 3.7148750287928667e-06,
-      "max_abs": 3.714875028815179e-06,
-      "snr": 94.50745944643626
+      "rmse": 8.811876782933233e-06,
+      "max_abs": 1.5258788310990035e-05,
+      "snr": 86.97573389432299
      },
      "dac_zoh": {
-      "rmse": 0.0,
-      "max_abs": 0.0,
-      "snr": Infinity
+      "rmse": 0.01919703379379599,
+      "max_abs": 0.1744537353515625,
+      "snr": 20.212419233850532
      }
     },
     "presupuesto": {
-     "cuantizador": {
-      "potencia": 1.3800296479548801e-11,
-      "porcentaje": 100.0
+     "filtro_aa": {
+      "potencia": 0.00017484993802150534,
+      "porcentaje": 99.99970971495111
      },
-     "dac_zoh": {
-      "potencia": 0.0,
-      "porcentaje": 0.0
+     "cuantizador": {
+      "potencia": 7.764917243759775e-11,
+      "porcentaje": 4.440890738211717e-05
      }
     },
-    "snr_cadena": 94.50745944643626,
-    "nrmse_cadena": 2.0081995668385355e-06,
+    "snr_cadena": 23.4796761794216,
+    "nrmse_cadena": 0.007148189091686406,
     "viaje": [
      {
       "etapa": "x(t) original",
@@ -1427,27 +1457,27 @@
       "exacta_tel": false
      },
      {
-      "etapa": "muestreo + DAC",
+      "etapa": "muestreo",
       "nota": "a 44100 Hz, sin aliasing posible",
-      "snr": null,
-      "exacta": true,
-      "snr_tel": null,
-      "exacta_tel": true
+      "snr": 20.21241907752978,
+      "exacta": false,
+      "snr_tel": 11.414729013177585,
+      "exacta_tel": false
      },
      {
       "etapa": "cuantizador",
       "nota": "16 bits, Δ = 3,05e-05 V",
-      "snr": 94.50745944643626,
+      "snr": 86.97573389432299,
       "exacta": false,
       "snr_tel": 38.30870502843078,
       "exacta_tel": false
      },
      {
       "etapa": "cadena completa",
-      "nota": "todo junto",
-      "snr": 94.50745944643626,
+      "nota": "acumulado, contra la señal original",
+      "snr": 23.4796761794216,
       "exacta": false,
-      "snr_tel": 38.30870502843078,
+      "snr_tel": 9.83589840586024,
       "exacta_tel": false
      }
     ],
@@ -1465,7 +1495,7 @@
        "porcentaje": 0.0
       }
      },
-     "snr_cadena": 38.30870502843078,
+     "snr_cadena": 9.83589840586024,
      "nrmse_cadena": 0.001330760996798208,
      "nrmse_sobre_banda_completa": 0.006441030224447071
     }
@@ -1503,7 +1533,7 @@
       "peso": 25,
       "valor": 0.75,
       "puntos": 18.75,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -1511,7 +1541,7 @@
       "peso": 20,
       "valor": 0.7508344626939883,
       "puntos": 15.016689253879766,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -1519,7 +1549,7 @@
       "peso": 20,
       "valor": 0.8549907878532224,
       "puntos": 17.099815757064448,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -1527,15 +1557,15 @@
       "peso": 20,
       "valor": 0.5867257786585908,
       "puntos": 11.734515573171816,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "veredicto": "aceptable como fondo de estudio",
@@ -1557,7 +1587,7 @@
     "instrumentación": "Bombo sintetizado (dembow), pads, voz con autotune, sintetizadores de alta frecuencia",
     "bpm esperado": "90-100 (dembow en 2-4)",
     "banda clave": "40-60 Hz (bombo sintetizado) y 60-250 Hz (bajo y voz); muy poca energía por encima de 4 kHz",
-    "por qué este ejemplo": "El reggaetón moderno es EL caso de la música con la energía más concentrada en el graves: el bombo es un seno sintetizado y la voz va con poca información armónica alta. Es, junto con la barroca, el otro extremo del conjunto, y el que da la mayor دينامica (el bombo ataca y la voz no).",
+    "por qué este ejemplo": "El reggaetón moderno es EL caso de la música con la energía más concentrada en el graves: el bombo es un seno sintetizado y la voz va con poca información armónica alta. Es el más oscuro en la banda de graves, con el 27 % de su energía por debajo de 60 Hz. Lo que sí tiene es un contraste rítmico grande entre el bombo y la voz, aunque el factor de cresta medido (2,88) es bajo por la compresión de la masterización.",
     "fuentes": [
      "Wikipedia (EN): 'Luna (Feid and ATL Jacob song)', single del EP 'Ferxxocalipsis' (2023), lanzamiento el 1 de diciembre de 2023.",
      "Apple Music / Shazam: fecha de publicación 1-dic-2023."
@@ -1680,11 +1710,11 @@
       "multiplicador": 0.5000000115774444,
       "n_muestras": 7943,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.06540756717104539,
-      "nrmse_reconstruccion": 0.017767548152410235,
-      "nrmse_zoh": 0.041965307729414966,
-      "snr_aliasing": 7.776964222776101,
-      "snr_reconstruccion": 19.096974118256423,
+      "nrmse_aliasing": 0.04716929595236495,
+      "nrmse_reconstruccion": 0.04756871488743444,
+      "nrmse_zoh": 0.06035361498052456,
+      "snr_aliasing": 10.626523419662167,
+      "snr_reconstruccion": 10.553282925916356,
       "energia_fuera_banda": 7.14438514350277
      },
      {
@@ -1693,11 +1723,11 @@
       "multiplicador": 1.000000023154889,
       "n_muestras": 15886,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.045751911526813356,
-      "nrmse_reconstruccion": 0.014373297852863988,
-      "nrmse_zoh": 0.04007637250286288,
-      "snr_aliasing": 10.878421731729947,
-      "snr_reconstruccion": 20.93547809800001,
+      "nrmse_aliasing": 0.03474814692233401,
+      "nrmse_reconstruccion": 0.036616637256907975,
+      "nrmse_zoh": 0.05164943222274936,
+      "snr_aliasing": 13.15112787742822,
+      "snr_reconstruccion": 12.696191705652799,
       "energia_fuera_banda": 2.9338457542201963
      },
      {
@@ -1706,11 +1736,11 @@
       "multiplicador": 1.4999999717873027,
       "n_muestras": 23830,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.036656876973239605,
-      "nrmse_reconstruccion": 0.016777925516335106,
-      "nrmse_zoh": 0.039355982012823344,
-      "snr_aliasing": 12.623240034725116,
-      "snr_reconstruccion": 19.411584032655114,
+      "nrmse_aliasing": 0.03222311748860305,
+      "nrmse_reconstruccion": 0.034010665018357256,
+      "nrmse_zoh": 0.05112175848507892,
+      "snr_aliasing": 14.394844631306146,
+      "snr_reconstruccion": 13.92589324951179,
       "energia_fuera_banda": 0.9669759719880326
      },
      {
@@ -1719,11 +1749,11 @@
       "multiplicador": 1.9999999833647473,
       "n_muestras": 31773,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.0334882715681537,
-      "nrmse_reconstruccion": 0.019391423980293292,
-      "nrmse_zoh": 0.039315729150495596,
-      "snr_aliasing": 13.473750155603177,
-      "snr_reconstruccion": 18.21941077236707,
+      "nrmse_aliasing": 0.03281305749646,
+      "nrmse_reconstruccion": 0.03210635205495774,
+      "nrmse_zoh": 0.049531190750381454,
+      "snr_aliasing": 14.485870193309928,
+      "snr_reconstruccion": 14.674984912678141,
       "energia_fuera_banda": 0.23348200867533775
      }
     ]
@@ -1903,29 +1933,39 @@
    },
    "cadena": {
     "etapas": {
+     "filtro_aa": {
+      "rmse": 0.04278559860477059,
+      "max_abs": 0.7260416356122292,
+      "snr": 18.183744711642646
+     },
+     "muestreo": {
+      "rmse": 0.039151707094099396,
+      "max_abs": 0.4485968673181593,
+      "snr": 18.867159345201635
+     },
      "cuantizador": {
-      "rmse": 9.978196470358894e-06,
-      "max_abs": 0.00036104180645235573,
-      "snr": 90.82865594292025
+      "rmse": 0.0014747635371496236,
+      "max_abs": 0.2276893215955329,
+      "snr": 47.34772557709209
      },
      "dac_zoh": {
-      "rmse": 0.0,
-      "max_abs": 0.0,
-      "snr": Infinity
+      "rmse": 0.03910132382898313,
+      "max_abs": 0.4485931396484375,
+      "snr": 18.87640829898162
      }
     },
     "presupuesto": {
-     "cuantizador": {
-      "potencia": 9.956440480108269e-11,
-      "porcentaje": 99.99999999999999
+     "filtro_aa": {
+      "potencia": 0.0018306074479685472,
+      "porcentaje": 100.29622063861606
      },
-     "dac_zoh": {
-      "potencia": 0.0,
-      "porcentaje": 0.0
+     "cuantizador": {
+      "potencia": 2.1749274905060693e-06,
+      "porcentaje": 0.11916099636918784
      }
     },
-    "snr_cadena": 90.82865594292025,
-    "nrmse_cadena": 4.989326628427208e-06,
+    "snr_cadena": 18.196590394118154,
+    "nrmse_cadena": 0.021362162460912184,
     "viaje": [
      {
       "etapa": "x(t) original",
@@ -1944,27 +1984,27 @@
       "exacta_tel": false
      },
      {
-      "etapa": "muestreo + DAC",
+      "etapa": "muestreo",
       "nota": "a 44100 Hz, sin aliasing posible",
-      "snr": null,
-      "exacta": true,
-      "snr_tel": null,
-      "exacta_tel": true
+      "snr": 18.867159345201635,
+      "exacta": false,
+      "snr_tel": 16.642132554340918,
+      "exacta_tel": false
      },
      {
       "etapa": "cuantizador",
       "nota": "16 bits, Δ = 3,05e-05 V",
-      "snr": 90.82865594292025,
+      "snr": 47.34772557709209,
       "exacta": false,
       "snr_tel": 42.941523230003405,
       "exacta_tel": false
      },
      {
       "etapa": "cadena completa",
-      "nota": "todo junto",
-      "snr": 90.82865594292025,
+      "nota": "acumulado, contra la señal original",
+      "snr": 18.196590394118154,
       "exacta": false,
-      "snr_tel": 42.941523230003405,
+      "snr_tel": 8.549270256838907,
       "exacta_tel": false
      }
     ],
@@ -1982,7 +2022,7 @@
        "porcentaje": 0.0
       }
      },
-     "snr_cadena": 42.941523230003405,
+     "snr_cadena": 8.549270256838907,
      "nrmse_cadena": 0.001084772978942012,
      "nrmse_sobre_banda_completa": 0.004929116895827137
     }
@@ -2020,7 +2060,7 @@
       "peso": 25,
       "valor": 0.7777777777777778,
       "puntos": 19.444444444444446,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -2028,7 +2068,7 @@
       "peso": 20,
       "valor": 0.7952103734607001,
       "puntos": 15.904207469214002,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -2036,7 +2076,7 @@
       "peso": 20,
       "valor": 0.8281799214407539,
       "puntos": 16.563598428815077,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -2044,15 +2084,15 @@
       "peso": 20,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.5275431545954626,
       "puntos": 7.91314731893194,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "veredicto": "aceptable como fondo de estudio",
@@ -2198,11 +2238,11 @@
       "multiplicador": 0.5000000141370375,
       "n_muestras": 9952,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.027581137237852382,
-      "nrmse_reconstruccion": 0.009539169422267468,
-      "nrmse_zoh": 0.03298280346599256,
-      "snr_aliasing": 14.513947424583634,
-      "snr_reconstruccion": 23.735979564726644,
+      "nrmse_aliasing": 0.017573665029106292,
+      "nrmse_reconstruccion": 0.02587881547206227,
+      "nrmse_zoh": 0.040813336900647694,
+      "snr_aliasing": 18.45136184462263,
+      "snr_reconstruccion": 15.089720848573542,
       "energia_fuera_banda": 0.9087395582085938
      },
      {
@@ -2211,11 +2251,11 @@
       "multiplicador": 0.9999999780363085,
       "n_muestras": 19905,
       "cumple_nyquist": false,
-      "nrmse_aliasing": 0.01638405433529696,
-      "nrmse_reconstruccion": 0.009531201678846413,
-      "nrmse_zoh": 0.026534906682428173,
-      "snr_aliasing": 19.076687472170462,
-      "snr_reconstruccion": 23.78216187855655,
+      "nrmse_aliasing": 0.012345449265908729,
+      "nrmse_reconstruccion": 0.0160253969896201,
+      "nrmse_zoh": 0.029745130887410688,
+      "snr_aliasing": 21.635742245575926,
+      "snr_reconstruccion": 19.369704288831176,
       "energia_fuera_banda": 0.08933819962754608
      },
      {
@@ -2224,11 +2264,11 @@
       "multiplicador": 1.499999992173346,
       "n_muestras": 29858,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.012894458699527264,
-      "nrmse_reconstruccion": 0.01083582646507784,
-      "nrmse_zoh": 0.024036450601935305,
-      "snr_aliasing": 21.23106472475143,
-      "snr_reconstruccion": 22.741886209748053,
+      "nrmse_aliasing": 0.012037930928232613,
+      "nrmse_reconstruccion": 0.012672054602757343,
+      "nrmse_zoh": 0.025038098320679505,
+      "snr_aliasing": 21.87237276156754,
+      "snr_reconstruccion": 21.426468991492214,
       "energia_fuera_banda": 3.383096551885632e-05
      },
      {
@@ -2237,11 +2277,11 @@
       "multiplicador": 2.0000000063103833,
       "n_muestras": 39810,
       "cumple_nyquist": true,
-      "nrmse_aliasing": 0.012177727030580789,
-      "nrmse_reconstruccion": 0.011281552134932952,
-      "nrmse_zoh": 0.021574155598822607,
-      "snr_aliasing": 21.735981324539644,
-      "snr_reconstruccion": 22.399928928355195,
+      "nrmse_aliasing": 0.011987185517635304,
+      "nrmse_reconstruccion": 0.011918777346215957,
+      "nrmse_zoh": 0.021987760853384507,
+      "snr_aliasing": 21.914663095216433,
+      "snr_reconstruccion": 21.9643734919496,
       "energia_fuera_banda": 7.47931884055545e-07
      }
     ]
@@ -2421,29 +2461,39 @@
    },
    "cadena": {
     "etapas": {
+     "filtro_aa": {
+      "rmse": 0.021836334443195042,
+      "max_abs": 0.3179926235728143,
+      "snr": 24.240665251459323
+     },
+     "muestreo": {
+      "rmse": 0.039384640855969974,
+      "max_abs": 0.3419776910308748,
+      "snr": 19.09224811938719
+     },
      "cuantizador": {
-      "rmse": 1.0629540037595246e-05,
-      "max_abs": 1.0629540037609964e-05,
-      "snr": 90.49397055539914
+      "rmse": 0.0005530554522421414,
+      "max_abs": 0.06873194680160699,
+      "snr": 56.14341234758533
      },
      "dac_zoh": {
-      "rmse": 0.0,
-      "max_abs": 0.0,
-      "snr": Infinity
+      "rmse": 0.03937876704912865,
+      "max_abs": 0.3419647216796875,
+      "snr": 19.09226490271177
      }
     },
     "presupuesto": {
-     "cuantizador": {
-      "potencia": 1.1298712141084035e-10,
-      "porcentaje": 100.0
+     "filtro_aa": {
+      "potencia": 0.00047682550191506615,
+      "porcentaje": 100.0887120801103
      },
-     "dac_zoh": {
-      "potencia": 0.0,
-      "porcentaje": 0.0
+     "cuantizador": {
+      "potencia": 3.058703332547596e-07,
+      "porcentaje": 0.06420413253072214
      }
     },
-    "snr_cadena": 90.49397055539914,
-    "nrmse_cadena": 5.315013320799002e-06,
+    "snr_cadena": 24.24451626024377,
+    "nrmse_cadena": 0.010913827170106985,
     "viaje": [
      {
       "etapa": "x(t) original",
@@ -2462,27 +2512,27 @@
       "exacta_tel": false
      },
      {
-      "etapa": "muestreo + DAC",
+      "etapa": "muestreo",
       "nota": "a 44100 Hz, sin aliasing posible",
-      "snr": null,
-      "exacta": true,
-      "snr_tel": null,
-      "exacta_tel": true
+      "snr": 19.09224811938719,
+      "exacta": false,
+      "snr_tel": 11.581242852758564,
+      "exacta_tel": false
      },
      {
       "etapa": "cuantizador",
       "nota": "16 bits, Δ = 3,05e-05 V",
-      "snr": 90.49397055539914,
+      "snr": 56.14341234758533,
       "exacta": false,
       "snr_tel": 38.37627061342534,
       "exacta_tel": false
      },
      {
       "etapa": "cadena completa",
-      "nota": "todo junto",
-      "snr": 90.49397055539914,
+      "nota": "acumulado, contra la señal original",
+      "snr": 24.24451626024377,
       "exacta": false,
-      "snr_tel": 38.37627061342534,
+      "snr_tel": 9.598291812461879,
       "exacta_tel": false
      }
     ],
@@ -2500,7 +2550,7 @@
        "porcentaje": 0.0
       }
      },
-     "snr_cadena": 38.37627061342534,
+     "snr_cadena": 9.598291812461879,
      "nrmse_cadena": 0.0017028223508251303,
      "nrmse_sobre_banda_completa": 0.008208949900672011
     }
@@ -2538,7 +2588,7 @@
       "peso": 25,
       "valor": 0.5,
       "puntos": 12.5,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -2546,7 +2596,7 @@
       "peso": 20,
       "valor": 0.6590057760431253,
       "puntos": 13.180115520862506,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -2554,7 +2604,7 @@
       "peso": 20,
       "valor": 0.823584735901576,
       "puntos": 16.47169471803152,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -2562,15 +2612,15 @@
       "peso": 20,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "veredicto": "discutible como fondo de estudio",
@@ -2586,8 +2636,8 @@
     "nombre": "Clásica · Barroca",
     "genero": "Clásica — Barroca",
     "musico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
-    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
-    "anio": 1722,
+    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007",
+    "anio": 1717,
     "f_max": 1881.0009956359863,
     "f_max_energia": 3658.920192718506,
     "fs_minima": 3762.0019912719727,
@@ -2683,8 +2733,8 @@
     "nombre": "Clásica · Barroca",
     "genero": "Clásica — Barroca",
     "musico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
-    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
-    "anio": 1722,
+    "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007",
+    "anio": 1717,
     "f_max": 1881.0009956359863,
     "f_max_energia": 3658.920192718506,
     "fs_minima": 3762.0019912719727,
@@ -2784,7 +2834,7 @@
       "peso": 25,
       "valor": 0.5,
       "puntos": 12.5,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -2792,7 +2842,7 @@
       "peso": 20,
       "valor": 1.0,
       "puntos": 20.0,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -2800,7 +2850,7 @@
       "peso": 20,
       "valor": 0.9897327399756264,
       "puntos": 19.79465479951253,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -2808,15 +2858,15 @@
       "peso": 20,
       "valor": 0.9960396399422479,
       "puntos": 19.920792798844957,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.5227311546387028,
       "puntos": 7.840967319580542,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "indice": 80.05641491793803,
@@ -2831,7 +2881,7 @@
       "peso": 25,
       "valor": 0.8333333333333334,
       "puntos": 20.833333333333336,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -2839,7 +2889,7 @@
       "peso": 20,
       "valor": 0.712873701114876,
       "puntos": 14.25747402229752,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -2847,7 +2897,7 @@
       "peso": 20,
       "valor": 0.5897291012291306,
       "puntos": 11.794582024582612,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -2855,15 +2905,15 @@
       "peso": 20,
       "valor": 0.6447930105690961,
       "puntos": 12.895860211381923,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.2732490446396877,
       "puntos": 4.098735669595316,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "indice": 63.879985261190704,
@@ -2878,7 +2928,7 @@
       "peso": 25,
       "valor": 0.75,
       "puntos": 18.75,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -2886,7 +2936,7 @@
       "peso": 20,
       "valor": 0.7508344626939883,
       "puntos": 15.016689253879766,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -2894,7 +2944,7 @@
       "peso": 20,
       "valor": 0.8549907878532224,
       "puntos": 17.099815757064448,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -2902,15 +2952,15 @@
       "peso": 20,
       "valor": 0.5867257786585908,
       "puntos": 11.734515573171816,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "indice": 62.60102058411603,
@@ -2925,7 +2975,7 @@
       "peso": 25,
       "valor": 0.7777777777777778,
       "puntos": 19.444444444444446,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -2933,7 +2983,7 @@
       "peso": 20,
       "valor": 0.7952103734607001,
       "puntos": 15.904207469214002,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -2941,7 +2991,7 @@
       "peso": 20,
       "valor": 0.8281799214407539,
       "puntos": 16.563598428815077,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -2949,15 +2999,15 @@
       "peso": 20,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.5275431545954626,
       "puntos": 7.91314731893194,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "indice": 59.82539766140547,
@@ -2972,7 +3022,7 @@
       "peso": 25,
       "valor": 0.5,
       "puntos": 12.5,
-      "por_que": "La literatura sobre música y atención (Strayer & Perona, 2006; Husain et al., 2002) encuentra que un tempo moderado se asocia a menor activación; por encima de ~100 BPM el pulso se vuelve tenso. La ventana 60-90 BPM es la que aparece repetida en los estudios de fondo sonoro."
+      "por_que": "Los estudios asocian el tempo con la activación y el rendimiento lectoro. La ventana de 60 a 90 BPM es una DECISIÓN de este proyecto, no un resultado de los estudios citados, que no fijan ninguna ventana."
      },
      {
       "clave": "brillo",
@@ -2980,7 +3030,7 @@
       "peso": 20,
       "valor": 0.6590057760431253,
       "puntos": 13.180115520862506,
-      "por_que": "El contenido agudo (2-8 kHz) es el que resulta activante y el que tapa la voz del profesor. Un centroide bajo indica una pieza que deja libre esa banda."
+      "por_que": "La energía de baja frecuencia es la que se ha asociado a un efecto favorable sobre la atención, y el contenido agudo es el que compite con la voz del profesor. Los umbrales concretos son una decisión del proyecto."
      },
      {
       "clave": "agudos",
@@ -2988,7 +3038,7 @@
       "peso": 20,
       "valor": 0.823584735901576,
       "puntos": 16.47169471803152,
-      "por_que": "Misma idea que el brillo pero medida como energía: las percusiones de ataque (timbales, charles, platillos) viven justo ahí, y son el componente que más activa."
+      "por_que": "Esa es la banda de las percusiones de ataque, las que más activan. Los estudios atribuyen a la música rítmica un efecto menor que a la música calma. Los umbrales son una decisión del proyecto."
      },
      {
       "clave": "dinamica",
@@ -2996,15 +3046,15 @@
       "peso": 20,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Una señal muy comprimida (factor de cresta de 3 o menos) no tiene silencios: el oído no descansa y la atención no baja del estado de alerta. AVISO HONESTO: la compresión con limitador es también una práctica de ESTUDIO MODERNO, así que este criterio mide en parte la época de producción y no solo el género."
+      "por_que": "Una señal muy comprimida no tiene silencios, y el oído no descansa. AVISO HONESTO: la compresión con limitador es una práctica de estudio moderno, así que este criterio mide en parte la época de producción y no solo el género."
      },
      {
       "clave": "voz",
-      "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
+      "nombre": "Poca energía en la banda de la voz (300 Hz-3,4 kHz)",
       "peso": 15,
       "valor": 0.0,
       "puntos": 0.0,
-      "por_que": "Es la banda donde habla una voz humana, y por tanto la misma en la que el estudiante tiene que seguir al profesor. Una pieza con cantante en esa banda compite con la voz que hay que escuchar. Es el criterio más específico del contexto de uso."
+      "por_que": "La banda de 300 a 3 400 Hz es la banda de la voz humana, y es la que el estudiante necesita para seguir al profesor. Además, la música con letra ha sido la menos eficaz en los estudios de comprensión lectora con TDAH."
      }
     ],
     "indice": 42.15181023889403,
@@ -3032,17 +3082,17 @@
    "avisos": [
     "Un espectro de audio NO es un EEG. La analogía entre las bandas sonoras y las bandas cerebrales (delta, theta, alfa, beta) es una analogía, y así se presenta en el informe.",
     "No hay ninguna afirmación clínica aquí. Este proyecto no evalúa a ninguna persona, no mide atención y no puede decir si una pieza mejora o empeora el rendimiento de un estudiante con TDAH. Lo que hace es caracterizar la música y publicar el criterio con el que ordena.",
-    "La evidencia de la literatura sobre música y TDAH es de asociación, no de causalidad, y la mayoría de los estudios usa música rock/pop en lugar dezar la música classical, que es el caso menos estudiado de los cinco."
+    "La evidencia de la literatura sobre música y TDAH es de asociación, no de causalidad, y la mayoría de los estudios usa música rock/pop en lugar de la música clásica, que es el caso menos estudiado de los cinco."
    ],
-   "resumen": "Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.",
+   "resumen": "Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz, y ocupa muy poca banda de agudos de percusión, que es donde más gana. En la banda de la voz (300 Hz-3,4 kHz), en cambio, concentra un 24 % de su energía: es el punto más débil de su ficha, y conviene decirlo.",
    "tabla": [
     {
      "clave": "barroca",
      "nombre": "Clásica · Barroca",
      "genero": "Clásica — Barroca",
      "musico": "Netherlands Bach Society (Lucia Swarts, violonchelo)",
-     "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio)",
-     "anio": 1722,
+     "obra": "J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007",
+     "anio": 1717,
      "f_max": 1881.0009956359863,
      "f_max_energia": 3658.920192718506,
      "fs_minima": 3762.0019912719727,

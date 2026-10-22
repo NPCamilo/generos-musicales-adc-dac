@@ -166,27 +166,25 @@ y = V_fs / 2^(b-1) = 1 / 2^15 = 3,052 · 10⁻⁵ voltios por nivel
 
 *Abre la figura de la cadena (sección 5 de la ficha).*
 
-> «Y aquí está la cadena completa, que es la parte que más cuesta
-> entender si no se mira así. Arriba está **el viaje del SNR**: cuánto
-> SNR sobrevive a cada paso de la cadena, la azul a 44,1 kHz y la
-0 naranja a 8 kHz con 8 bits.
+> «Y aquí está la cadena completa, que es lo que más me costó entender a
+> mí. Arriba están **las barras de degradación de cada etapa**:
+> cuánto SNR se pierde en cada paso. La azul es la cadena nativa, a
+> 44,1 kHz y 16 bits, y la naranja la telefónica, a 8 kHz y 8 bits.
 >
-> Lo primero que se ve es que **el muestreo, a la tasa del propio
-0 archivo, es exacto**: no hay nada por encima de f_s/2 que se pueda
-0 plegar. El aliasing solo aparece cuando se baja la tasa, que es lo
-0 que veremos en la siguiente figura.
-0
-0 Y lo segundo, que es lo que hace que esta figura valga para las
-0 cinco pistas: el **filtro antialiasing** es la única etapa cuyo
-0 coste depende del género. En el metal cuesta 18 dB y en la barroca
-0 45, y la diferencia no es del instrumento: es de la masterización.
-0 El reggaetón tiene contenido hasta 17 kHz y la barroca no pasa de
-0 4 kHz, así que el filtro se lleva mucho más en el primero.
-0
-0 Abajo están los 20 milisegundos del error de cada etapa, y se ve la
-0 diferencia de textura: el filtro antialiasing deja un error que
-0 parece ruido, el cuantizador deja una franja acotada, y el DAC deja
-0 los escalones del retenedor de orden cero.»
+> Cada barra mide SU etapa contra la anterior, y la última es el total
+> acumulado contra la señal original. Por eso la última puede ser PEOR
+> que las anteriores: **el error del filtro no se deshace**.
+>
+> Fíjense en la **cáda del filtro antialiasing**: en el metal se
+> pierden 18 dB, y en la barroca 45. La diferencia no es del
+> instrumento, es de la **masterización**: el reggaetón tiene contenido
+> hasta 17 kHz y la barroca no pasa de 4 kHz. Por eso el filtro, que es
+> la misma etapa en los cinco, cuesta cosas distintas.
+>
+> Abajo están los 20 milisegundos del error de cada etapa, y se ve la
+> diferencia de textura: el filtro antialiasing deja un error que parece
+> ruido, el retenedor de orden cero deja una onda suave, el cuantizador
+> deja una franja acotada, y el total es la suma de todo.»
 
 ---
 

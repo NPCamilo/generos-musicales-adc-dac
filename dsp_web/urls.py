@@ -28,6 +28,8 @@ urlpatterns = [
          name="descarga_pdf"),
     path("descargas/figuras.zip", views.descarga_figuras, name="descarga_figuras"),
     path("figura/<str:clave>/<str:nombre>.png", views.figura, name="figura"),
+    path("figura-subida/<str:token>/<str:nombre>.png", views.figura_subida,
+         name="figura_subida"),
     path("audio/<str:clave>/<str:variante>.wav", views.audio, name="audio"),
 ]
 

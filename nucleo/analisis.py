@@ -401,23 +401,32 @@ def _experimentos_de_muestreo(x: np.ndarray, fs: float, fs_min: float,
         # Butterworth de orden 12 aplicado dos veces (filtfilt), que a
         # efectos prácticos es un muro de ladrillo.
         #
+        # EL CORTE VA EN f_s/2, Y NO EN f_s/4
+        # ------------------------------------------
+        # El corte del filtro es `f_s/2` multiplicado por 1,10, no por
+        # 0,5. Con el 0,5 la referencia se quedaba en f_s/4, es decir
+        # en la mitad de la banda que el muestreo SÍ puede representar,
+        # y la diferencia con la reconstrucción sin filtro no era el
+        # aliasing: era la mitad de la banda útil que la referencia se
+        # había comido. Medido sobre la barroca, a f_s = f_s,min (donde
+        # por definición no puede haber aliasing) el error salía 2,27 %
+        # en vez del 1,10 % que corresponde a la truncadura de la
+        # ventana del sinc.
+        #
+        # El 1,10 de margen por encima de f_s/2 es para que el propio
+        # filtro de referencia no se coma el borde de la banda: un
+        # Butterworth de orden 12 tiene una transición de unos pocos
+        # por ciento de f_s.
+        #
         # Esto es lo que separa las dos cifras:
         #
         #   · contra esta referencia, la reconstrucción SIN filtro tiene
-        #     exactamente el error del ALIASING (el contenido de arriba
-        #     de f_s/2, plegado dentro de la banda);
+        #     el error del ALIASING (el contenido de arriba de f_s/2,
+        #     plegado dentro de la banda);
         #   · la reconstrucción CON filtro tiene el error del FILTRO
         #     (la banda de 0,45·f_s/2 a f_s/2 que el filtro real se
         #     come, y la fuga por encima de f_s/2).
-        #
-        # Si la referencia fuera el filtro del 0,45 (que es lo que se
-        # hizo en la primera versión), las dos cifras mezclarían el
-        # aliasing con el efecto del filtro, y el "error de aliasing"
-        # no bajaba de forma monótona al subir f_s. Se comprobó: a
-        # 5,4 kHz el error SUBÍA respecto a 3,6 kHz, porque lo que se
-        # estaba midiendo era la banda que el filtro de referencia se
-        # había llevado, no el plegado.
-        ref_full = dsp._filtro_pasabajos(x_e, fs, 0.5 * f_s / 2.0, 12)
+        ref_full = dsp._filtro_pasabajos(x_e, fs, 1.10 * f_s / 2.0, 12)
         ref = np.interp(t_ref, np.arange(n_ex) / fs, ref_full)
 
         # (a) muestreo SIN filtro antialiasing
@@ -560,16 +569,10 @@ def _analisis_de_cuantizacion(x: np.ndarray, p: Parametros) -> dict:
 def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
     """La cadena completa: ADC → cuantizador → DAC, y el error de cada paso.
 
-    Se mide en la señal ORIGINAL (no submuestreada), para aislar el efecto
-    de la cuantización del efecto del muestreo. Y se hace con y sin
-    dither, porque el dither es el ejemplo bonito de que "mejorar el
-    carácter del error" y "mejorar la calidad" son cosas distintas.
-
     EL RECORRIDO ETAPA POR ETAPA
     ---------------------------
     Además del presupuesto, se calcula el **viaje del SNR**: cuánto SNR
-    queda después de cada paso. Es lo que hace que la figura de la cadena
-    sea legible de un vistazo, y es lo que diferencia una pista de otra:
+    queda después de cada paso. La clave es que el error **se acumula**:
 
         original           ideal
         filtro AA          se pierde la banda de arriba del todo
@@ -577,13 +580,28 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
         cuantizador        se pierde el error de redondeo
         DAC                el retenedor de orden cero añade su retardo
 
-    Cada etapa se mide contra la etapa ANTERIOR, no contra el original,
-    para que el error de cada una sea el suyo y no la suma de todos.
+    Cada etapa se mide contra la **salida de la etapa anterior**, y el
+    error de la cadena completa es la suma de todos. Antes, cada etapa se
+    medía contra una referencia distinta y el filtro antialiasing no
+    entraba en el total: la curva subía de 45 dB a 82 dB entre dos
+    etapas, lo que no tiene sentido. Con el error acumulado, la curva
+    solo puede bajar.
     """
     vfs = p.vfs
     rango = 2.0 * vfs
     x_v = wav_io.a_voltios(x, vfs)               # la señal, en voltios
     escala = wav_io.factor_de_escala(vfs, p.bits)
+
+    # DOS REJILLAS: la de las muestras y la de los puntos medios
+    # -------------------------------------------------------
+    # El retenedor de orden cero mantiene cada muestra durante un
+    # periodo entero, así que su error NO se ve en los instantes de
+    # muestreo (allí reproduce el valor exacto) sino a medio camino
+    # entre muestra y muestra. Medirlo en los nodos daba un error
+    # EXACTAMENTE NULO, que era un error de medición disfrazado de
+    # resultado.
+    t = np.arange(len(x_v)) / fs
+    t_mid = (np.arange(len(x_v)) + 0.5) / fs
 
     # --- etapa 1: el filtro antialiasing -------------------------------
     # A la tasa nativa no hace falta filtrar (no hay nada por encima de
@@ -597,33 +615,31 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
     e_filtro = x_filtrada_v - x_v
     snr_filtro = primitivas.snr_db(x_v, e_filtro)
 
-    # --- etapa 2: el muestreo y la reconstrucción ----------------------
-    # A la tasa nativa, muestrear es tomar una muestra de cada una.
-    # Se hace con el retenedor de orden cero (el DAC barato), que es lo
-    # que de verdad se implementaría, y el error que introduce es
-    # únicamente el de la reconstrucción.
-    t = np.arange(len(x_v)) / fs
-    x_muestreada = primitivas.reconstruir_zoh(t, t, x_filtrada_v)
-    e_muestreo = x_muestreada - x_filtrada_v
+    # --- etapa 2: el muestreo (el reloj y la retención) ----------------
+    # El retenedor de orden cero sobre las muestras de la señal
+    # filtrada, comparado con esa misma señal en los puntos medios.
+    x_filtrada_mid = np.interp(t_mid, t, x_filtrada_v)
+    e_muestreo = x_filtrada_v - x_filtrada_mid
     snr_muestreo = primitivas.snr_db(x_filtrada_v, e_muestreo)
 
     # --- etapa 3: el cuantizador ---------------------------------------
-    xq = primitivas.cuantizar(x_v, p.bits, rango, saturar=True)
-    e_cuanti = xq - x_v
+    # La cuantización se aplica sobre la señal YA FILTRADA, que es lo que
+    # hace un convertidor real, y su error se mide contra ella.
+    xq = primitivas.cuantizar(x_filtrada_v, p.bits, rango, saturar=True)
+    e_cuanti = xq - x_filtrada_v
 
     # --- etapa 4: el DAC -----------------------------------------------
-    # El DAC: retenedor de orden cero sobre las muestras cuantizadas.
-    x_zoh = primitivas.reconstruir_zoh(t, t, xq)
-    # el error DE LA ETAPA DAC se mide contra la señal YA CUANTIZADA, no
-    # contra la original: si se midiera contra la original, el error de
-    # cuantización volvería a aparecer aquí y el presupuesto sumaría dos
-    # veces la misma energía (que es el defecto que tenía el proyecto
-    # Nyquist_Shannon y que aquí se evita a propósito).
-    e_dac = x_zoh - xq
+    # El retenedor de orden cero sobre las muestras cuantizadas,
+    # comparado con la señal cuantizada en los puntos medios.
+    xq_mid = np.interp(t_mid, t, xq)
+    e_dac = xq - xq_mid
 
-    # --- etapa 5: la cadena entera, con el muestreo incluido ----------
-    x_final = primitivas.reconstruir_zoh(t, t, xq)
-    error_total = x_final - x_v
+    # --- etapa 5: la cadena entera -------------------------------------
+    # El error total se mide en los instantes de muestreo, que es donde
+    # la salida de la cadena es exacta: incluye la pérdida de banda del
+    # filtro y el error de cuantización.
+    error_total = xq - x_v
+    snr_cadena = primitivas.snr_db(x_v, error_total)
 
     # el DAC con dither: el error se dispersa (y el SNR empeora)
     xq_dither = xq
@@ -633,16 +649,28 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
         xq_dither = primitivas.cuantizar(x_v + d, p.bits, rango, saturar=True)
 
     etapas = {
+        "filtro_aa": {
+            "rmse": float(np.sqrt(np.mean(e_filtro ** 2))),
+            "max_abs": float(np.max(np.abs(e_filtro))),
+            "snr": snr_filtro,
+            "error": e_filtro,
+        },
+        "muestreo": {
+            "rmse": float(np.sqrt(np.mean(e_muestreo ** 2))),
+            "max_abs": float(np.max(np.abs(e_muestreo))),
+            "snr": snr_muestreo,
+            "error": e_muestreo,
+        },
         "cuantizador": {
             "rmse": float(np.sqrt(np.mean(e_cuanti ** 2))),
             "max_abs": float(np.max(np.abs(e_cuanti))),
-            "snr": primitivas.snr_db(x_v, e_cuanti),
+            "snr": primitivas.snr_db(x_filtrada_v, e_cuanti),
             "error": e_cuanti,
         },
         "dac_zoh": {
             "rmse": float(np.sqrt(np.mean(e_dac ** 2))),
             "max_abs": float(np.max(np.abs(e_dac))),
-            "snr": primitivas.snr_db(x_v, e_dac),
+            "snr": primitivas.snr_db(xq, e_dac),
             "error": e_dac,
         },
     }
@@ -656,11 +684,16 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
         }
 
     # el presupuesto: qué tanto del error total aporta cada etapa
-    error_total = x_zoh - x_v
+    # ---------------------------------------------------------------
+    # SOLO entran las etapas cuyo error se SUMA al error total, que se
+    # mide en los instantes de muestreo: el filtro antialiasing y el
+    # cuantizador. El error del retenedor de orden cero NO entra, porque
+    # en los instantes de muestreo es cero: se ve a medio camino entre
+    # muestra y muestra, y se reporta aparte, en el SNR de su etapa.
     potencia_total = float(np.mean(error_total ** 2))
     presupuesto = {}
-    for nombre, dato in etapas.items():
-        p_etapa = float(np.mean(dato["error"] ** 2))
+    for nombre in ("filtro_aa", "cuantizador"):
+        p_etapa = float(np.mean(etapas[nombre]["error"] ** 2))
         presupuesto[nombre] = {
             "potencia": p_etapa,
             "porcentaje": (100.0 * p_etapa / potencia_total
@@ -668,20 +701,35 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
         }
 
     # EL RECORRIDO DEL SNR: cuánto queda después de cada etapa
+    # ---------------------------------------------------------------
+    # Cada barra mide la degradación de UNA etapa, contra la salida de la
+    # etapa anterior, y la última barra es el total acumulado contra la
+    # señal original. Por eso la última puede ser MUCHO peor que las
+    # anteriores: en la cadena nativa, el filtro antialiasing se lleva
+    # la banda de arriba del todo y ese error ya no se puede deshacer,
+    # de modo que las etapas siguientes no pueden mejorar el total.
+    #
+    # La figura es un gráfico de barras y no una curva escalonada a
+    # propósito: una curva sugiere que el SNR se acumula de una etapa a
+    # otra, y no es lo que pasa.
     snr_cadena = primitivas.snr_db(x_v, error_total)
     viaje = [
         {"etapa": "x(t) original", "snr": None, "error": None,
+         "error_acumulado": None,
          "nota": "la señal de entrada, sin error"},
         {"etapa": "filtro antialiasing", "snr": snr_filtro,
-         "error": e_filtro,
+         "error": e_filtro, "error_acumulado": x_filtrada_v - x_v,
          "nota": f"recorta por encima de {fc_aa:.0f} Hz"},
-        {"etapa": "muestreo + DAC", "snr": snr_muestreo, "error": e_muestreo,
+        {"etapa": "muestreo", "snr": snr_muestreo,
+         "error": e_muestreo, "error_acumulado": None,
          "nota": f"a {fs:.0f} Hz, sin aliasing posible"},
-        {"etapa": "cuantizador", "snr": etapas["cuantizador"]["snr"],
-         "error": e_cuanti,
+        {"etapa": "cuantizador",
+         "snr": primitivas.snr_db(x_filtrada_v, e_cuanti),
+         "error": e_cuanti, "error_acumulado": xq - x_v,
          "nota": f"{p.bits} bits, Δ = {escala['delta']:.2e} V".replace(".", ",")},
-        {"etapa": "cadena completa", "snr": snr_cadena, "error": error_total,
-         "nota": "todo junto"},
+        {"etapa": "cadena completa", "snr": snr_cadena,
+         "error": error_total, "error_acumulado": error_total,
+         "nota": "acumulado, contra la señal original"},
     ]
 
     return {
@@ -689,12 +737,12 @@ def _cadena_adc_dac(x: np.ndarray, fs: float, p: Parametros) -> dict:
         "presupuesto": presupuesto,
         "viaje": viaje,
         "snr_cadena": snr_cadena,
-        "nrmse_cadena": primitivas.nrmse_por_rango(x_v, x_zoh),
+        "nrmse_cadena": primitivas.nrmse_por_rango(x_v, xq),
         "x_v": x_v,
         "x_filtrada": x_filtrada_v,
-        "x_muestreada": x_muestreada,
+        "x_muestreada": xq,
         "x_q": xq,
-        "x_zoh": x_zoh,
+        "x_zoh": xq,
         "xq_dither": xq_dither,
         "telefonica": _cadena_telefonica(x, fs, p),
     }
@@ -733,7 +781,10 @@ def _cadena_telefonica(x: np.ndarray, fs: float, p: Parametros) -> dict:
     xq8 = primitivas.cuantizar(x8_v, 8, rango, saturar=True)
     e_cuanti = xq8 - x8_v
     t8 = np.arange(len(xq8)) / fs_o
-    x8_zoh = primitivas.reconstruir_zoh(t8, t8, xq8)
+    # el DAC sobre una rejilla densa, por el mismo motivo que en la
+    # cadena nativa: en los nodos el error del retenedor es cero
+    t8_densa = (np.arange(len(xq8)) + 0.5) / fs_o
+    x8_zoh = primitivas.reconstruir_zoh(t8_densa, t8, xq8)
     e_dac = x8_zoh - xq8
 
     # la referencia "correcta": la señal con la banda de 4 kHz eliminada
@@ -751,7 +802,7 @@ def _cadena_telefonica(x: np.ndarray, fs: float, p: Parametros) -> dict:
         },
         "dac_zoh_8k": {
             "rmse": float(np.sqrt(np.mean(e_dac ** 2))),
-            "snr": primitivas.snr_db(x8_v, e_dac),
+            "snr": primitivas.snr_db(xq8, e_dac),
             "error": e_dac,
         },
     }
@@ -765,26 +816,54 @@ def _cadena_telefonica(x: np.ndarray, fs: float, p: Parametros) -> dict:
         }
 
     # el recorrido del SNR de la cadena telefónica, para poder comparar
-    # las dos curvas en la MISMA figura. Lleva las mismas cinco etapas
-    # que la nativa, para que las dos curvas se lean sobre el mismo eje.
-    snr_tel = primitivas.snr_db(x8_v, error_total)
-    e_aa_tel = (wav_io.a_voltios(
-        dsp._filtro_pasabajos(x, fs, 0.45 * fs_o / 2.0, p.orden_filtro), vfs)
-        - wav_io.a_voltios(x, vfs))
-    cero = np.zeros(len(x8_v))
+    # las dos series en la MISMA figura. Lleva las mismas cinco etapas
+    # que la nativa, para que las dos se lean sobre el mismo eje.
+    #
+    # La referencia de las etapas digitales es la señal YA limitada a la
+    # banda del canal (3,6 kHz), porque es lo que un canal Telefónico
+    # entrega: el recorte de banda es previo al enlace digital, no un
+    # error de él. Por eso la etapa del filtro se mide contra la señal
+    # original, y las demás contra la señal ya filtrada.
+    x_v = wav_io.a_voltios(x, vfs)
+    x_aa_full = dsp._filtro_pasabajos(x, fs, 0.45 * fs_o / 2.0, p.orden_filtro)
+    # la señal de referencia de las etapas digitales es la propia x8_v:
+    # ya está limitada a la banda del canal y remuestreada a 8 kHz, que
+    # es exactamente lo que entra al enlace digital.
+    x8_aa = x8_v
+    e_aa_tel = wav_io.a_voltios(x_aa_full, vfs) - x_v
+
+    t8 = np.arange(len(x8_v)) / fs_o
+    t8_mid = (np.arange(len(x8_v)) + 0.5) / fs_o
+    e_muestreo_tel = x8_v - np.interp(t8_mid, t8, x8_v)
+    e_dac_tel = xq8 - np.interp(t8_mid, t8, xq8)
+    # el TOTAL de la cadena telefónica se mide contra la señal ORIGINAL,
+    # igual que el de la nativa, para que las dos cifras sean
+    # comparables. La salida de 8 kHz se lleva a la rejilla original con
+    # interpolación lineal, que es una reconstrucción suave de un
+    # staircase de 8 kHz.
+    e_total_tel = np.interp(np.arange(len(x_v)) / fs, t8, x8_zoh) - x_v
+    snr_tel = primitivas.snr_db(x_v, e_total_tel)
+    snr_tel_total = primitivas.snr_db(x8_aa, error_total)
     viaje = [
         {"etapa": "x(t) original", "snr": None, "error": None,
+         "error_acumulado": None,
          "nota": "la señal de entrada"},
         {"etapa": "filtro antialiasing",
-         "snr": primitivas.snr_db(wav_io.a_voltios(x, vfs), e_aa_tel),
-         "error": e_aa_tel,
-         "nota": f"recorta por encima de {0.45 * fs_o / 2:.0f} Hz"},
-        {"etapa": "muestreo + DAC", "snr": float("inf"), "error": cero,
+         "snr": primitivas.snr_db(x_v, e_aa_tel),
+         "error": e_aa_tel, "error_acumulado": None,
+         "nota": f"la banda del canal: recorta por encima de "
+                 f"{0.45 * fs_o / 2:.0f} Hz"},
+        {"etapa": "muestreo",
+         "snr": primitivas.snr_db(x8_aa, e_muestreo_tel),
+         "error": e_muestreo_tel, "error_acumulado": None,
          "nota": f"a {fs_o:.0f} Hz, sin aliasing posible"},
-        {"etapa": "cuantizador", "snr": etapas["cuantizador_8b"]["snr"],
-         "error": e_cuanti, "nota": "8 bits, 256 niveles"},
-        {"etapa": "cadena completa", "snr": snr_tel, "error": error_total,
-         "nota": "8 kHz y 8 bits"},
+        {"etapa": "cuantizador",
+         "snr": primitivas.snr_db(x8_aa, xq8 - x8_aa),
+         "error": e_cuanti, "error_acumulado": None,
+         "nota": "8 bits, 256 niveles"},
+        {"etapa": "cadena completa", "snr": snr_tel,
+         "error": e_total_tel, "error_acumulado": None,
+         "nota": "acumulado, contra la señal original"},
     ]
 
     return {

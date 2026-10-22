@@ -45,7 +45,18 @@ SECRET_KEY = os.environ.get(
 # errores sin consultar el registro).
 DEBUG = not EN_VERCEL and os.environ.get("DJANGO_DEBUG", "1") == "1"
 
-ALLOWED_HOSTS = ["*"]
+# El host del proyecto en Vercel, para no tener que configurarlo a mano.
+HOST_PROYECTO = "generos-musicales-adc-dac.vercel.app"
+
+#: Los hosts permitidos. Sin variable de entorno, el del proyecto; nunca
+#: `*` en producción, que es un aviso de Django y además permite el
+#: envenenamiento de la caché de la respuesta.
+ALLOWED_HOSTS = [h.strip() for h in
+                 os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+                 if h.strip()]
+if not ALLOWED_HOSTS:
+    # "testserver" es el host que usa el cliente de pruebas de Django.
+    ALLOWED_HOSTS = [HOST_PROYECTO, "localhost", "127.0.0.1", "testserver"]
 
 INSTALLED_APPS = [
     "django.contrib.staticfiles",
@@ -106,11 +117,9 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
 
 #: En un despliegue real, la lista de hosts permitidos se toma de una
-#: variable de entorno, porque `ALLOWED_HOSTS = ["*"]` con DEBUG a False
-#: es un aviso de Django (y con `*` se accepts cualquier Host).
+#: variable de entorno. Si no hay variable, se usa el host del proyecto,
+#: nunca `*`.
 if not DEBUG:
-    ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
-    ALLOWED_HOSTS = [h for h in ALLOWED_HOSTS if h] or ["*"]
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
