@@ -25,7 +25,7 @@ instala y funciona, sin depender de ninguna carpeta de al lado.
 | `dsp_web/` | el proyecto Django (settings, urls). |
 | `api/` | la entrada WSGI para Vercel. |
 | `public/` | los ficheros estáticos que el servidor sirve tal cual. |
-| `audio/` | las cinco pistas (12 s cada una) y `descargas.json`, con la procedencia de cada una. |
+| `audio/` | las cinco pistas (12 segundos cada una) y `descargas.json`, con la procedencia de cada una. |
 | `salida/` | el entregable: `informe.md`, `datos.json` y 39 figuras en PNG a 300 dpi. |
 | `docs/` | `GUIA.md` (la guía de defensa: cifras, ideas y preguntas), `GUION.md` (el guión completo de una persona), `GUION_CUATRO.md` (el guión **repartido en cuatro**, con la señalización de pantalla) y `PUBLICAR.md` (cómo desplegarlo). |
 
