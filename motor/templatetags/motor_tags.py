@@ -12,7 +12,7 @@ miles y con COMA para los decimales.
 
 Django no trae nada para esto (el filtro `intcomma` de `humanize` usa el
 convención inglesa, con la coma para los miles), y en un informe con
-cifuras de frecuencia mixing las dos convenciones es justo lo que hace
+cifuras de frecuencia mezcladas las dos convenciones es justo lo que hace
 que un número parezca otro.
 
 Aparte, `recorta` quita los decimales inútiles de un valor que viene

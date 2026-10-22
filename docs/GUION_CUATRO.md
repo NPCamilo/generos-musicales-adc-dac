@@ -190,10 +190,15 @@ y = V_fs / 2^(b-1) = 1 / 2^15 = 3,052 · 10⁻⁵ voltios por nivel
 **[PANTALLA: la figura de la cadena, sección 5]**
 
 > «Y aquí está la cadena completa, que es lo que más me costó entender a
-> mí. Arriba está **el viaje del SNR**: cuánto SNR sobrevive a cada paso.
-> La azul es la cadena nativa y la naranja la telefónica.
+> mí. Arriba están **las barras de degradación de cada etapa**:
+> cuánto SNR se pierde en cada paso. La azul es la cadena nativa, a
+> 44,1 kHz y 16 bits, y la naranja la telefónica, a 8 kHz y 8 bits.
 >
-> Fíjense en la **caída del filtro antialiasing**: en el metal se
+> Cada barra mide SU etapa contra la anterior, y la última es el total
+> acumulado contra la señal original. Por eso la última puede ser PEOR
+> que las anteriores: **el error del filtro no se deshace**.
+>
+> Fíjense en la **cáda del filtro antialiasing**: en el metal se
 > pierden 18 dB, y en la barroca 45. La diferencia no es del
 > instrumento, es de la **masterización**: el reggaetón tiene contenido
 > hasta 17 kHz y la barroca no pasa de 4 kHz. Por eso el filtro, que es
@@ -201,11 +206,8 @@ y = V_fs / 2^(b-1) = 1 / 2^15 = 3,052 · 10⁻⁵ voltios por nivel
 >
 > Abajo están los 20 milisegundos del error de cada etapa, y se ve la
 > diferencia de textura: el filtro antialiasing deja un error que parece
-> ruido, el cuantizador deja una franja acotada, y el DAC deja los
-> escalones del retenedor de orden cero.
->
-> Con esto ya se puede pasar a Luis, que nos va a enseñar qué pasa
-> cuando bajamos la frecuencia de muestreo.»
+> ruido, el retenedor de orden cero deja una onda suave, el cuantizador
+> deja una franja acotada, y el total es la suma de todo.»
 
 ---
 

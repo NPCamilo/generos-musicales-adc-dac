@@ -40,10 +40,20 @@ from __future__ import annotations
 
 import functools
 import io
+import logging
 import pathlib
 
 from django.http import (FileResponse, Http404, HttpResponse, JsonResponse)
 from django.shortcuts import render
+
+logger = logging.getLogger(__name__)
+
+#: Las figuras de los WAV subidos, en memoria, con un token por subida.
+#: En un despliegue serverless el disco es de solo lectura, y meter los
+#: PNG en la sesión no vale: una sesión va en una cookie y un PNG pesa
+#: cientos de kilobytes. Se guardan aquí y se limpian solas.
+_FIGURAS_SUBIDAS: dict[str, dict[str, bytes]] = {}
+_MAX_SUBIDAS = 20
 
 from nucleo import analisis
 from nucleo import comparativa as modulo_comparativa
@@ -150,6 +160,7 @@ def portada(request):
         })
     fs_minima_max = max((f["fs_minima"] for f in comp["veredicto"]["tabla"]),
                         default=0.0)
+    from nucleo import fuentes
     return render(request, "motor/portada.html", {
         "resultados": res["resultados"],
         "comparativa": comp,
@@ -158,6 +169,9 @@ def portada(request):
         "faltantes": res["faltantes"],
         "fs_minima_max": fs_minima_max,
         "factor_escala": (r_cuant(res) if res["resultados"] else 0.0),
+        "criterios": fuentes.tabla_criterios(),
+        "todas_fuentes": fuentes.tabla_fuentes(),
+        "nota_fuentes": fuentes.nota_de_lectura(),
     })
 
 
@@ -222,9 +236,11 @@ def subir(request):
     # escritura falla con "Read-only file system".
     try:
         pista = wav_io.leer_wav_bytes(subido.read(), nombre=nombre)
-    except Exception as exc:
+    except Exception:
+        logger.exception("no se pudo leer el WAV subido")
         return render(request, "motor/subir.html", {
-            "error": f"El fichero no se pudo leer como un WAV: {exc}",
+            "error": "El fichero no se pudo leer como un WAV. Comprueba que "
+                     "no esté corrupto.",
         })
 
     if pista.duracion < 1.0:
@@ -252,15 +268,47 @@ def subir(request):
     try:
         r = analisis.analizar_pista(pista, PARAMETROS, genero_subido)
     except Exception as exc:
+        logger.exception("fallo el análisis del WAV subido")
         return render(request, "motor/subir.html", {
-            "error": f"El análisis falló: {exc}",
+            "error": "El análisis falló. Revisa que el fichero sea un WAV "
+                     "válido y vuelve a intentarlo.",
         })
+
+    # LAS FIGURAS DEL WAV SUBIDO
+    # --------------------------
+    # El análisis devuelve las mismas estructuras que las pistas del
+    # catálogo, así que las figuras se dibujan con el mismo código. Se
+    # quedan en memoria, con un token, porque en un despliegue el disco
+    # es de solo lectura.
+    import uuid
+    figuras_subidas = {}
+    for nombre, fn in (("senal", figuras.figura_senal),
+                       ("espectro", figuras.figura_espectro),
+                       ("muestreo", figuras.figura_muestreo),
+                       ("cuantizacion", figuras.figura_cuantizacion)):
+        try:
+            fig = fn(r)
+            buffer = io.BytesIO()
+            fig.savefig(buffer, format="png", dpi=140, bbox_inches="tight",
+                        facecolor=fig.get_facecolor())
+            import matplotlib.pyplot as plt
+            plt.close(fig)
+            figuras_subidas[nombre] = buffer.getvalue()
+        except Exception:
+            logger.exception("no se pudo dibujar la figura %s", nombre)
+
+    token = uuid.uuid4().hex[:12]
+    _FIGURAS_SUBIDAS[token] = figuras_subidas
+    while len(_FIGURAS_SUBIDAS) > _MAX_SUBIDAS:
+        _FIGURAS_SUBIDAS.pop(next(iter(_FIGURAS_SUBIDAS)))
 
     atencion = r["atencion"]
     return render(request, "motor/subir.html", {
         "r": r,
         "nombre": nombre,
         "atencion": atencion,
+        "figuras": sorted(figuras_subidas),
+        "token": token,
     })
 
 
@@ -356,6 +404,22 @@ def descarga_figuras(request):
     respuesta["Content-Disposition"] = (
         'attachment; filename="figuras_adc_dac.zip"')
     return respuesta
+
+
+def figura_subida(request, token, nombre):
+    """Las figuras del WAV que el usuario acaba de subir.
+
+    Se guardan en memoria, en el proceso, con un token en la URL: en un
+    despliegue el disco es de solo lectura, y meter los PNG en la sesión
+    no vale porque una sesión va en una cookie y un PNG pesa cientos de
+    kilobytes.
+    """
+    if nombre not in ("senal", "espectro", "muestreo", "cuantizacion"):
+        raise Http404("Esa figura no existe")
+    datos = _FIGURAS_SUBIDAS.get(token, {}).get(nombre)
+    if not datos:
+        raise Http404("Las figuras caducan: vuelve a subir el fichero")
+    return HttpResponse(datos, content_type="image/png")
 
 
 def _wav_en_bytes(x, fs: int) -> bytes:

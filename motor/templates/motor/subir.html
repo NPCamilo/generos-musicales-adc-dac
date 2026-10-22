@@ -66,20 +66,34 @@
     <tr><th>f_max</th><td class="num">{{ r.espectro.f_max|num:0 }} Hz</td></tr>
     <tr><th>f_s mínima (Nyquist)</th><td class="num">{{ r.espectro.fs_minima|num:0 }} Hz</td></tr>
     <tr><th>centroide espectral</th><td class="num">{{ r.espectro.centroide|num:0 }} Hz</td></tr>
-    <tr><th>factor de cresta</th><td class="num">{{ r.espectro.crest|floatformat:2 }}</td></tr>
-    <tr><th>tempo</th><td class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|floatformat:0 }} BPM{% else %}no medible{% endif %}</td></tr>
+    <tr><th>factor de cresta</th><td class="num">{{ r.espectro.crest|num:2 }}</td></tr>
+    <tr><th>tempo</th><td class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|num:0 }} BPM{% else %}no medible{% endif %}</td></tr>
     <tr><th>factor de escala ({{ r.cuantizacion.bits }} bits)</th>
         <td class="num">{{ r.cuantizacion.factor_escala_v|num:9 }} V/nivel</td></tr>
-    <tr><th>SNR de la cadena</th><td class="num">{{ r.cadena.snr_cadena|floatformat:1 }} dB</td></tr>
+    <tr><th>SNR de la cadena</th><td class="num">{{ r.cadena.snr_cadena|num:1 }} dB</td></tr>
+    <tr><th>índice de atención</th><td class="num">{{ atencion.indice|recorta }} / 100</td></tr>
   </table>
 </div>
 
-<h2>El espectro del audio subido</h2>
+{% if figuras %}
+<h2>Las gráficas de tu audio</h2>
 <p>
-  Puedes ver las figuras completas en el informe, que se genera con
-  <code>python -m nucleo.informe</code> después de dejar el fichero en
-  <code>audio/</code>.
+  Son las mismas figuras que las de cada género del catálogo, dibujadas
+  con tu fichero: la señal con sus muestras, el espectro de magnitud, el
+  barrido de muestreo y la escalera de cuantización.
 </p>
+{% for nombre in figuras %}
+<figure>
+  <img src="{% url 'figura_subida' token nombre %}.png" alt="{{ nombre }}">
+  <figcaption>
+    {% if nombre == "senal" %}La señal x(t) y 20 ms con las muestras del ADC.
+    {% elif nombre == "espectro" %}El espectro de magnitud, con f_max medido.
+    {% elif nombre == "muestreo" %}El barrido de muestreo: el error con y sin filtro antialiasing.
+    {% else %}La escalera de cuantización y el error acotado a ±Δ/2.{% endif %}
+  </figcaption>
+</figure>
+{% endfor %}
+{% endif %}
 
 <p><a href="{% url 'subir' %}">← Analizar otro fichero</a></p>
 

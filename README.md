@@ -61,8 +61,9 @@ Hay dos guiones en `docs/`:
 
 **La clave del proyecto, en una frase:** la cadena de conversión es la
 misma en los cinco géneros; lo que cambia es **cuánto se pierde en cada
-paso**, y eso es lo que mide la figura de la cadena (el "viaje del SNR"),
-que es además la que más se diferencia entre pistas.
+paso**, y eso es lo que mide la figura de la cadena (las barras de
+degradación de cada etapa), que es además la que más se diferencia entre
+pistas.
 
 **Está publicado:**
 
@@ -119,6 +120,7 @@ se pueda desplegar automáticamente por si solo.
 | `nucleo/primitivas.py` | las primitivas de DSP: reconstrucción de Shannon, cuantizador, métricas, dither y diagnóstico de Nyquist. |
 | `nucleo/dsp_audio.py` | el espectro con la normalización correcta, la medida de `f_max`, el filtro antialiasing, el tempo por autocorrelación y el índice de atención. |
 | `nucleo/catalogo.py` | las cinco fichas: músico, obra, año, instrumentación y fuentes. |
+| `nucleo/fuentes.py` | el dato de referencia de cada criterio del índice, con su fuente. |
 | `nucleo/analisis.py` | el pipeline por pista: señal, espectro, muestreo, cuantización, cadena ADC-DAC, ritmo y atención. |
 | `nucleo/comparativa.py` | la comparación entre los cinco y el veredicto del punto (e), con sus condiciones y sus avisos. |
 | `nucleo/figuras.py` | las 39 figuras, con el tema visual del proyecto `Laboratorio_ADC_DAC` (y con un tema propio si no está). |

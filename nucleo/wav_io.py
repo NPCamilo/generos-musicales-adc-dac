@@ -74,11 +74,6 @@ FORMATO_PCM = 1
 FORMATO_FLOAT = 3
 FORMATO_EXTENSIBLE = 0xFFFE
 
-#: Separación entre canal y canal en un WAV multicanal.
-_BLOQUE_FLOAT32 = "<f"
-_BLOQUE_FLOAT64 = "<d"
-
-
 # =============================================================================
 # LA PISTA
 # =============================================================================
@@ -260,8 +255,6 @@ def leer_wav_bytes(datos: bytes, nombre: str = "audio.wav") -> Pista:
                 fmt = struct.unpack("<H", cuerpo[24:26])[0]
         elif id_chunk == b"data":
             datos_muestras = _leer_exactamente(tam)
-            if tam % 2:
-                flujo.read(1)
         else:
             flujo.seek(tam + (tam % 2), 1)
             continue

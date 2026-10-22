@@ -80,29 +80,35 @@ def _cientifico(x, decimales: int = 3) -> str:
 
 def generar_informe(params: Parametros | None = None,
                     destino: pathlib.Path | None = None,
-                    regenerar_figuras: bool = True) -> pathlib.Path:
+                    regenerar_figuras: bool = True,
+                    resultados: dict | None = None) -> pathlib.Path:
     """Analiza las pistas, dibuja las figuras y escribe el informe.
 
-    Devuelve la ruta del `.md` escrito.
+    Parámetros
+    ----------
+    resultados : dict, opcional
+        El análisis ya calculado. Si se pasa, no se vuelve a analizar: es
+        lo que hace `construir.py`, para que el informe, el JSON y el PDF
+        salgan de la MISMA pasada y no puedan discrepar.
     """
     p = params or Parametros()
     destino = pathlib.Path(destino) if destino else (SALIDA / "informe.md")
     destino.parent.mkdir(parents=True, exist_ok=True)
 
     print("[1/4] analizando las pistas...")
-    res = analisis.analizar_catalogo(p)
-    resultados = res["resultados"]
-    if not resultados:
+    res = resultados if resultados is not None else analisis.analizar_catalogo(p)
+    resultados_ = res["resultados"]
+    if not resultados_:
         raise RuntimeError(
             "No hay ninguna pista en audio/. Descarga las pistas con "
             "`python -m nucleo.descarga` o coloca tus propios WAV.")
-    comp = comparativa.resumen_tablas(resultados)
+    comp = comparativa.resumen_tablas(resultados_)
     veredicto = comp["veredicto"]
 
     print("[2/4] dibujando las figuras...")
     nombres = []
     if regenerar_figuras:
-        for clave, r in resultados.items():
+        for clave, r in resultados_.items():
             for nombre, fig in figuras.construir_todas(r).items():
                 ruta = f"{clave}_{nombre}.png"
                 figuras.guardar(fig, destino.parent / ruta)
@@ -113,7 +119,7 @@ def generar_informe(params: Parametros | None = None,
                            ("indice_atencion", figuras.figura_indice),
                            ("veredicto", figuras.figura_veredicto)):
             ruta = f"comparacion_{nombre}.png"
-            figuras.guardar(fn(resultados), destino.parent / ruta)
+            figuras.guardar(fn(resultados_), destino.parent / ruta)
             nombres.append(ruta)
 
     print("[3/4] escribiendo el informe...")
@@ -128,7 +134,7 @@ def generar_informe(params: Parametros | None = None,
 def _construir_texto(res: dict, comp: dict, veredicto: dict,
                       p: Parametros, nombres_figuras: list[str]) -> str:
     """El cuerpo del informe, en markdown."""
-    resultados = res["resultados"]
+    resultados_ = res["resultados"]
     hoy = datetime.date.today().strftime("%d/%m/%Y")
     partes: list[str] = []
 
@@ -154,11 +160,11 @@ Las cinco cifras que hay que saber de memoria:
 
 | cifra | valor | de dónde sale |
 |---|---|---|
-| pistas analizadas | {len(resultados)} | `audio/*.wav` |
-| géneros comparados | {len(resultados)} | el catálogo, punto (b) del enunciado |
+| pistas analizadas | {len(resultados_)} | `audio/*.wav` |
+| géneros comparados | {len(resultados_)} | el catálogo, punto (b) del enunciado |
 | mejor índice de atención | **{_num(primera['indice'], 1)} / 100** | {primera['nombre']} |
 | `f_s` mínima del conjunto | {max(f['fs_minima'] for f in comp['veredicto']['tabla']):.0f} Hz | 2·f_max de la pista más exigente |
-| resolución a 16 bits | {resultados[list(resultados)[0]]['cuantizacion']['factor_escala_v']:.3e} V/nivel | V_fs / 2^(b-1) |
+| resolución a 16 bits | {resultados_[list(resultados_)[0]]['cuantizacion']['factor_escala_v']:.3e} V/nivel | V_fs / 2^(b-1) |
 
 **El veredicto del punto (e):** {veredicto['resumen']}
 
@@ -172,13 +178,13 @@ Las cinco cifras que hay que saber de memoria:
 
     # ---------------------------------------------------------------- 1
     filas_ficha = []
-    for clave, r in resultados.items():
+    for clave, r in resultados_.items():
         f = r["ficha"]
         filas_ficha.append([
             r["nombre"], f["músico"], f["obra"], f["año"], f["compositor"],
         ])
     fichas = []
-    for clave, r in resultados.items():
+    for clave, r in resultados_.items():
         f = r["ficha"]
         fuentes = "\n".join(f"- {s}" for s in f["fuentes"])
         fichas.append(f"""### {r['nombre']}
@@ -230,7 +236,7 @@ x(t)  ──filtro antialiasing──▶  ──muestreo──▶  ──cuantiz
 ```
 
 **El filtro antialiasing** es lo que separa una reconstrucción correcta
-de una riddled de aliasing. SeButterworth de fase cero (`sosfiltfilt`), con
+de una lluvia de aliasing. Es un Butterworth de fase cero (`sosfiltfilt`), con
 el corte al 45 % de `f_s/2` y no al 100 %, porque un filtro real no cae
 en vertical.
 
@@ -262,7 +268,7 @@ cosas distintas. Es el mismo error que multiplicar por `4/N` en vez de
 
     # ---------------------------------------------------------------- 3
     secciones = []
-    for clave, r in resultados.items():
+    for clave, r in resultados_.items():
         e = r["espectro"]
         cuanti = r["cuantizacion"]
         ritmo = r["ritmo"]
@@ -326,7 +332,8 @@ decir "esta cifra depende de una decisión":
 
 ![El espectro de {r['nombre']}]({clave}_espectro.png)
 
-**El muestreo y el aliasing.** Cuánto error mete no filtrar:
+**El muestreo y el aliasing.** Cuánto error mete no filtrar
+({len(r['muestreo']['experimentos'])} frecuencias de muestreo):
 
 {_tabla(["f_s (Hz)", "respecto a f_s,min", "¿cumple Nyquist?", "NRMSE con aliasing", "NRMSE con filtro", "energía fuera de banda"], filas_muestreo)}
 
@@ -364,7 +371,7 @@ x(t)  ──filtro AA──▶  ──muestreo──▶  ──cuantizador──
        de arriba
 ```
 
-Y el **viaje del SNR**, que es el número que resume cada paso:
+Y la **degradación de cada etapa**, que es el número que resume cada paso:
 
 {_tabla(["etapa", "qué hace", "SNR que queda", "en la telefónica (8 kHz, 8 bits)"],
         [[e["etapa"], e["nota"],
@@ -374,7 +381,10 @@ Y el **viaje del SNR**, que es el número que resume cada paso:
            ("exacta" if t["snr"] == float("inf") else _num(t["snr"], 1) + " dB"))]
          for e, t in zip(r["cadena"]["viaje"], r["cadena"]["telefonica"]["viaje"])])}
 
-**Cómo se lee esto**, que es lo importante:
+**Cómo se lee esto**, que es lo importante: cada barra mide SU
+etapa contra la anterior, y la última es el total acumulado contra la
+señal original. Por eso la última puede ser PEOR que las anteriores: el
+error del filtro antialiasing no se deshace.
 
 - **El filtro antialiasing** es la etapa que más se nota, y es la única
   cuyo coste depende del **género**: recorta la banda de arriba del todo,
@@ -442,9 +452,9 @@ Y la energía por bandas, que es donde se ve la diferencia de perfil:
   tiene ni un transitorio por encima de 4 kHz, y una masterización
   moderna de 2023 tiene hats por encima de 10 kHz.
 - **f_s,min = 2·f_max** es la tasa de muestreo que exige el teorema. Con
-  el criterio del -40 dB, la pista más exigente (el reggaetón) necesita
-  {_comp_fmax(comp, 'Reggaetón') * 2:.0f} Hz y la más generosa (la
-  barroca) {_comp_fmax(comp, 'Clásica') * 2:.0f} Hz. **Los 44,1 kHz del CD
+  el criterio del -40 dB, la pista más exigente es {_comp_mas_exigente(comp)},
+  que necesita {_comp_max(comp, 'fs_minima'):.0f} Hz, y la más generosa es
+  {_comp_mas_generosa(comp)}, con {_comp_min(comp, 'fs_minima'):.0f} Hz. **Los 44,1 kHz del CD
   sobran para las cinco**; lo que no alcanza es la mitad, 22,05 kHz: con
   esa tasa el contenido del metal (que llega a
   {_comp_fmax(comp, 'Metal'):.0f} Hz) y del reggaetón se plegaría dentro
@@ -578,7 +588,7 @@ exactamente las mismas (las 164 comprobaciones lo verifican).
           f"{r['espectro']['fs_minima']:.0f} Hz",
           _num(r["cuantizacion"]["casos"]["16"]["snr_medido"], 1),
           _num(r["cuantizacion"]["casos"]["16"]["enob"], 2),
-          f"{r['atencion']['indice']:.1f}"] for r in resultados.values()])}
+          f"{r['atencion']['indice']:.1f}"] for r in resultados_.values()])}
 """)
 
     # ---------------------------------------------------------------- 7
@@ -587,13 +597,13 @@ exactamente las mismas (las 164 comprobaciones lo verifican).
 - **Una pista por género.** Con otra canción, o con la misma canción en
   otra masterización, el orden puede cambiar. Lo que se comprobó es que
   las tres características que más pesan (brillo, banda de la voz, rango
-  dinámico) son robustas entre_ENUM los cinco, y que el tempo no lo es.
+  dinámico) son robustas entre los cinco, y que el tempo no lo es.
 - **`f_max` depende de un criterio.** Con -30 dB y con -50 dB salen
   cifras distintas; por eso el criterio está publicado, y se da el
   control por energía acumulada.
 - **El factor de cresta mezcla género y época de producción.** Una
   masterización moderna comprimida con limitador tiene crest bajo
-  regardless del género. Es un sesgo conocido del criterio y está
+  sea cual sea el género. Es un sesgo conocido del criterio y está
   anotado en la tabla.
 - **El tempo de una pieza sin percusión no se puede medir.** En la
   barroca el detector no encuentra pulso, y el criterio de tempo se
@@ -628,6 +638,34 @@ def _aa_max(res: dict) -> float:
     valores = [r["cadena"]["viaje"][1]["snr"] for r in res["resultados"].values()
                if r["cadena"]["viaje"][1]["snr"] is not None]
     return max(valores) if valores else 0.0
+
+
+def _comp_mas_exigente(comp: dict) -> str:
+    """El género que necesita la f_s,min más alta, calculado."""
+    filas = comp["veredicto"]["tabla"]
+    if not filas:
+        return "-"
+    return max(filas, key=lambda f: f["fs_minima"])["nombre"]
+
+
+def _comp_mas_generosa(comp: dict) -> str:
+    """El género que necesita la f_s,min más baja, calculado."""
+    filas = comp["veredicto"]["tabla"]
+    if not filas:
+        return "-"
+    return min(filas, key=lambda f: f["fs_minima"])["nombre"]
+
+
+def _comp_max(comp: dict, campo: str) -> float:
+    """El máximo de un campo de la tabla, calculado."""
+    valores = [f[campo] for f in comp["veredicto"]["tabla"] if campo in f]
+    return max(valores) if valores else 0.0
+
+
+def _comp_min(comp: dict, campo: str) -> float:
+    """El mínimo de un campo de la tabla, calculado."""
+    valores = [f[campo] for f in comp["veredicto"]["tabla"] if campo in f]
+    return min(valores) if valores else 0.0
 
 
 def _comp_fmax(comp: dict, nombre_parcial: str) -> float:

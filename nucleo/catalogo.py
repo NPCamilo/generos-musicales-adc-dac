@@ -31,7 +31,7 @@ es el propio del género, no una excepción:
       dinámica de los cinco.
     · POPULAR COLOMBIANA — la "cantina" o "depecho" de la costa
       colombiana: guitarra y voz en la banda media,percusión de raspas.
-      Es el género que laBundles "música popular colombiana" del
+      Es el género que la hoja de 'música popular colombiana' del
       enunciado.
 
 CADA FICHA TIENE
@@ -105,8 +105,8 @@ CATALOGO: tuple[Genero, ...] = (
         genero="Clásica — Barroca",
         musico="Netherlands Bach Society (Lucia Swarts, violonchelo)",
         obra="J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, "
-             "BWV 1007 (I. Preludio)",
-        anio=1722,
+             "BWV 1007",
+        anio=1717,
         compositor="Johann Sebastian Bach (1685-1750)",
         estilo="Barroco tardío (Köthen), cello solo senza basso",
         instrumentacion="Un solo violonchelo, arpegiado continuo y "
@@ -148,8 +148,10 @@ CATALOGO: tuple[Genero, ...] = (
                 "es multiplicación de la onda por una función no lineal, "
                 "y eso genera armónicos de orden muy alto. Por eso el "
                 "metal es el caso con más contenido agudo del conjunto, y "
-                "el que peor se porta cuando se baja la frecuencia de "
-                "muestreo: es la pista donde el aliasing se ve más claro.",
+                "y el que tiene más contenido agudo del conjunto, por lo que es "
+                "el primero en resentir una bajada de la tasa de muestreo "
+                "en términos absolutos: necesita 23 332 Hz, la mayor de "
+                "las cinco.",
         fuentes=(
             "Discografía de Megadeth: 'Youthanasia', 1990; "
             "'Tornado of Souls' es el segundo corte del álbum.",
@@ -203,9 +205,11 @@ CATALOGO: tuple[Genero, ...] = (
         por_que="El reggaetón moderno es EL caso de la música con la "
                 "energía más concentrada en el graves: el bombo es un "
                 "seno sintetizado y la voz va con poca información "
-                "armónica alta. Es, junto con la barroca, el otro extremo "
-                "del conjunto, y el que da la mayor دينامica (el bombo "
-                "ataca y la voz no).",
+                "armónica alta. Es el más oscuro en la banda de graves, "
+                "con el 27 % de su energía por debajo de 60 Hz. Lo que sí "
+                "tiene es un contraste rítmico grande entre el bombo y la "
+                "voz, aunque el factor de cresta medido (2,88) es bajo por "
+                "la compresión de la masterización.",
         fuentes=(
             "Wikipedia (EN): 'Luna (Feid and ATL Jacob song)', single del "
             "EP 'Ferxxocalipsis' (2023), lanzamiento el 1 de diciembre de "
