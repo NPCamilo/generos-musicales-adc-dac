@@ -6,34 +6,51 @@
 
 <h1>El informe</h1>
 <p class="entradilla">
-  El entregable escrito: la investigación, los resultados género por
-  género, la comparación y el veredicto, con las limitaciones por delante.
+  El entregable escrito: la investigación, los resultados género por género,
+  la comparación y el veredicto, con las limitaciones por delante.
 </p>
 
 {% if existe %}
 <div class="panel acento">
-  <p style="margin:0 0 10px">
+  <p style="margin:0 0 12px">
     El informe se genera con <code>python -m nucleo.informe</code> y queda
-    en <code>salida/informe.md</code>, junto con las
-    {{ figuras|length }} figuras en PNG.
+    en <code>salida/informe.md</code>, junto con las {{ figuras|length }} figuras en PNG.
   </p>
   <p style="margin:0">
     <a href="{% url 'descarga_pdf' %}">Descargar el PDF del proyecto</a>
-    (con la investigación, los resultados y las preguntas de evaluación)
-    ·
-    <a href="{% url 'descarga_informe' %}">Descargar el informe (.md)</a>
-    ·
-    <a href="{% url 'descarga_figuras' %}">Descargar las
-      {{ figuras|length }} figuras (.zip)</a>
+    (con la investigación, los resultados y las preguntas de evaluación) ·
+    <a href="{% url 'descarga_informe' %}">Descargar el informe (.md)</a> ·
+    <a href="{% url 'descarga_figuras' %}">Descargar las {{ figuras|length }} figuras (.zip)</a>
   </p>
 </div>
 {% else %}
 <div class="panel aviso">
-  Todavía no se ha generado el informe. Se genera con
-  <code>python -m nucleo.informe</code>.
+  <strong>Todavía no se ha generado el informe.</strong> Se genera con <code>python -m nucleo.informe</code>.
 </div>
 {% endif %}
 
+<h2>Las figuras</h2>
+<p>Todas están en <code>salida/</code>. Estas son las de la comparación,
+que son las del punto (e):</p>
+<div class="rejilla">
+  {% for nombre in figuras %}
+    {% if nombre|slice:"13:"|startswith:"comparacion_" %}
+    <div class="tarjeta">
+      <div class="titulo">{{ nombre|slice:"13:"|slice:"-4" }}</div>
+      <div class="obra">PNG a 300 dpi · salida/{{ nombre }}</div>
+    </div>
+    {% endif %}
+  {% endfor %}
+</div>
 
+<h2>El módulo de cálculo</h2>
+<p>El proyecto no es solo una web: el motor de cálculo (<code>nucleo/</code>)
+funciona solo, sin Django, y es lo que genera el informe.</p>
+<ul class="limpio" style="font-size:14px; line-height: 1.6;">
+  <li><code>python -m nucleo.informe</code> — genera el informe y las figuras.</li>
+  <li><code>python -m nucleo.comparativa</code> — la comparación por consola.</li>
+  <li><code>python -m nucleo.descarga</code> — baja las cinco pistas.</li>
+  <li><code>python manage.py runserver</code> — esta aplicación web.</li>
+</ul>
 
 {% endblock %}
