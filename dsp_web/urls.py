@@ -31,6 +31,7 @@ urlpatterns = [
     path("figura/<str:clave>/<str:nombre>.png", views.figura, name="figura"),
     path("figura-subida/<str:token>/<str:nombre>.png", views.figura_subida,
          name="figura_subida"),
+    path("audio-subido/<str:token>.wav", views.audio_subido, name="audio_subido"),
     path("audio/<str:clave>/<str:variante>.wav", views.audio, name="audio"),
     # Sirve cualquier archivo de public/ en local (Vercel lo sirve directamente en su ruta)
     path("<str:nombre>", views.publico_archivo, name="publico_archivo"),

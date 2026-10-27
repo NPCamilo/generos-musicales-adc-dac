@@ -75,7 +75,12 @@
   </table>
 </div>
 
-{% if figuras %}
+<h2>Escúchalo</h2>
+<p>
+  El audio original que subiste, tal cual llegó al analizador:
+</p>
+<audio controls preload="none" src="{% url 'audio_subido' token %}"></audio>
+
 <h2>Las gráficas de tu audio</h2>
 <p>
   Son las mismas figuras que las de cada género del catálogo, dibujadas
