@@ -3,10 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Análisis DSP aplicado a conversión ADC-DAC sobre géneros musicales, con estudio de la cadena de muestreo, cuantización y reconstrucción según el teorema de Nyquist-Shannon">
   <title>{% block titulo %}DSP aplicado a ADC-DAC sobre audio musical{% endblock %}</title>
   <link rel="stylesheet" href="/estilo.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
 </head>
 <body>
+
+<a href="#contenido-principal" class="skip-to-content">Saltar al contenido principal</a>
 
 <header class="cabecera">
   <div class="envoltorio">
@@ -20,7 +24,7 @@
   </div>
 </header>
 
-<main class="envoltorio">
+<main class="envoltorio" id="contenido-principal" tabindex="-1">
 {% block cuerpo %}{% endblock %}
 </main>
 
