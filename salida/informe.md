@@ -24,7 +24,7 @@ Las cinco cifras que hay que saber de memoria:
 | `f_s` mínima del conjunto | 23332 Hz | 2·f_max de la pista más exigente |
 | resolución a 16 bits | 3.052e-05 V/nivel | V_fs / 2^(b-1) |
 
-**El veredicto del punto (e):** Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.
+**El veredicto del punto (e):** Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz, y ocupa muy poca banda de agudos de percusión, que es donde más gana. En la banda de la voz (300 Hz-3,4 kHz), en cambio, concentra un 24 % de su energía: es el punto más débil de su ficha, y conviene decirlo.
 
 > **Aviso de alcance, y es importante:** este trabajo caracteriza
 > *propiedades acústicas* de cinco grabaciones y las ordena con un índice
@@ -41,7 +41,7 @@ género **en lo que importa para este trabajo, que es el espectro**.
 
 | Género | Músico | Obra | Año | Compositor |
 |---|---|---|---|---|
-| Clásica · Barroca | Netherlands Bach Society (Lucia Swarts, violonchelo) | J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio) | 1722 | Johann Sebastian Bach (1685-1750) |
+| Clásica · Barroca | Netherlands Bach Society (Lucia Swarts, violonchelo) | J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 | 1717 | Johann Sebastian Bach (1685-1750) |
 | Metal | Megadeth | Tornado of Souls (del álbum Youthanasia) | 1990 | Dave Mustaine |
 | Salsa | Frankie Ruiz y La Solución | La Rueda (compositor: Víctor Manuel Mato) | 1980 | Víctor Manuel Mato (ranchera Colombian, años 50) |
 | Reggaetón | Feid y ATL Jacob | LUNA (del EP Ferxxocalipsis) | 2023 | Salomón Villada (Feid) y ATL Jacob |
@@ -52,8 +52,8 @@ género **en lo que importa para este trabajo, que es el espectro**.
 | campo | dato |
 |---|---|
 | **Músico / intérprete** | Netherlands Bach Society (Lucia Swarts, violonchelo) |
-| **Obra** | J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 (I. Preludio) |
-| **Año** | 1722 |
+| **Obra** | J. S. Bach — Suite para violonchelo n.º 1 en Sol mayor, BWV 1007 |
+| **Año** | 1717 |
 | **Compositor** | Johann Sebastian Bach (1685-1750) |
 | **Estilo** | Barroco tardío (Köthen), cello solo senza basso |
 | **Instrumentación** | Un solo violonchelo, arpegiado continuo y cadencias de acordes |
@@ -81,7 +81,7 @@ género **en lo que importa para este trabajo, que es el espectro**.
 | **Tempo esperado** | 120-140 (tema en 4/4, riff en semicorcheas) |
 | **Banda característica** | Fundamental grave del bajo (40-100 Hz) + mucha energía de guitarra hasta 8 kHz por la saturación |
 
-**Por qué este ejemplo y no otro.** La saturación de la guitarra no es un efecto de timbre: es multiplicación de la onda por una función no lineal, y eso genera armónicos de orden muy alto. Por eso el metal es el caso con más contenido agudo del conjunto, y el que peor se porta cuando se baja la frecuencia de muestreo: es la pista donde el aliasing se ve más claro.
+**Por qué este ejemplo y no otro.** La saturación de la guitarra no es un efecto de timbre: es multiplicación de la onda por una función no lineal, y eso genera armónicos de orden muy alto. Por eso el metal es el caso con más contenido agudo del conjunto, y y el que tiene más contenido agudo del conjunto, por lo que es el primero en resentir una bajada de la tasa de muestreo en términos absolutos: necesita 23 332 Hz, la mayor de las cinco.
 
 **Fuentes.**
 
@@ -122,7 +122,7 @@ género **en lo que importa para este trabajo, que es el espectro**.
 | **Tempo esperado** | 90-100 (dembow en 2-4) |
 | **Banda característica** | 40-60 Hz (bombo sintetizado) y 60-250 Hz (bajo y voz); muy poca energía por encima de 4 kHz |
 
-**Por qué este ejemplo y no otro.** El reggaetón moderno es EL caso de la música con la energía más concentrada en el graves: el bombo es un seno sintetizado y la voz va con poca información armónica alta. Es, junto con la barroca, el otro extremo del conjunto, y el que da la mayor دينامica (el bombo ataca y la voz no).
+**Por qué este ejemplo y no otro.** El reggaetón moderno es EL caso de la música con la energía más concentrada en el graves: el bombo es un seno sintetizado y la voz va con poca información armónica alta. Es el más oscuro en la banda de graves, con el 27 % de su energía por debajo de 60 Hz. Lo que sí tiene es un contraste rítmico grande entre el bombo y la voz, aunque el factor de cresta medido (2,88) es bajo por la compresión de la masterización.
 
 **Fuentes.**
 
@@ -169,7 +169,7 @@ x(t)  ──filtro antialiasing──▶  ──muestreo──▶  ──cuantiz
 ```
 
 **El filtro antialiasing** es lo que separa una reconstrucción correcta
-de una riddled de aliasing. SeButterworth de fase cero (`sosfiltfilt`), con
+de una lluvia de aliasing. Es un Butterworth de fase cero (`sosfiltfilt`), con
 el corte al 45 % de `f_s/2` y no al 100 %, porque un filtro real no cae
 en vertical.
 
@@ -236,20 +236,15 @@ decir "esta cifra depende de una decisión":
 
 ![El espectro de Clásica · Barroca](barroca_espectro.png)
 
-**El muestreo y el aliasing.** Cuánto error mete no filtrar:
+**El muestreo y el aliasing.** Cuánto error mete no filtrar
+(4 frecuencias de muestreo):
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 1881 | 0.50× | NO | 6,430e-02 | 3,596e-02 | 2,39 % |
-| 3762 | 1.00× | sí (al límite) | 2,275e-02 | 1,182e-02 | 0,44 % |
-| 5643 | 1.50× | sí | 1,685e-02 | 6,606e-03 | 0,14 % |
-| 7524 | 2.00× | sí | 1,064e-02 | 6,653e-03 | 0,06 % |
-
-La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
-exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
-cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
-todas sus muestras a cero, así que en el límite la señal no es
-recuperable. De ahí el aviso en la tabla.
+| 1881 | 0.50× | NO | 2,339e-02 | 6,102e-02 | 2,39 % |
+| 3762 | 1.00× | sí | 1,148e-02 | 2,649e-02 | 0,44 % |
+| 5643 | 1.50× | sí | 7,975e-03 | 1,716e-02 | 0,14 % |
+| 7524 | 2.00× | sí | 6,751e-03 | 1,176e-02 | 0,06 % |
 
 ![El barrido de muestreo de Clásica · Barroca](barroca_muestreo.png)
 
@@ -305,9 +300,9 @@ Y el **viaje del SNR**, que es el número que resume cada paso:
 |---|---|---|---|
 | x(t) original | la señal de entrada, sin error | — | — |
 | filtro antialiasing | recorta por encima de 9922 Hz | 45,2 dB | 22,6 dB |
-| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
-| cuantizador | 16 bits, Δ = 3,05e-05 V | 81,9 dB | 34,6 dB |
-| cadena completa | todo junto | 81,9 dB | 34,6 dB |
+| muestreo | a 44100 Hz, sin aliasing posible | 30,1 dB | 16,7 dB |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 82,8 dB | 34,6 dB |
+| cadena completa | acumulado, contra la señal original | 45,2 dB | 21,4 dB |
 
 **Cómo se lee esto**, que es lo importante:
 
@@ -375,19 +370,14 @@ decir "esta cifra depende de una decisión":
 
 ![El espectro de Metal](metal_espectro.png)
 
-**El muestreo y el aliasing.** Cuánto error mete no filtrar:
+**El muestreo y el aliasing.** Cuánto error mete no filtrar
+(3 frecuencias de muestreo):
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 11666 | 0.50× | NO | 3,986e-02 | 1,209e-02 | 1,05 % |
-| 23332 | 1.00× | sí (al límite) | 1,800e-02 | 1,370e-02 | 0,31 % |
-| 34999 | 1.50× | sí | 1,699e-02 | 1,421e-02 | 0,02 % |
-
-La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
-exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
-cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
-todas sus muestras a cero, así que en el límite la señal no es
-recuperable. De ahí el aviso en la tabla.
+| 11666 | 0.50× | NO | 1,829e-02 | 3,689e-02 | 1,05 % |
+| 23332 | 1.00× | NO | 1,690e-02 | 1,704e-02 | 0,31 % |
+| 34999 | 1.50× | sí | 1,659e-02 | 1,622e-02 | 0,02 % |
 
 ![El barrido de muestreo de Metal](metal_muestreo.png)
 
@@ -443,9 +433,9 @@ Y el **viaje del SNR**, que es el número que resume cada paso:
 |---|---|---|---|
 | x(t) original | la señal de entrada, sin error | — | — |
 | filtro antialiasing | recorta por encima de 9922 Hz | 23,6 dB | 6,9 dB |
-| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
-| cuantizador | 16 bits, Δ = 3,05e-05 V | 83,3 dB | 35,6 dB |
-| cadena completa | todo junto | 83,3 dB | 35,6 dB |
+| muestreo | a 44100 Hz, sin aliasing posible | 18,6 dB | 14,6 dB |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 84,8 dB | 35,6 dB |
+| cadena completa | acumulado, contra la señal original | 23,6 dB | 6,8 dB |
 
 **Cómo se lee esto**, que es lo importante:
 
@@ -513,20 +503,15 @@ decir "esta cifra depende de una decisión":
 
 ![El espectro de Salsa](salsa_espectro.png)
 
-**El muestreo y el aliasing.** Cuánto error mete no filtrar:
+**El muestreo y el aliasing.** Cuánto error mete no filtrar
+(4 frecuencias de muestreo):
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 9332 | 0.50× | NO | 2,494e-02 | 7,897e-03 | 1,38 % |
-| 18665 | 1.00× | sí (al límite) | 1,642e-02 | 9,134e-03 | 0,18 % |
-| 27997 | 1.50× | sí | 1,330e-02 | 9,860e-03 | 0,00 % |
-| 37329 | 2.00× | sí | 1,182e-02 | 1,070e-02 | 0,00 % |
-
-La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
-exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
-cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
-todas sus muestras a cero, así que en el límite la señal no es
-recuperable. De ahí el aviso en la tabla.
+| 9332 | 0.50× | NO | 1,759e-02 | 2,225e-02 | 1,38 % |
+| 18665 | 1.00× | sí | 1,207e-02 | 1,608e-02 | 0,18 % |
+| 27997 | 1.50× | sí | 1,152e-02 | 1,281e-02 | 0,00 % |
+| 37329 | 2.00× | sí | 1,144e-02 | 1,162e-02 | 0,00 % |
 
 ![El barrido de muestreo de Salsa](salsa_muestreo.png)
 
@@ -582,9 +567,9 @@ Y el **viaje del SNR**, que es el número que resume cada paso:
 |---|---|---|---|
 | x(t) original | la señal de entrada, sin error | — | — |
 | filtro antialiasing | recorta por encima de 9922 Hz | 23,5 dB | 10,1 dB |
-| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
-| cuantizador | 16 bits, Δ = 3,05e-05 V | 94,5 dB | 38,3 dB |
-| cadena completa | todo junto | 94,5 dB | 38,3 dB |
+| muestreo | a 44100 Hz, sin aliasing posible | 20,2 dB | 11,4 dB |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 87,0 dB | 38,3 dB |
+| cadena completa | acumulado, contra la señal original | 23,5 dB | 9,8 dB |
 
 **Cómo se lee esto**, que es lo importante:
 
@@ -652,20 +637,15 @@ decir "esta cifra depende de una decisión":
 
 ![El espectro de Reggaetón](reggaeton_espectro.png)
 
-**El muestreo y el aliasing.** Cuánto error mete no filtrar:
+**El muestreo y el aliasing.** Cuánto error mete no filtrar
+(4 frecuencias de muestreo):
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 7943 | 0.50× | NO | 6,540e-02 | 1,777e-02 | 7,14 % |
-| 15887 | 1.00× | sí (al límite) | 4,575e-02 | 1,438e-02 | 2,93 % |
-| 23830 | 1.50× | sí | 3,665e-02 | 1,678e-02 | 0,97 % |
-| 31774 | 2.00× | sí | 3,349e-02 | 1,939e-02 | 0,23 % |
-
-La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
-exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
-cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
-todas sus muestras a cero, así que en el límite la señal no es
-recuperable. De ahí el aviso en la tabla.
+| 7943 | 0.50× | NO | 4,717e-02 | 4,757e-02 | 7,14 % |
+| 15887 | 1.00× | sí | 3,475e-02 | 3,662e-02 | 2,93 % |
+| 23830 | 1.50× | sí | 3,222e-02 | 3,401e-02 | 0,97 % |
+| 31774 | 2.00× | sí | 3,281e-02 | 3,211e-02 | 0,23 % |
 
 ![El barrido de muestreo de Reggaetón](reggaeton_muestreo.png)
 
@@ -721,9 +701,9 @@ Y el **viaje del SNR**, que es el número que resume cada paso:
 |---|---|---|---|
 | x(t) original | la señal de entrada, sin error | — | — |
 | filtro antialiasing | recorta por encima de 9922 Hz | 18,2 dB | 8,6 dB |
-| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
-| cuantizador | 16 bits, Δ = 3,05e-05 V | 90,8 dB | 42,9 dB |
-| cadena completa | todo junto | 90,8 dB | 42,9 dB |
+| muestreo | a 44100 Hz, sin aliasing posible | 18,9 dB | 16,6 dB |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 47,3 dB | 42,9 dB |
+| cadena completa | acumulado, contra la señal original | 18,2 dB | 8,5 dB |
 
 **Cómo se lee esto**, que es lo importante:
 
@@ -791,20 +771,15 @@ decir "esta cifra depende de una decisión":
 
 ![El espectro de Popular colombiana](popular_espectro.png)
 
-**El muestreo y el aliasing.** Cuánto error mete no filtrar:
+**El muestreo y el aliasing.** Cuánto error mete no filtrar
+(4 frecuencias de muestreo):
 
 | f_s (Hz) | respecto a f_s,min | ¿cumple Nyquist? | NRMSE con aliasing | NRMSE con filtro | energía fuera de banda |
 |---|---|---|---|---|---|
-| 9953 | 0.50× | NO | 2,759e-02 | 9,541e-03 | 0,91 % |
-| 19905 | 1.00× | sí (al límite) | 1,638e-02 | 9,530e-03 | 0,09 % |
-| 29858 | 1.50× | sí | 1,289e-02 | 1,084e-02 | 0,00 % |
-| 39811 | 2.00× | sí | 1,218e-02 | 1,128e-02 | 0,00 % |
-
-La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
-exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
-cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
-todas sus muestras a cero, así que en el límite la señal no es
-recuperable. De ahí el aviso en la tabla.
+| 9953 | 0.50× | NO | 1,757e-02 | 2,588e-02 | 0,91 % |
+| 19905 | 1.00× | NO | 1,235e-02 | 1,603e-02 | 0,09 % |
+| 29858 | 1.50× | sí | 1,204e-02 | 1,267e-02 | 0,00 % |
+| 39811 | 2.00× | sí | 1,199e-02 | 1,192e-02 | 0,00 % |
 
 ![El barrido de muestreo de Popular colombiana](popular_muestreo.png)
 
@@ -860,9 +835,9 @@ Y el **viaje del SNR**, que es el número que resume cada paso:
 |---|---|---|---|
 | x(t) original | la señal de entrada, sin error | — | — |
 | filtro antialiasing | recorta por encima de 9922 Hz | 24,2 dB | 9,8 dB |
-| muestreo + DAC | a 44100 Hz, sin aliasing posible | exacta | exacta |
-| cuantizador | 16 bits, Δ = 3,05e-05 V | 90,5 dB | 38,4 dB |
-| cadena completa | todo junto | 90,5 dB | 38,4 dB |
+| muestreo | a 44100 Hz, sin aliasing posible | 19,1 dB | 11,6 dB |
+| cuantizador | 16 bits, Δ = 3,05e-05 V | 56,1 dB | 38,4 dB |
+| cadena completa | acumulado, contra la señal original | 24,2 dB | 9,6 dB |
 
 **Cómo se lee esto**, que es lo importante:
 
@@ -926,9 +901,9 @@ Y la energía por bandas, que es donde se ve la diferencia de perfil:
   tiene ni un transitorio por encima de 4 kHz, y una masterización
   moderna de 2023 tiene hats por encima de 10 kHz.
 - **f_s,min = 2·f_max** es la tasa de muestreo que exige el teorema. Con
-  el criterio del -40 dB, la pista más exigente (el reggaetón) necesita
-  15887 Hz y la más generosa (la
-  barroca) 3762 Hz. **Los 44,1 kHz del CD
+  el criterio del -40 dB, la pista más exigente es Metal,
+  que necesita 23332 Hz, y la más generosa es
+  Clásica · Barroca, con 3762 Hz. **Los 44,1 kHz del CD
   sobran para las cinco**; lo que no alcanza es la mitad, 22,05 kHz: con
   esa tasa el contenido del metal (que llega a
   11666 Hz) y del reggaetón se plegaría dentro
@@ -954,33 +929,33 @@ comparar ni para discutir.
 | Clásica · Barroca | Bajo centroide espectral (poco brillo) | 20 | 1,00 | 20,0 |
 | Clásica · Barroca | Poca energía en 2-8 kHz | 20 | 0,99 | 19,8 |
 | Clásica · Barroca | Rango dinámico (no está comprimida) | 20 | 1,00 | 19,9 |
-| Clásica · Barroca | Poca energía en la banda de la voz (300 Hz-3,5 kHz) | 15 | 0,52 | 7,8 |
+| Clásica · Barroca | Poca energía en la banda de la voz (300 Hz-3,4 kHz) | 15 | 0,52 | 7,8 |
 | Metal | Tempo en la ventana 60-90 BPM | 25 | 0,83 | 20,8 |
 | Metal | Bajo centroide espectral (poco brillo) | 20 | 0,71 | 14,3 |
 | Metal | Poca energía en 2-8 kHz | 20 | 0,59 | 11,8 |
 | Metal | Rango dinámico (no está comprimida) | 20 | 0,64 | 12,9 |
-| Metal | Poca energía en la banda de la voz (300 Hz-3,5 kHz) | 15 | 0,27 | 4,1 |
+| Metal | Poca energía en la banda de la voz (300 Hz-3,4 kHz) | 15 | 0,27 | 4,1 |
 | Salsa | Tempo en la ventana 60-90 BPM | 25 | 0,75 | 18,8 |
 | Salsa | Bajo centroide espectral (poco brillo) | 20 | 0,75 | 15,0 |
 | Salsa | Poca energía en 2-8 kHz | 20 | 0,85 | 17,1 |
 | Salsa | Rango dinámico (no está comprimida) | 20 | 0,59 | 11,7 |
-| Salsa | Poca energía en la banda de la voz (300 Hz-3,5 kHz) | 15 | 0,00 | 0,0 |
+| Salsa | Poca energía en la banda de la voz (300 Hz-3,4 kHz) | 15 | 0,00 | 0,0 |
 | Reggaetón | Tempo en la ventana 60-90 BPM | 25 | 0,78 | 19,4 |
 | Reggaetón | Bajo centroide espectral (poco brillo) | 20 | 0,80 | 15,9 |
 | Reggaetón | Poca energía en 2-8 kHz | 20 | 0,83 | 16,6 |
 | Reggaetón | Rango dinámico (no está comprimida) | 20 | 0,00 | 0,0 |
-| Reggaetón | Poca energía en la banda de la voz (300 Hz-3,5 kHz) | 15 | 0,53 | 7,9 |
+| Reggaetón | Poca energía en la banda de la voz (300 Hz-3,4 kHz) | 15 | 0,53 | 7,9 |
 | Popular colombiana | Tempo en la ventana 60-90 BPM | 25 | 0,50 | 12,5 |
 | Popular colombiana | Bajo centroide espectral (poco brillo) | 20 | 0,66 | 13,2 |
 | Popular colombiana | Poca energía en 2-8 kHz | 20 | 0,82 | 16,5 |
 | Popular colombiana | Rango dinámico (no está comprimida) | 20 | 0,00 | 0,0 |
-| Popular colombiana | Poca energía en la banda de la voz (300 Hz-3,5 kHz) | 15 | 0,00 | 0,0 |
+| Popular colombiana | Poca energía en la banda de la voz (300 Hz-3,4 kHz) | 15 | 0,00 | 0,0 |
 
 ![El índice de atención y el diagrama tempo/brillo](comparacion_indice_atencion.png)
 
 ### El veredicto
 
-**Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz y casi nada por encima de 4 kHz, de modo que deja libre la banda donde se mueve la voz del profesor.**
+**Con el índice propuesto, la mejor opción como música de fondo para estudiar es Clásica · Barroca (80,1 de 100), seguido de Metal (63,9). La razón principal es que su espectro es el más oscuro: centroide de 290 Hz, y ocupa muy poca banda de agudos de percusión, que es donde más gana. En la banda de la voz (300 Hz-3,4 kHz), en cambio, concentra un 24 % de su energía: es el punto más débil de su ficha, y conviene decirlo.**
 
 Por qué:
 
@@ -1002,7 +977,7 @@ Por qué:
 
 - Un espectro de audio NO es un EEG. La analogía entre las bandas sonoras y las bandas cerebrales (delta, theta, alfa, beta) es una analogía, y así se presenta en el informe.
 - No hay ninguna afirmación clínica aquí. Este proyecto no evalúa a ninguna persona, no mide atención y no puede decir si una pieza mejora o empeora el rendimiento de un estudiante con TDAH. Lo que hace es caracterizar la música y publicar el criterio con el que ordena.
-- La evidencia de la literatura sobre música y TDAH es de asociación, no de causalidad, y la mayoría de los estudios usa música rock/pop en lugar dezar la música classical, que es el caso menos estudiado de los cinco.
+- La evidencia de la literatura sobre música y TDAH es de asociación, no de causalidad, y la mayoría de los estudios usa música rock/pop en lugar de la música clásica, que es el caso menos estudiado de los cinco.
 
 ### Qué dice la literatura
 
@@ -1092,13 +1067,13 @@ exactamente las mismas (las 164 comprobaciones lo verifican).
 - **Una pista por género.** Con otra canción, o con la misma canción en
   otra masterización, el orden puede cambiar. Lo que se comprobó es que
   las tres características que más pesan (brillo, banda de la voz, rango
-  dinámico) son robustas entre_ENUM los cinco, y que el tempo no lo es.
+  dinámico) son robustas entre los cinco, y que el tempo no lo es.
 - **`f_max` depende de un criterio.** Con -30 dB y con -50 dB salen
   cifras distintas; por eso el criterio está publicado, y se da el
   control por energía acumulada.
 - **El factor de cresta mezcla género y época de producción.** Una
   masterización moderna comprimida con limitador tiene crest bajo
-  regardless del género. Es un sesgo conocido del criterio y está
+  sea cual sea el género. Es un sesgo conocido del criterio y está
   anotado en la tabla.
 - **El tempo de una pieza sin percusión no se puede medir.** En la
   barroca el detector no encuentra pulso, y el criterio de tempo se

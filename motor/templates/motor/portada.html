@@ -53,8 +53,10 @@
 
 <h2>Las cinco pistas</h2>
 <p>
-  Cada ficha lleva la investigación breve que pide el enunciado: quién lo
-  interpretó, qué obra es y de qué año es.
+  Cada pista es un fragmento de <strong>12 segundos</strong>, recortado con un
+  criterio objetivo: el tramo de <strong>mayor energía RMS</strong> de la
+  canción completa. No es arbitrario, y es el mismo criterio para los cinco,
+  que es lo que hace que la comparación sea justa.
 </p>
 
 <div class="rejilla">
@@ -65,11 +67,66 @@
     <div class="obra">{{ f.obra }}</div>
     <div class="obra">{{ f.anio }}</div>
     <div class="barra"><i style="width: {{ f.indice }}%"></i></div>
-    <div class="obra">índice de atención {{ f.indice|floatformat:1 }} ·
-      f_max {{ f.f_max|floatformat:0 }} Hz</div>
+    <div class="obra">índice de atención {{ f.indice|recorta }} ·
+      f_max {{ f.f_max|num:0 }} Hz</div>
   </a>
   {% endfor %}
 </div>
+
+<h2>De dónde salen las frecuencias de referencia</h2>
+<p>
+  El índice de atención compara cada pista con un <strong>dato de
+  referencia</strong>: una banda de frecuencias, un rango de tempo o una
+  propiedad medida. Estos son los cinco datos, con la fuente de cada uno.
+</p>
+<div class="panel aviso">
+  <p style="margin:0">{{ nota_fuentes }}</p>
+</div>
+<table>
+  <tr>
+    <th>Criterio</th><th class="num">Peso</th><th>Qué se mide</th>
+    <th>Dato de referencia</th><th>Fuente</th>
+  </tr>
+  {% for c in criterios %}
+  <tr>
+    <td>{{ c.nombre }}</td>
+    <td class="num">{{ c.peso }}</td>
+    <td style="font-size:13px">{{ c.medida }}</td>
+    <td style="font-size:13px">{{ c.referencia }}</td>
+    <td style="font-size:13px">{{ c.fuente }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% for c in criterios %}
+<details class="panel" style="padding:12px 16px">
+  <summary style="cursor:pointer;font-weight:600">
+    {{ c.nombre }}: por qué pesa {{ c.peso }} y de dónde sale
+  </summary>
+  <p style="font-size:14px;margin:10px 0 6px">{{ c.peso_justo }}</p>
+  {% if c.es_decision_propia %}
+  <p style="font-size:13px;color:var(--suave);margin:0 0 6px">
+    <strong>Decisión propia:</strong> los umbrales concretos son de este
+    proyecto, no un resultado de los estudios citados.
+  </p>
+  {% endif %}
+  {% if c.bibliografia %}
+  <ul style="font-size:13px;color:var(--suave);margin:0">
+    {% for b in c.bibliografia %}<li>{{ b }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+</details>
+{% endfor %}
+
+<h3>Las referencias completas</h3>
+<ul class="limpio" style="font-size:14px">
+  {% for f in todas_fuentes %}
+  <li>
+    <strong>{{ f.autor }} ({{ f.anio }}).</strong>
+    «{{ f.titulo }}». <em>{{ f.publicacion }}</em>, {{ f.referencia }}.
+    <br><span style="color:var(--suave)">{{ f.que_dice }}</span>
+  </li>
+  {% endfor %}
+</ul>
 
 <h2>Qué se puede hacer aquí</h2>
 <ul class="limpio">

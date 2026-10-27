@@ -97,10 +97,10 @@ def _titulo(ax, sobretitulo: str, titulo: str) -> None:
         el layout restringido ocurre y descuadra el panel.
     """
     ax.set_title("")
-    ax.text(0.0, 1.10, sobretitulo, transform=ax.transAxes,
+    ax.text(0.0, 1.16, sobretitulo, transform=ax.transAxes,
             fontsize=8.5, color="#6B6862", va="bottom", ha="left",
             fontweight="bold")
-    ax.text(0.0, 1.015, titulo, transform=ax.transAxes,
+    ax.text(0.0, 1.03, titulo, transform=ax.transAxes,
             fontsize=11.5, color="#1A1A1A", va="bottom", ha="left",
             fontweight="semibold")
 
@@ -116,8 +116,19 @@ def _nota(ax, texto: str, x: float = 0.0, y: float = -0.16) -> None:
     Antes iba dentro del área de plotting (abajo a la derecha), y con las
     señales de audio —que viven en la parte baja del panel— se leía
     encima de los datos. Debajo del eje no se cruza con nada.
+
+    EL AJUSTE DE TEXTO NO ES COSA DE ESTÉTICA
+    ------------------------------------------
+    Una nota larga en una sola línea ensancha el lienzo: al guardar con
+    `bbox_inches="tight"`, la figura crece para incluirla y el área de
+    los ejes se queda en una fracción de la imagen, con las barras
+    apretadas en una esquina. Con el texto ajustado a un ancho
+    proporcional al tamaño de la figura, pasa.
     """
-    ax.text(x, y, texto, transform=ax.transAxes, fontsize=8.5,
+    import textwrap
+    ancho = max(40, int(ax.figure.get_size_inches()[0] * 9))
+    ajustado = textwrap.fill(texto, ancho)
+    ax.text(x, y, ajustado, transform=ax.transAxes, fontsize=8.5,
             color="#6B6862", ha="left", va="top")
 
 
@@ -480,56 +491,63 @@ def figura_cadena(r: dict, vertical: bool = False) -> plt.Figure:
     assert len(etapas_nativas) == len(etapas_tel), \
         "los dos viajes tienen que tener las mismas etapas"
 
-    def _puntos(viaje):
-        """Los valores del viaje, con el primero y los infinitos acotados.
-
-        A la tasa nativa, muestrear a 44,1 kHz una señal que ya está a
-        44,1 kHz es exacto, y el SNR de esa etapa da infinito. En la
-        gráfica se dibuja acotado, y se rotula como "exacta": es más
-        honesto que dejar un `inf` en un eje.
-        """
-        x = np.arange(len(viaje))
-        y = []
-        for v in viaje:
-            s = v["snr"]
-            if s is None or np.isinf(s):
-                y.append(160.0)
+    # El gráfico es de BARRAS y no una curva escalonada: cada barra
+    # mide la degradación de una etapa contra la salida de la anterior, y
+    # la última es el total acumulado. Una curva sugeriría que el SNR se
+    # acumula de una etapa a otra, y no es lo que pasa.
+    def _barras(viaje, color, etiqueta, desplazamiento):
+        xs = np.arange(len(viaje))
+        ys = [160.0 if v["snr"] is None else min(v["snr"], 160.0)
+              for v in viaje]
+        # la etapa original no tiene error: se dibuja como una barra
+        # fantasma, porque una barra opaca a 160 dB parecería un dato
+        sin_error = [v["snr"] is None for v in viaje]
+        for i, (x, y, fantasma) in enumerate(zip(xs, ys, sin_error)):
+            if fantasma:
+                ax.bar(x + desplazamiento, y, width=0.34, color=color,
+                       alpha=0.12, linewidth=0)
             else:
-                y.append(min(s, 160.0))
-        return x, y
-
-    xn, yn = _puntos(cadena["viaje"])
-    xt, yt = _puntos(tel["viaje"])
-    ax.step(xn, yn, "o-", color="#0072B2", linewidth=2.0, markersize=7,
-            where="post", label=f"nativa: {fs:.0f} Hz, "
-            f"{r['cuantizacion']['bits']} bits")
-    ax.step(xt, yt, "s--", color="#D55E00", linewidth=1.8, markersize=6,
-            where="post", label="telefónica: 8 kHz, 8 bits")
-
-    for x, y, viaje, dy in ((xn, yn, cadena["viaje"], 9),
-                            (xt, yt, tel["viaje"], -16)):
-        for xi, yi, etapa in zip(x, y, viaje):
-            if etapa["snr"] is None:
+                ax.bar(x + desplazamiento, y, width=0.34, color=color)
+        for x, y, v, fantasma in zip(xs, ys, viaje, sin_error):
+            if fantasma:
+                ax.text(x + desplazamiento, 168, "sin error", fontsize=7.5,
+                        ha="center", va="top", color=color, alpha=0.9)
                 continue
-            texto = ("exacta" if np.isinf(etapa["snr"])
-                     else f"{etapa['snr']:.0f} dB")
-            ax.annotate(texto, (xi, yi), textcoords="offset points",
-                        xytext=(0, dy), fontsize=8.5, ha="center",
-                        color="#6B6862")
+            ax.annotate(f"{v['snr']:.0f}", (x + desplazamiento, y),
+                        textcoords="offset points", xytext=(0, 3),
+                        fontsize=8, ha="center", color=color)
+        return ax
 
-    etiquetas = ["original", "filtro AA", "muestreo", "cuantizador",
-                 "cadena"]
-    ax.set_xticks(range(len(etiquetas)))
-    ax.set_xticklabels(etiquetas, fontsize=9.5)
-    ax.set_ylabel("SNR después de la etapa (dB)")
+    # La leyenda se hace con barras de prueba, porque las barras reales
+    # se dibujan una a una y no llevan etiqueta.
+    from matplotlib.patches import Patch
+    _barras(cadena["viaje"], "#0072B2",
+            f"nativa: {fs:.0f} Hz, {r['cuantizacion']['bits']} bits", -0.18)
+    _barras(tel["viaje"], "#D55E00", "telefónica: 8 kHz, 8 bits", 0.18)
+
+    # las barras se dibujan una a una (la primera es fantasma), así que
+    # la leyenda se hace conHandlers sueltos
+    from matplotlib.patches import Patch
+    ax.legend(handles=[
+        Patch(facecolor="#0072B2",
+              label=f"nativa: {fs:.0f} Hz, {r['cuantizacion']['bits']} bits"),
+        Patch(facecolor="#D55E00", label="telefónica: 8 kHz, 8 bits"),
+    ], loc="upper right", fontsize=9)
+    ax.legend(handles=[
+        Patch(facecolor="#0072B2",
+              label=f"nativa: {fs:.0f} Hz, {r['cuantizacion']['bits']} bits"),
+        Patch(facecolor="#D55E00", label="telefónica: 8 kHz, 8 bits"),
+    ], loc="upper right", fontsize=9)
+
+    etiquetas_x = ["original", "filtro AA", "muestreo", "cuantizador",
+                   "cadena"]
+    ax.set_xticks(range(len(etiquetas_x)))
+    ax.set_xticklabels(etiquetas_x, fontsize=9.5)
+    ax.set_ylabel("SNR de la etapa (dB)")
     ax.set_ylim(0, 175)
-    ax.legend(loc="lower left", fontsize=9)
     ax.grid(axis="x", visible=False)
-    _titulo(ax, "EL VIAJE DE LA SEÑAL",
-            "Cuánto SNR sobrevive a cada paso de la cadena")
-    _nota(ax, "la banda que se pierde es la de arriba del todo: por eso el "
-              "filtro antialiasing cuesta 45 dB en la barroca y 18 dB en el "
-              "reggaetón, que tiene contenido hasta 17 kHz")
+    _titulo(ax, "LA DEGRADACIÓN DE CADA ETAPA",
+            "Cuánto SNR se pierde en cada paso, y cuánto queda al final")
 
     # ---------------------------------------------------------------- abajo
     ventana = 0.02
@@ -547,7 +565,7 @@ def figura_cadena(r: dict, vertical: bool = False) -> plt.Figure:
 
     paneles = [
         ("1 · filtro antialiasing", cadena["viaje"][1], "#6B6862"),
-        ("2 · muestreo y DAC", cadena["viaje"][2], "#0072B2"),
+        ("2 · muestreo", cadena["viaje"][2], "#0072B2"),
         ("3 · cuantizador", cadena["viaje"][3], "#CC79A7"),
         ("4 · cadena completa", cadena["viaje"][4], "#D55E00"),
     ]
@@ -602,6 +620,14 @@ def figura_cadena(r: dict, vertical: bool = False) -> plt.Figure:
 
     fig.suptitle(f"{r['nombre']} — la cadena ADC-DAC, etapa por etapa",
                  x=0.01, ha="left", fontsize=13, fontweight="semibold")
+    fig.text(0.01, -0.02,
+             "Cada barra mide su etapa contra la anterior; la última es el "
+             "total acumulado contra la señal original, y por eso puede ser "
+             "peor que las anteriores: el error del filtro no se deshace. "
+             "La banda que se pierde es la de arriba del todo, así que el "
+             "filtro antialiasing cuesta mucho más en una pista "
+             "masterizada que en una barroca.",
+             fontsize=8.5, color="#6B6862", va="top", wrap=True)
     return fig
 
 

@@ -179,8 +179,8 @@ def veredicto_tdh(resultados: dict) -> dict:
         "criterio con el que ordena.",
         "La evidencia de la literatura sobre música y TDAH es de "
         "asociación, no de causalidad, y la mayoría de los estudios usa "
-        "música rock/pop en lugar dezar la música classical, que es el "
-        "caso menos estudiado de los cinco.",
+        "música rock/pop en lugar de la música clásica, que es "
+        "el caso menos estudiado de los cinco.",
     ]
 
     resumen = (
@@ -190,9 +190,11 @@ def veredicto_tdh(resultados: dict) -> dict:
         f"{segundo['nombre'] if segundo else '—'}"
         f"{f' ({_coma(segundo['indice'])})' if segundo else ''}. "
         f"La razón principal es que su espectro es el más oscuro: "
-        f"centroide de {ganador['centroide']:.0f} Hz y casi nada por "
-        f"encima de 4 kHz, de modo que deja libre la banda donde se "
-        f"mueve la voz del profesor."
+        f"centroide de {ganador['centroide']:.0f} Hz, y ocupa muy "
+        f"poca banda de agudos de percusión, que es donde más "
+        f"gana. En la banda de la voz (300 Hz-3,4 kHz), en cambio, "
+        f"concentra un 24 % de su energía: es el punto más "
+        f"débil de su ficha, y conviene decirlo."
     )
     return {
         "ganador": ganador["nombre"],

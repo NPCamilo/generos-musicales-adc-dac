@@ -522,8 +522,9 @@ def _conceptos(d: dict) -> list:
            "diferencia con los bits nominales comes de dos sitios: la "
            "carga, es decir, cuánto del rango llena la señal, y el ruido "
            "de la propia grabación. En las cinco pistas el SNR medido a 16 "
-           "bits queda entre 82 y 95 dB, con 13,5 a 15,2 bits "
-           "efectivos."),
+           f"bits queda entre {_num(_snr_min(d), 0)} y {_num(_snr_max(d), 0)} dB, "
+           f"con {_num(_enob_min(d), 1)} a {_num(_enob_max(d), 1)} bits "
+           "efectivos (ENOB)."),
 
         _h2("3.7 Ruido de cuantización y dither"),
         _p("El error de cuantización es determinista y correlacionado con "
@@ -622,7 +623,8 @@ def _resultados(d: dict) -> list:
         "barroca_senal.png",
         "La señal x(t) de la barroca (arriba) y 20 ms con las muestras del "
         "ADC marcadas (abajo). En las otras cuatro pistas la señal es "
-        "distinta: Percusión, voz y Synthetic no se parecen en nada.")
+        "distinta: percusión, voz y sintetizadores no se parecen "
+        "en nada.")
     out += _figura(
         "barroca_espectro.png",
         "El espectro de magnitud de la barroca, suavizado en 100 Hz y "
@@ -968,20 +970,33 @@ def _referencias() -> list:
                   "time signal processing». Tercera edición. Pearson.", E["pie"]),
         Paragraph("- Proakis, J. G. y Salehi, M. (2007). «Digital "
                   "communications». Quinta edición. McGraw-Hill.", E["pie"]),
+        Paragraph("- Unión Internacional de Telecomunicaciones (1996). "
+                  "«Recomendación UIT-T G.711: codificación de audio por "
+                  "compresión de pulsos a 64 kbit/s». UIT-T.", E["pie"]),
         _h2("10.2 Sobre música, atención y TDAH"),
-        Paragraph("- Husain, G., Loewenstein, J. y Schoultz, D. (2002). "
-                  "«Time and music». Clinical Psychology Review, 22(1), "
-                  "1-25.", E["pie"]),
-        Paragraph("- Strayer, D. L. y Perona, D. E. (2006). «The effects of "
-                  "tempo and mode on judgments of emotion in music». "
-                  "Psychology of Music, 34(3), 248-275.", E["pie"]),
-        Paragraph("- Alferink, P. C., Meijer, P. H. y Arntz, A. (2003). "
-                  "«Stress reduction by listening to Mozart». Behavioural "
-                  "and Brain Functions, 23(6), 324-329.", E["pie"]),
+        Paragraph("- Los criterios del índice y las fuentes que los "
+                  "respaldan están en el capítulo 5 y en el fichero "
+                  "nucleo/fuentes.py, que es el sitio único donde viven. "
+                  "Las más relevantes:", E["pie"]),
+        Paragraph("- Pelham, W. E., Waschbusch, D. A., Hoza, B., Gnagy, "
+                  "E. M., Greiner, A. R., Sams, S. E., Vallano, G., "
+                  "Majumdar, A. y Carter, R. L. (2011). «Music and video as "
+                  "distractors for boys with ADHD in the classroom». "
+                  "Journal of Abnormal Child Psychology, 39(8), "
+                  "1085-1098.", E["pie"]),
+        Paragraph("- Saville, P., Kinney, C., Heiderscheit, A. y "
+                  "Himmerich, H. (2025). «Exploring the intersection of "
+                  "ADHD and music: a systematic review». Behavioral "
+                  "Sciences, 15(1), 65.", E["pie"]),
         Paragraph("- Brown, L. L., Proulx, T., Stern, J., Straus, M., "
                   "Sulikova, L. y Wright, W. (2001). «Brown noise improves "
                   "performance in perceptual and cognitive tasks». "
-                  "Perceptual and Motor Skills, 93(1), 1-8.", E["pie"]),
+                  "Perceptual and Motor Skills, 93(3), 1103-1117.",
+                  E["pie"]),
+        Paragraph("- Husain, G., Thompson, W. F. y Schellenberg, E. G. "
+                  "(2002). «Effects of musical tempo and mode on arousal, "
+                  "mood, and spatial abilities». Music Perception, 20(2), "
+                  "151-171.", E["pie"]),
         _h2("10.3 De las fichas de los géneros"),
         Paragraph("- Wikipedia e IMSLP, para las fechas de composición de "
                   "las obras del catálogo.", E["pie"]),
@@ -996,6 +1011,38 @@ def _referencias() -> list:
                   "comprobaciones automáticas en "
                   "<font face='Courier'>nucleo/test_*.py</font>.", E["pie"]),
     ]
+
+
+def _enob_min(d: dict) -> float:
+    """El ENOB más bajo de las cinco pistas, a 16 bits."""
+    valores = [r["cuantizacion"]["casos"]["16"]["enob"]
+               for r in d["resultados"].values()
+               if "16" in r["cuantizacion"]["casos"]]
+    return min(valores) if valores else 0.0
+
+
+def _enob_max(d: dict) -> float:
+    """El ENOB más alto de las cinco pistas, a 16 bits."""
+    valores = [r["cuantizacion"]["casos"]["16"]["enob"]
+               for r in d["resultados"].values()
+               if "16" in r["cuantizacion"]["casos"]]
+    return max(valores) if valores else 0.0
+
+
+def _snr_min(d: dict) -> float:
+    """El SNR medido más bajo de las cinco pistas, a 16 bits."""
+    valores = [r["cuantizacion"]["casos"]["16"]["snr_medido"]
+               for r in d["resultados"].values()
+               if "16" in r["cuantizacion"]["casos"]]
+    return min(valores) if valores else 0.0
+
+
+def _snr_max(d: dict) -> float:
+    """El SNR medido más alto de las cinco pistas, a 16 bits."""
+    valores = [r["cuantizacion"]["casos"]["16"]["snr_medido"]
+               for r in d["resultados"].values()
+               if "16" in r["cuantizacion"]["casos"]]
+    return max(valores) if valores else 0.0
 
 
 def _anexo(d: dict) -> list:

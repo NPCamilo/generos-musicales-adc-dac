@@ -16,6 +16,7 @@ fichero de una suite.
 
 from __future__ import annotations
 
+import os
 import pathlib
 import re
 import subprocess
@@ -46,11 +47,16 @@ def _correr(nombre: str, timeout: int = 1800) -> dict:
                 "detalle": f"no existe {ruta.name}", "codigo": 2}
 
     inicio = time.time()
+    # La consola de Windows abre en cp1252, que no tiene el símbolo Δ ni
+    # las rayas Unicode. Sin esto, la suite aborta con un
+    # UnicodeEncodeError en una consola normal y el resumen miente.
+    entorno = {**os.environ, "PYTHONIOENCODING": "utf-8"}
     try:
         proceso = subprocess.run(
             [sys.executable, str(ruta)],
             capture_output=True, text=True, encoding="utf-8",
             errors="replace", timeout=timeout, cwd=str(RAIZ),
+            env=entorno,
         )
     except subprocess.TimeoutExpired:
         return {"suite": nombre, "ok": False, "pruebas": 0, "fallos": 1,

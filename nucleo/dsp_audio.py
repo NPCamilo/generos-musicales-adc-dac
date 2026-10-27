@@ -798,6 +798,14 @@ def crest_factor(x: np.ndarray) -> float:
 # EL ÍNDICE DE ATENCIÓN (PUNTO e)
 # =============================================================================
 
+#: Los cinco criterios salen de `nucleo/fuentes.py`, que es el sitio
+#: único donde vive el dato de referencia de cada uno y la cita que lo
+#: respalda.
+try:
+    from .fuentes import CRITERIOS as _CRITERIOS_FUENTES
+except ImportError:                       # ejecución suelta
+    from fuentes import CRITERIOS as _CRITERIOS_FUENTES
+
 #: Los cinco criterios del índice, con su peso y su justificación.
 #:
 #: Cada criterio se normaliza a 0..1 (1 = mejor para concentrarse) y se
@@ -816,66 +824,15 @@ def crest_factor(x: np.ndarray) -> float:
 #:   · y la banda de la voz (300 Hz-3,5 kHz), que es la MISMA en la que
 #:     habla el profesor: una pieza con cantante en esa banda compite
 #:     con la voz que el estudiante tiene que seguir.
-CRITERIOS_atencion: tuple[dict, ...] = (
+CRITERIOS_atencion: tuple[dict, ...] = tuple(
     {
-        "clave": "tempo",
-        "nombre": "Tempo en la ventana 60-90 BPM",
-        "peso": 25,
-        "por_que": (
-            "La literatura sobre música y atención (Strayer & Perona, "
-            "2006; Husain et al., 2002) encuentra que un tempo moderado "
-            "se asocia a menor activación; por encima de ~100 BPM el "
-            "pulso se vuelve tenso. La ventana 60-90 BPM es la que "
-            "aparece repetida en los estudios de fondo sonoro."
-        ),
-    },
-    {
-        "clave": "brillo",
-        "nombre": "Bajo centroide espectral (poco brillo)",
-        "peso": 20,
-        "por_que": (
-            "El contenido agudo (2-8 kHz) es el que resulta activante y "
-            "el que tapa la voz del profesor. Un centroide bajo indica "
-            "una pieza que deja libre esa banda."
-        ),
-    },
-    {
-        "clave": "agudos",
-        "nombre": "Poca energía en 2-8 kHz",
-        "peso": 20,
-        "por_que": (
-            "Misma idea que el brillo pero medida como energía: las "
-            "percusiones de ataque (timbales, charles, platillos) viven "
-            "justo ahí, y son el componente que más activa."
-        ),
-    },
-    {
-        "clave": "dinamica",
-        "nombre": "Rango dinámico (no está comprimida)",
-        "peso": 20,
-        "por_que": (
-            "Una señal muy comprimida (factor de cresta de 3 o menos) no "
-            "tiene silencios: el oído no descansa y la atención no baja "
-            "del estado de alerta. AVISO HONESTO: la compresión con "
-            "limitador es también una práctica de ESTUDIO MODERNO, así "
-            "que este criterio mide en parte la época de producción y no "
-            "solo el género."
-        ),
-    },
-    {
-        "clave": "voz",
-        "nombre": "Poca energía en la banda de la voz (300 Hz-3,5 kHz)",
-        "peso": 15,
-        "por_que": (
-            "Es la banda donde habla una voz humana, y por tanto la "
-            "misma en la que el estudiante tiene que seguir al profesor. "
-            "Una pieza con cantante en esa banda compite con la voz que "
-            "hay que escuchar. Es el criterio más específico del "
-            "contexto de uso."
-        ),
-    },
+        "clave": c.clave,
+        "nombre": c.nombre,
+        "peso": c.peso,
+        "por_que": c.peso_justo,
+    }
+    for c in _CRITERIOS_FUENTES
 )
-
 
 def _puntuacion_tempo(bpm: float) -> float:
     """1.0 dentro de 60-90 BPM, decayendo por fuera.

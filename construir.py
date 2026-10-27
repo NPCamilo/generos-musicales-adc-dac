@@ -49,14 +49,15 @@ def main() -> int:
     print("construir.py — preparando el despliegue")
     print("=" * 70)
 
-    # 1. el informe y las figuras
-    print("[1/4] el informe y las figuras...")
-    informe.generar_informe(Parametros())
-
-    # 2. los datos precalculados
-    print("[2/4] los datos precalculados...")
+    # 1. el análisis, UNA vez: el informe, el JSON y el PDF salen de
+    #    esta misma pasada, para que no puedan discrepar.
+    print("[1/4] el análisis...")
     res = analisis.analizar_catalogo(Parametros())
     comp = comparativa.resumen_tablas(res["resultados"])
+
+    # 2. el informe y las figuras
+    print("[2/4] el informe y las figuras...")
+    informe.generar_informe(Parametros(), resultados=res)
     ruta = serializacion.guardar_datos(res, informe.SALIDA / "datos.json",
                                        extra=comp)
     print(f"      -> {ruta} "
