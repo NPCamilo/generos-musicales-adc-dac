@@ -70,9 +70,6 @@ AUDIO = pathlib.Path(__file__).resolve().parent.parent / "audio"
 #: La carpeta con los ficheros estáticos que Vercel sirve directamente.
 PUBLICO = pathlib.Path(__file__).resolve().parent.parent / "public"
 
-#: Los audios subidos por los usuarios, en memoria con un token.
-_AUDIOS_SUBIDOS: dict[str, bytes] = {}
-
 #: Los parámetros del análisis por defecto. Se podrían exponer en la
 #: interfaz, pero se dejan fijos para que las cifras del informe y las de
 #: la web sean siempre las mismas.
@@ -238,6 +235,8 @@ def subir(request):
     # despliegue serverless (Vercel) el disco es de solo lectura y la
     # escritura falla con "Read-only file system".
     subido_bytes = subido.read()
+    import base64
+    audio_base64 = base64.b64encode(subido_bytes).decode("ascii")
     try:
         pista = wav_io.leer_wav_bytes(subido_bytes, nombre=nombre)
     except Exception:
@@ -298,12 +297,11 @@ def subir(request):
         plt.close(fig)
         figuras_subidas[nombre] = buffer.getvalue()
 
+    import uuid
     token = uuid.uuid4().hex[:12]
     _FIGURAS_SUBIDAS[token] = figuras_subidas
-    _AUDIOS_SUBIDOS[token] = subido_bytes
     while len(_FIGURAS_SUBIDAS) > _MAX_SUBIDAS:
         _FIGURAS_SUBIDAS.pop(next(iter(_FIGURAS_SUBIDAS)))
-        _AUDIOS_SUBIDOS.pop(next(iter(_AUDIOS_SUBIDOS)), None)
 
     atencion = r["atencion"]
     return render(request, "motor/subir.html", {
@@ -312,6 +310,7 @@ def subir(request):
         "atencion": atencion,
         "figuras": sorted(figuras_subidas),
         "token": token,
+        "audio_base64": audio_base64,
     })
 
 
@@ -457,17 +456,6 @@ def figura_subida(request, token, nombre):
     if not datos:
         raise Http404("Las figuras caducan: vuelve a subir el fichero")
     return HttpResponse(datos, content_type="image/png")
-
-
-def audio_subido(request, token):
-    """El WAV original que el usuario acaba de subir.
-
-    Se guarda en memoria con el mismo token que sus figuras.
-    """
-    datos = _AUDIOS_SUBIDOS.get(token)
-    if not datos:
-        raise Http404("El audio ya no está disponible")
-    return HttpResponse(datos, content_type="audio/wav")
 
 
 def _wav_en_bytes(x, fs: int) -> bytes:
