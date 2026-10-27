@@ -22,25 +22,6 @@
   --gris-suave: #F2F2F2;
 }
 
-/* -- Modo oscuro opcional para contraste --
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fondo: #121212;
-    --panel: #1E1E1E;
-    --tinta: #FFFFFF;
-    --suave: #B0B0B0;
-    --linea: #3A3A3A;
-    --rejilla: #252525;
-    --azul: #8AB4D8;
-    --naranja: #E87A75;
-    --verde: #A9C89C;
-    --rosa: #D4A5C5;
-    --amarillo: #D4B25F;
-    --rojo: #E49B91;
-  }
-}
-*/
-
 * { box-sizing: border-box; }
 
 body {
@@ -68,7 +49,6 @@ input[type="file"]:focus, select:focus, input[type="number"]:focus {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 28px 72px;
-  --section-gap: 48px;
 }
 
 /* --- Cabecera refinada --- */
@@ -129,14 +109,14 @@ input[type="file"]:focus, select:focus, input[type="number"]:focus {
   background: var(--azul);
 }
 
-/--- Tipografía refinada --- */
+/* --- Tipografía refinada --- */
 h1 { font-size: 32px; line-height: 1.25; letter-spacing: -0.03em; margin: 44px 0 8px; }
 h2 { font-size: 24px; letter-spacing: -0.02em; margin: 48px 0 12px; padding-top: 20px;
      border-top: 2px solid var(--linea); }
 h3 { font-size: 18px; margin: 32px 0 8px; }
 h1 + p.entradilla { font-size: 18px; color: var(--suave); margin-top: 0; line-height: 1.5; }
 .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px;
-           color: var(--suave); font-weight: 600; text-transform: uppercase; }
+           color: var(--suave); font-weight: 600; }
 p { max-width: 80ch; line-height: 1.7; }
 code { background: #F8F6F3; padding: 2px 6px; border-radius: 6px;
        font-family: "Cascadia Mono", Consolas, monospace; font-size: 0.88em; }
@@ -149,8 +129,7 @@ pre { background: #F8F6F3; padding: 16px 20px; border-radius: 8px; overflow-x: a
   border-radius: 12px;
   padding: 24px 28px;
   margin: 24px 0;
-  --shadow: 0 1px 3px rgba(0,0,0,0.05);
-  box-shadow: var(--shadow);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 .panel.acento { border-left: 4px solid var(--azul); }
 .panel.aviso {
@@ -169,8 +148,7 @@ pre { background: #F8F6F3; padding: 16px 20px; border-radius: 8px; overflow-x: a
   padding: 20px 22px;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.03);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 .cifra:hover {
   transform: translateY(-2px);
@@ -207,7 +185,7 @@ pre { background: #F8F6F3; padding: 16px 20px; border-radius: 8px; overflow-x: a
 
 /* --- Tablas --- */
 table { border-collapse: collapse; width: 100%; margin: 24px 0; font-size: 14px;
-        width: 100%; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; }
+        border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; }
 th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rejilla);
          vertical-align: top; }
 th { color: var(--suave); font-weight: 600; font-size: 12px;
@@ -292,124 +270,3 @@ ul.limpio li span { color: var(--suave); font-size: 13px; }
   h1 { font-size: 28px; margin: 32px 0 6px; }
   h2 { font-size: 20px; margin: 36px 0 10px; }
 }
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: var(--fondo);
-  color: var(--tinta);
-  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.62;
-}
-
-a { color: var(--azul); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-.envoltorio { max-width: 1080px; margin: 0 auto; padding: 0 22px 80px; }
-
-/* --- cabecera ------------------------------------------------------------ */
-.cabecera {
-  border-bottom: 1px solid var(--linea);
-  background: var(--panel);
-  position: sticky; top: 0; z-index: 20;
-}
-.cabecera .envoltorio {
-  display: flex; align-items: center; gap: 26px;
-  padding-top: 14px; padding-bottom: 14px;
-}
-.marca { font-weight: 700; letter-spacing: -0.01em; font-size: 17px; }
-.marca span { color: var(--suave); font-weight: 400; font-size: 14px; }
-.menu { display: flex; gap: 20px; flex-wrap: wrap; margin-left: auto; }
-.menu a { color: var(--suave); font-size: 15px; }
-.menu a.activo { color: var(--tinta); font-weight: 600; }
-
-/* --- tipografía ---------------------------------------------------------- */
-h1 { font-size: 30px; line-height: 1.22; letter-spacing: -0.02em; margin: 40px 0 6px; }
-h2 { font-size: 22px; letter-spacing: -0.01em; margin: 46px 0 10px; padding-top: 18px;
-     border-top: 1px solid var(--linea); }
-h3 { font-size: 17px; margin: 30px 0 6px; }
-h1 + p.entradilla { font-size: 18px; color: var(--suave); margin-top: 0; }
-.eyebrow { text-transform: uppercase; letter-spacing: 0.10em; font-size: 11.5px;
-           color: var(--suave); font-weight: 600; }
-p { max-width: 74ch; }
-code { background: #F1EEE8; padding: 1px 5px; border-radius: 3px;
-       font-family: "Cascadia Mono", Consolas, monospace; font-size: 0.92em; }
-pre { background: #F1EEE8; padding: 14px 16px; border-radius: 6px; overflow-x: auto; }
-
-/* --- bloques ------------------------------------------------------------- */
-.panel {
-  background: var(--panel); border: 1px solid var(--linea);
-  border-radius: 10px; padding: 20px 22px; margin: 18px 0;
-}
-.panel.acento { border-left: 3px solid var(--azul); }
-.panel.aviso { border-left: 3px solid var(--naranja); background: #FDF8F3; }
-
-.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-          gap: 14px; margin: 20px 0; }
-.cifra { background: var(--panel); border: 1px solid var(--linea);
-         border-radius: 10px; padding: 14px 16px; }
-.cifra .etiqueta { font-size: 12px; text-transform: uppercase;
-                   letter-spacing: 0.07em; color: var(--suave); }
-.cifra .valor { font-size: 25px; font-weight: 650; letter-spacing: -0.02em;
-                margin-top: 3px; }
-.cifra .nota { font-size: 13px; color: var(--suave); }
-
-/* --- rejilla de géneros --------------------------------------------------- */
-.rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-           gap: 16px; margin: 22px 0; }
-.tarjeta { background: var(--panel); border: 1px solid var(--linea);
-           border-radius: 10px; padding: 18px 20px; display: flex;
-           flex-direction: column; gap: 6px; }
-.tarjeta .titulo { font-weight: 650; font-size: 17px; }
-.tarjeta .obra { color: var(--suave); font-size: 14px; }
-.tarjeta .barra { height: 6px; background: var(--rejilla); border-radius: 3px;
-                 overflow: hidden; margin: 8px 0 4px; }
-.tarjeta .barra i { display: block; height: 100%; background: var(--azul); }
-
-/* --- tablas -------------------------------------------------------------- */
-table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14.5px; }
-th, td { text-align: left; padding: 8px 11px; border-bottom: 1px solid var(--rejilla);
-         vertical-align: top; }
-th { color: var(--suave); font-weight: 600; font-size: 12.5px;
-     text-transform: uppercase; letter-spacing: 0.05em; }
-td.num, th.num { text-align: right; font-variant-numeric: tabular-nums;
-                  font-family: "Cascadia Mono", Consolas, monospace; font-size: 13.5px; }
-tr.destacada td { background: #F3F8FB; }
-
-/* --- figuras ------------------------------------------------------------- */
-figure { margin: 22px 0; }
-figure img { width: 100%; height: auto; border: 1px solid var(--linea);
-             border-radius: 8px; background: var(--fondo); }
-figcaption { color: var(--suave); font-size: 13.5px; margin-top: 7px; }
-
-/* --- audio --------------------------------------------------------------- */
-audio { width: 100%; margin: 6px 0 14px; }
-.lista-audio { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-               gap: 14px; }
-.lista-audio .pieza { background: var(--panel); border: 1px solid var(--linea);
-                     border-radius: 10px; padding: 12px 14px; }
-.lista-audio .pieza .nombre { font-weight: 600; font-size: 14.5px; }
-.lista-audio .pieza .explica { color: var(--suave); font-size: 13px; margin: 3px 0 8px; }
-
-/* --- formularios --------------------------------------------------------- */
-label { display: block; font-weight: 600; margin: 14px 0 5px; font-size: 15px; }
-input[type="file"], select, input[type="number"] {
-  width: 100%; max-width: 420px; padding: 9px 11px; border: 1px solid var(--linea);
-  border-radius: 7px; background: var(--panel); font: inherit; font-size: 15px;
-}
-button { margin-top: 16px; background: var(--tinta); color: #fff; border: 0;
-         border-radius: 7px; padding: 11px 20px; font: inherit; font-weight: 600;
-         cursor: pointer; }
-button:hover { background: #333; }
-
-/* --- listas -------------------------------------------------------------- */
-ul.limpio { list-style: none; padding-left: 0; }
-ul.limpio li { padding: 5px 0 5px 20px; position: relative; max-width: 74ch; }
-ul.limpio li::before { content: "—"; position: absolute; left: 0; color: var(--suave); }
-
-.veredicto { font-size: 17.5px; line-height: 1.6; }
-.etiqueta-veredicto { display: inline-block; font-size: 11.5px; text-transform: uppercase;
-                      letter-spacing: 0.09em; color: #fff; background: var(--verde);
-                      padding: 3px 9px; border-radius: 20px; margin-bottom: 8px; }

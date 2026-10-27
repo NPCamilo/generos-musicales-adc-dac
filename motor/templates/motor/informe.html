@@ -34,7 +34,7 @@
 que son las del punto (e):</p>
 <div class="rejilla">
   {% for nombre in figuras %}
-    {% if nombre|slice:"13:"|startswith:"comparacion_" %}
+    {% if "comparacion_" in nombre %}
     <div class="tarjeta">
       <div class="titulo">{{ nombre|slice:"13:"|slice:"-4" }}</div>
       <div class="obra">PNG a 300 dpi · salida/{{ nombre }}</div>

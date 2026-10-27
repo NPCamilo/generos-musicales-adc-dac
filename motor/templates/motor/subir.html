@@ -5,8 +5,8 @@ Subir un audio corto en WAV {% endblock %} {% block cuerpo %}
 
 <p class="entradilla">
   El requisito (a) del enunciado: el programa tiene que poder cargar audios
-  cortos en formato WAV. Aqu� se sube el tuyo y se analiza con el mismo
-  instrumental que las cinco pistas del cat�logo.
+  cortos en formato WAV. Aquí se sube el tuyo y se analiza con el mismo
+  instrumental que las cinco pistas del catálogo.
 </p>
 
 {% if error %}
@@ -22,7 +22,7 @@ Subir un audio corto en WAV {% endblock %} {% block cuerpo %}
       style="width: 100%; padding: 11px 14px; border: 1px solid var(--linea); border-radius: 8px; background: var(--panel); font: inherit; font-size: 14px; margin-bottom: 20px;">
     <p style="color:var(--suave);font-size:13px">
       Se aceptan PCM de 8, 16, 24 y 32 bits y coma flotante de 32 y 64 bits,
-      mono o est�reo. Se analiza el primer segmento de 12 segundos.
+      mono o estéreo. Se analiza el primer segmento de 12 segundos.
     </p>
     <button type="submit"
       style="background: var(--tinta); color: #fff; border: 0; border-radius: 8px; padding: 12px 28px; font: inherit; font-weight: 600; cursor: pointer; width: 100%;">
@@ -39,9 +39,9 @@ Subir un audio corto en WAV {% endblock %} {% block cuerpo %}
     <div class="nota">criterio: {{ r.espectro.umbral_db|num:0 }} dB bajo el pico</div>
   </div>
   <div class="cifra">
-    <div class="etiqueta">f_s m�nima</div>
+    <div class="etiqueta">f_s mínima</div>
     <div class="valor">{{ r.espectro.fs_minima|num:0 }} Hz</div>
-    <div class="nota">2 �� f_max</div>
+    <div class="nota">2 · f_max</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">Centroide</div>
@@ -49,7 +49,7 @@ Subir un audio corto en WAV {% endblock %} {% block cuerpo %}
     <div class="nota">el brillo</div>
   </div>
   <div class="cifra">
-    <div class="etiqueta">�ndice de atenci�n</div>
+    <div class="etiqueta">Índice de atención</div>
     <div class="valor">{{ atencion.indice|recorta }}</div>
     <div class="nota">{{ atencion.veredicto }}</div>
   </div>
@@ -60,29 +60,29 @@ Subir un audio corto en WAV {% endblock %} {% block cuerpo %}
   <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
     <tbody>
       <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">archivo</th><td style="padding: 10px 12px;">{{ nombre }}</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">frecuencia de muestreo</th><td style="padding: 10px 12px; class="num"">{{ r.pista.fs }} Hz</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">bits del archivo</th><td style="padding: 10px 12px; class="num">{{ r.pista.bits }}</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">canales</th><td style="padding: 10px 12px; class="num">{{ r.pista.canales }}</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">duraci�n analizada</th><td style="padding: 10px 12px; class="num">{{ r.pista.duracion_s }} s</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">pico</th><td style="padding: 10px 12px; class="num">{{ r.pista.pico|floatformat:4 }}</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">f_max</th><td style="padding: 10px 12px; class="num">{{ r.espectro.f_max|num:0 }} Hz</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">f_s m�nima (Nyquist)</th><td style="padding: 10px 12px; class="num">{{ r.espectro.fs_minima|num:0 }} Hz</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">centroide espectral</th><td style="padding: 10px 12px; class="num">{{ r.espectro.centroide|num:0 }} Hz</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">factor de cresta</th><td style="padding: 10px 12px; class="num">{{ r.espectro.crest|num:2 }}</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">tempo</th><td style="padding: 10px 12px; class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|num:0 }} BPM{% else %}no medible{% endif %}</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">factor de escala ({{ r.cuantizacion.bits }} bits)</th><td style="padding: 10px 12px; class="num">{{ r.cuantizacion.factor_escala_v|num:9 }} V/nivel</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">SNR de la cadena</th><td style="padding: 10px 12px; class="num">{{ r.cadena.snr_cadena|num:1 }} dB</td></tr>
-      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">�ndice de atenci�n</th><td style="padding: 10px 12px; class="num">{{ atencion.indice|recorta }} / 100</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">frecuencia de muestreo</th><td style="padding: 10px 12px;" class="num">{{ r.pista.fs }} Hz</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">bits del archivo</th><td style="padding: 10px 12px;" class="num">{{ r.pista.bits }}</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">canales</th><td style="padding: 10px 12px;" class="num">{{ r.pista.canales }}</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">duración analizada</th><td style="padding: 10px 12px;" class="num">{{ r.pista.duracion_s }} s</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">pico</th><td style="padding: 10px 12px;" class="num">{{ r.pista.pico|floatformat:4 }}</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">f_max</th><td style="padding: 10px 12px;" class="num">{{ r.espectro.f_max|num:0 }} Hz</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">f_s mínima (Nyquist)</th><td style="padding: 10px 12px;" class="num">{{ r.espectro.fs_minima|num:0 }} Hz</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">centroide espectral</th><td style="padding: 10px 12px;" class="num">{{ r.espectro.centroide|num:0 }} Hz</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">factor de cresta</th><td style="padding: 10px 12px;" class="num">{{ r.espectro.crest|num:2 }}</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">tempo</th><td style="padding: 10px 12px;" class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|num:0 }} BPM{% else %}no medible{% endif %}</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">factor de escala ({{ r.cuantizacion.bits }} bits)</th><td style="padding: 10px 12px;" class="num">{{ r.cuantizacion.factor_escala_v|num:9 }} V/nivel</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">SNR de la cadena</th><td style="padding: 10px 12px;" class="num">{{ r.cadena.snr_cadena|num:1 }} dB</td></tr>
+      <tr><th style="padding: 10px 12px; color: var(--suave); font-weight: 600;">Índice de atención</th><td style="padding: 10px 12px;" class="num">{{ atencion.indice|recorta }} / 100</td></tr>
     </tbody>
   </table>
 </div>
 
 {% if figuras %}
-<h2 style="margin-bottom: 20px;">Las gr�ficas de tu audio</h2>
+<h2 style="margin-bottom: 20px;">Las gráficas de tu audio</h2>
 <p style="margin-bottom: 16px; font-size: 13px; color: var(--suave);">
-  Son las mismas figuras que las de cada g�nero del cat�logo, dibujadas
-  con tu fichero: la se�al con sus muestras, el espectro de magnitud, el
-  barrido de muestreo y la escalera de cuantizaci�n.
+  Son las mismas figuras que las de cada género del catálogo, dibujadas
+  con tu fichero: la señal con sus muestras, el espectro de magnitud, el
+  barrido de muestreo y la escalera de cuantización.
 </p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 600px; margin: 0 auto;">
 {% for nombre in figuras %}
@@ -90,10 +90,10 @@ Subir un audio corto en WAV {% endblock %} {% block cuerpo %}
   <img src="{% url 'figura_subida' token nombre %}.png" alt="{{ nombre }}"
     style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px;">
   <figcaption style="font-size: 11px; color: var(--suave); line-height: 1.4;">
-    {% if nombre == "senal" %}La se�al x(t) y 20 ms con las muestras del ADC.
+    {% if nombre == "senal" %}La señal x(t) y 20 ms con las muestras del ADC.
     {% elif nombre == "espectro" %}El espectro de magnitud, con f_max medido.
     {% elif nombre == "muestreo" %}El barrido de muestreo: el error con y sin filtro antialiasing.
-    {% else %}La escalera de cuantizaci�n y el error acotado a ��/2.
+    {% else %}La escalera de cuantización y el error acotado a ±/2.
     {% endif %}
   </figcaption>
 </figure>
@@ -103,7 +103,7 @@ Subir un audio corto en WAV {% endblock %} {% block cuerpo %}
 
 <p style="text-align: center; margin-top: 30;">
   <a href="{% url 'subir' %}" style="background: var(--azul); color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500;">
-    �? Analizar otro fichero
+    ·· Analizar otro fichero
   </a>
 </p>
 
