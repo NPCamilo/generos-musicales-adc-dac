@@ -74,7 +74,7 @@
   <tr>
     <td class="num">{{ e.fs|num:0 }}</td>
     <td class="num">{{ e.multiplicador|num:2 }}×</td>
-    <td>{% if e.cumple_nyquist %}<span style="color:var(--verde)">sí</span>{% else %}<span style="color:var(--rojo)">no</span>{% endif %}</td>
+    <td>{% if e.cumple_nyquist %}<span style="color:var(--verde)">sí{% if e.caso_limite %} (al límite){% endif %}</span>{% else %}<span style="color:var(--rojo)">no</span>{% endif %}</td>
     <td class="num">{{ e.nrmse_aliasing|num:6 }}</td>
     <td class="num">{{ e.nrmse_reconstruccion|num:6 }}</td>
     <td class="num">{{ e.energia_fuera_banda|num:2 }} %</td>

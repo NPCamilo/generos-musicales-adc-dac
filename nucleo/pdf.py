@@ -461,7 +461,11 @@ def _conceptos(d: dict) -> list:
            "tabla de la web de cada pista, con el veredicto de si se "
            "cumple o no. Ninguna de las cinco pistas queda en el límite, "
            "que es el caso degenerado: un seno de exactamente f_s/2 da "
-           "ceros en todas las muestras y sería indetectable."),
+           "ceros en todas las muestras y sería indetectable. En el "
+           "barrido de f_s de esa tabla, en cambio, la fila del "
+           "multiplicador 1,00× SÍ cae en el límite por construcción (su "
+           "f_s es exactamente f_s,min), y por eso va marcada como "
+           "«sí (al límite)»."),
 
         _h2("3.3 Teoría de Fourier y espectro de magnitud"),
         _p("El teorema de Fourier descompone cualquier señal periódica en "
