@@ -290,12 +290,15 @@ def subir(request):
                        ("espectro", figuras.figura_espectro),
                        ("muestreo", figuras.figura_muestreo),
                        ("cuantizacion", figuras.figura_cuantizacion)):
-        fig = fn(r)
-        buffer = io.BytesIO()
-        fig.savefig(buffer, format="png", dpi=140, bbox_inches="tight",
-                    facecolor=fig.get_facecolor())
-        plt.close(fig)
-        figuras_subidas[nombre] = buffer.getvalue()
+        try:
+            fig = fn(r)
+            buffer = io.BytesIO()
+            fig.savefig(buffer, format="png", dpi=140, bbox_inches="tight",
+                        facecolor=fig.get_facecolor())
+            plt.close(fig)
+            figuras_subidas[nombre] = buffer.getvalue()
+        except Exception as exc:
+            logger.exception("no se pudo dibujar la figura %s", nombre)
 
     import uuid
     token = uuid.uuid4().hex[:12]
