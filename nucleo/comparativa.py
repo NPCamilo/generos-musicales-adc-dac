@@ -188,7 +188,7 @@ def veredicto_tdh(resultados: dict) -> dict:
         f"para estudiar es {ganador['nombre']} "
         f"({_coma(ganador['indice'])} de 100), seguido de "
         f"{segundo['nombre'] if segundo else '—'}"
-        f"{f' ({_coma(segundo['indice'])})' if segundo else ''}. "
+        f"{f' ({_coma(segundo[\"indice\"])})' if segundo else ''}. "
         f"La razón principal es que su espectro es el más oscuro: "
         f"centroide de {ganador['centroide']:.0f} Hz, y ocupa muy "
         f"poca banda de agudos de percusión, que es donde más "
