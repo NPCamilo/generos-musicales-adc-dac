@@ -183,12 +183,14 @@ def veredicto_tdh(resultados: dict) -> dict:
         "el caso menos estudiado de los cinco.",
     ]
 
+    if segundo:
+        seguido = f" {segundo['nombre']} ({_coma(segundo['indice'])})"
+    else:
+        seguido = " —"
     resumen = (
         f"Con el índice propuesto, la mejor opción como música de fondo "
         f"para estudiar es {ganador['nombre']} "
-        f"({_coma(ganador['indice'])} de 100), seguido de "
-        f"{segundo['nombre'] if segundo else '—'}"
-        f"{f' ({_coma(segundo[\"indice\"])})' if segundo else ''}. "
+        f"({_coma(ganador['indice'])} de 100), seguido de{seguido}. "
         f"La razón principal es que su espectro es el más oscuro: "
         f"centroide de {ganador['centroide']:.0f} Hz, y ocupa muy "
         f"poca banda de agudos de percusión, que es donde más "
