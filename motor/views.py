@@ -370,6 +370,40 @@ def estilo(request):
     raise Http404("No está la hoja de estilos")
 
 
+def publico_archivo(request, nombre):
+    """Sirve cualquier fichero de la carpeta public/ (PDF, imágenes, etc.).
+
+    En Vercel la carpeta public/ se sirve directamente, pero en local
+    Django la expone a través de esta vista para que los enlaces
+    funcionen en ambos entornos.
+    """
+    ruta = PUBLICO / nombre
+    if not ruta.exists() or not ruta.is_file():
+        raise Http404(f"El archivo '{nombre}' no existe")
+    # Detectar content-type por extensión
+    extension = ruta.suffix.lower()
+    content_types = {
+        ".pdf": "application/pdf",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".gif": "image/gif",
+        ".svg": "image/svg+xml",
+        ".ico": "image/x-icon",
+        ".txt": "text/plain",
+        ".md": "text/markdown",
+        ".html": "text/html",
+        ".css": "text/css",
+        ".js": "application/javascript",
+        ".json": "application/json",
+        ".zip": "application/zip",
+        ".wav": "audio/wav",
+        ".mp3": "audio/mpeg",
+    }
+    content_type = content_types.get(extension, "application/octet-stream")
+    return FileResponse(open(ruta, "rb"), content_type=content_type)
+
+
 def descarga_informe(request):
     """El informe en markdown, tal cual."""
     ruta = SALIDA / "informe.md"

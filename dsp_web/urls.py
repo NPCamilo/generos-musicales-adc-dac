@@ -23,6 +23,7 @@ urlpatterns = [
     path("subir/", views.subir, name="subir"),
     path("informe/", views.informe, name="informe"),
     path("estilo.css", views.estilo, name="estilo"),
+    path("publico/<str:nombre>", views.publico_archivo, name="publico_archivo"),
     path("descargas/informe.md", views.descarga_informe, name="descarga_informe"),
     path("descargas/informe_proyecto.pdf", views.descarga_pdf,
          name="descarga_pdf"),
