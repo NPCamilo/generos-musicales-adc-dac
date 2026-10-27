@@ -77,9 +77,38 @@
 
 <h2>Escúchalo</h2>
 <p>
-  El audio original que subiste, tal cual llegó al analizador:
+  El audio no es una decoración: el efecto del ADC, la cuantización y el filtro antialiasing son reales y se pueden escuchar en tu propia pista:
 </p>
-<audio controls preload="none" src="data:audio/wav;base64,{{ audio_base64 }}"></audio>
+<div class="lista-audio">
+  {% if audios.original %}
+  <div class="pieza">
+    <div class="nombre">Original</div>
+    <div class="explica">el clip tal cual, a {{ r.pista.fs }} Hz y {{ r.pista.bits }} bits</div>
+    <audio controls preload="none" src="data:audio/wav;base64,{{ audios.original }}"></audio>
+  </div>
+  {% endif %}
+  {% if audios.bits12 %}
+  <div class="pieza">
+    <div class="nombre">Cuantizado a 12 bits</div>
+    <div class="explica">y = {{ r.cuantizacion.casos.12.delta|num:9 }} V por nivel</div>
+    <audio controls preload="none" src="data:audio/wav;base64,{{ audios.bits12 }}"></audio>
+  </div>
+  {% endif %}
+  {% if audios.bits8 %}
+  <div class="pieza">
+    <div class="nombre">Cuantizado a 8 bits</div>
+    <div class="explica">y = {{ r.cuantizacion.casos.8.delta|num:9 }} V por nivel: aquí se percibe el ruido de cuantización</div>
+    <audio controls preload="none" src="data:audio/wav;base64,{{ audios.bits8 }}"></audio>
+  </div>
+  {% endif %}
+  {% if audios.telefonica %}
+  <div class="pieza">
+    <div class="nombre">Telefónica (8 kHz, 8 bits)</div>
+    <div class="explica">la cadena completa, simulando transmisión telefónica: banda acotada a 4 kHz</div>
+    <audio controls preload="none" src="data:audio/wav;base64,{{ audios.telefonica }}"></audio>
+  </div>
+  {% endif %}
+</div>
 
 <h2>Las gráficas de tu audio</h2>
 <p>
@@ -87,18 +116,12 @@
   con tu fichero: la señal con sus muestras, el espectro de magnitud, el
   barrido de muestreo y la escalera de cuantización.
 </p>
-{% for nombre in figuras %}
+{% for fig in figuras %}
 <figure>
-  <img src="{% url 'figura_subida' token nombre %}" alt="{{ nombre }}">
-  <figcaption>
-    {% if nombre == "senal" %}La señal x(t) y 20 ms con las muestras del ADC.
-    {% elif nombre == "espectro" %}El espectro de magnitud, con f_max medido.
-    {% elif nombre == "muestreo" %}El barrido de muestreo: el error con y sin filtro antialiasing.
-    {% else %}La escalera de cuantización y el error acotado a ±Δ/2.{% endif %}
-  </figcaption>
+  <img src="data:image/png;base64,{{ fig.b64 }}" alt="{{ fig.clave }}">
+  <figcaption>{{ fig.titulo }}</figcaption>
 </figure>
 {% endfor %}
-{% endif %}
 
 <p><a href="{% url 'subir' %}">← Analizar otro fichero</a></p>
 

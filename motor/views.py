@@ -41,7 +41,15 @@ from __future__ import annotations
 import functools
 import io
 import logging
+import os
 import pathlib
+import tempfile
+
+if "MPLCONFIGDIR" not in os.environ:
+    os.environ["MPLCONFIGDIR"] = tempfile.gettempdir()
+
+import matplotlib
+matplotlib.use("Agg")
 
 from django.http import (FileResponse, Http404, HttpResponse, JsonResponse)
 from django.shortcuts import render
@@ -225,8 +233,8 @@ def subir(request):
             "error": "No se ha elegido ningún fichero.",
         })
 
-    nombre = subido.name
-    if not nombre.lower().endswith(".wav"):
+    nombre_fichero = subido.name
+    if not nombre_fichero.lower().endswith(".wav"):
         return render(request, "motor/subir.html", {
             "error": "El fichero tiene que ser un WAV (.wav).",
         })
@@ -236,9 +244,9 @@ def subir(request):
     # escritura falla con "Read-only file system".
     subido_bytes = subido.read()
     import base64
-    audio_base64 = base64.b64encode(subido_bytes).decode("ascii")
+    audio_base64_original = base64.b64encode(subido_bytes).decode("ascii")
     try:
-        pista = wav_io.leer_wav_bytes(subido_bytes, nombre=nombre)
+        pista = wav_io.leer_wav_bytes(subido_bytes, nombre=nombre_fichero)
     except Exception:
         logger.exception("no se pudo leer el WAV subido")
         return render(request, "motor/subir.html", {
@@ -255,10 +263,10 @@ def subir(request):
     from nucleo.catalogo import Genero
     genero_subido = Genero(
         clave="subido",
-        nombre=f"Subido · {nombre}",
+        nombre=f"Subido · {nombre_fichero}",
         genero="Audio propio",
         musico="(el fichero que has subido)",
-        obra=nombre,
+        obra=nombre_fichero,
         anio=0,
         compositor="—",
         estilo="—",
@@ -277,30 +285,82 @@ def subir(request):
                      "válido y vuelve a intentarlo.",
         })
 
+    # GENERACIÓN DE AUDIO DSP (Original, 12 bits, 8 bits, Telefónica)
+    # ---------------------------------------------------------------
+    # Al igual que en cada género del catálogo, se generan en memoria las
+    # versiones cuantizadas y telefónica para que el usuario pueda comparar
+    # auditivamente la degradación de su propia pista.
+    try:
+        from nucleo import dsp_audio as dsp
+        from nucleo import primitivas
+        x = dsp.quitar_dc(pista.x)
+        vfs = PARAMETROS.vfs
+        x_v = wav_io.a_voltios(x, vfs)
+
+        xq12 = primitivas.cuantizar(x_v, 12, 2.0 * vfs, saturar=True)
+        b12 = _wav_en_bytes(xq12, pista.fs)
+
+        xq8 = primitivas.cuantizar(x_v, 8, 2.0 * vfs, saturar=True)
+        b8 = _wav_en_bytes(xq8, pista.fs)
+
+        fs_o = 8000
+        n_puntos = int(len(x) * fs_o / pista.fs)
+        x8 = dsp.antialias(x, pista.fs, fs_o, orden=PARAMETROS.orden_filtro)[:n_puntos]
+        x8_v = wav_io.a_voltios(x8, vfs)
+        xq_tel = primitivas.cuantizar(x8_v, 8, 2.0 * vfs, saturar=True)
+        t_tel = np_arange(len(xq_tel)) / fs_o
+        x_zoh = primitivas.reconstruir_zoh(t_tel, t_tel, xq_tel)
+        btel = _wav_en_bytes(x_zoh, fs_o)
+
+        audios = {
+            "original": audio_base64_original,
+            "bits12": base64.b64encode(b12).decode("ascii"),
+            "bits8": base64.b64encode(b8).decode("ascii"),
+            "telefonica": base64.b64encode(btel).decode("ascii"),
+        }
+    except Exception:
+        logger.exception("fallo al generar variantes de audio")
+        audios = {"original": audio_base64_original}
+
     # LAS FIGURAS DEL WAV SUBIDO
     # --------------------------
     # El análisis devuelve las mismas estructuras que las pistas del
-    # catálogo, así que las figuras se dibujan con el mismo código. Se
-    # quedan en memoria, con un token, porque en un despliegue el disco
-    # es de solo lectura.
+    # catálogo, así que las figuras se dibujan con el mismo código.
+    # Se exportan como Data URIs base64 para garantizar que en entornos
+    # serverless como Vercel se muestren de forma atómica y sin requerir
+    # estado en el servidor.
     import uuid
+    import matplotlib
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+
+    figuras_info = []
     figuras_subidas = {}
-    for nombre, fn in (("senal", figuras.figura_senal),
-                       ("espectro", figuras.figura_espectro),
-                       ("muestreo", figuras.figura_muestreo),
-                       ("cuantizacion", figuras.figura_cuantizacion)):
+    meta_figuras = [
+        ("senal", "La señal x(t) y 20 ms con las muestras del ADC.", figuras.figura_senal),
+        ("espectro", "El espectro de magnitud, con f_max medido.", figuras.figura_espectro),
+        ("muestreo", "El barrido de muestreo: el error con y sin filtro antialiasing.", figuras.figura_muestreo),
+        ("cuantizacion", "La escalera de cuantización y el error acotado a ±Δ/2.", figuras.figura_cuantizacion),
+    ]
+
+    for clave_fig, titulo_fig, fn in meta_figuras:
         try:
             fig = fn(r)
             buffer = io.BytesIO()
             fig.savefig(buffer, format="png", dpi=140, bbox_inches="tight",
                         facecolor=fig.get_facecolor())
             plt.close(fig)
-            figuras_subidas[nombre] = buffer.getvalue()
-        except Exception as exc:
-            logger.exception("no se pudo dibujar la figura %s", nombre)
+            raw_png = buffer.getvalue()
+            figuras_subidas[clave_fig] = raw_png
+            b64_png = base64.b64encode(raw_png).decode("ascii")
+            figuras_info.append({
+                "clave": clave_fig,
+                "titulo": titulo_fig,
+                "b64": b64_png,
+            })
+        except Exception:
+            logger.exception("no se pudo dibujar la figura %s", clave_fig)
 
-    import uuid
     token = uuid.uuid4().hex[:12]
     _FIGURAS_SUBIDAS[token] = figuras_subidas
     while len(_FIGURAS_SUBIDAS) > _MAX_SUBIDAS:
@@ -309,11 +369,11 @@ def subir(request):
     atencion = r["atencion"]
     return render(request, "motor/subir.html", {
         "r": r,
-        "nombre": nombre,
+        "nombre": nombre_fichero,
         "atencion": atencion,
-        "figuras": sorted(figuras_subidas),
+        "figuras": figuras_info,
         "token": token,
-        "audio_base64": audio_base64,
+        "audios": audios,
     })
 
 
