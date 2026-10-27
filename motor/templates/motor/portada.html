@@ -7,13 +7,12 @@
 
 <h1>DSP aplicado a ADC-DAC sobre audio musical</h1>
 <p class="entradilla">
-  Cinco géneros, la cadena completa de conversión (muestreo, cuantización
-  y reconstrucción) y el teorema de Nyquist–Shannon medido sobre audio real.
+  Cinco géneros, la cadena completa de conversión (muestreo, cuantización y reconstrucción) y el teorema de Nyquist-Shannon medido sobre audio real.
 </p>
 
 <div class="cifras">
   <div class="cifra">
-    <div class="etiqueta">Pistas</div>
+    <div class="etiqueta">Pistas cargadas</div>
     <div class="valor">{{ resultados|length }}</div>
     <div class="nota">un WAV por género, 12 s cada uno</div>
   </div>
@@ -42,75 +41,52 @@
 {% endif %}
 
 <div class="panel acento">
-  <span class="etiqueta-veredicto">El veredicto del punto (e)</span>
+  <span class="etiqueta-veredicto">Veredicto del punto (e)</span>
   <p class="veredicto">{{ veredicto.resumen }}</p>
   <p class="nota" style="color:var(--suave);font-size:14px">
-    Es una hipótesis sobre el uso como música de fondo, construida con un
-    índice cuyos pesos están publicados. No es un estudio clínico y no
-    mide la atención de ninguna persona.
+    Es una hipótesis sobre el uso como música de fondo, construida con un índice cuyos pesos están publicados. No es un estudio clínico y no mide la atención de ninguna persona.
   </p>
 </div>
 
 <h2>Las cinco pistas</h2>
-<p>
-  Cada pista es un fragmento de <strong>12 segundos</strong>, recortado con un
-  criterio objetivo: el tramo de <strong>mayor energía RMS</strong> de la
-  canción completa. No es arbitrario, y es el mismo criterio para los cinco,
-  que es lo que hace que la comparación sea justa.
-</p>
+<p>Cada pista es un fragmento de <strong>12 segundos</strong>, recortado con un criterio objetivo: el tramo de <strong>mayor energía RMS</strong> de la canción completa. No es arbitrario, y es el mismo criterio para los cinco, que es lo que hace que la comparación sea justa.</p>
 
 <div class="rejilla">
   {% for f in fichas %}
-  <a class="tarjeta" href="{% url 'genero' f.clave %}">
+  <article class="tarjeta" href="{% url 'genero' f.clave %}">
     <div class="titulo">{{ f.nombre }}</div>
     <div class="obra">{{ f.musico }}</div>
     <div class="obra">{{ f.obra }}</div>
     <div class="obra">{{ f.anio }}</div>
     <div class="barra"><i style="width: {{ f.indice }}%"></i></div>
-    <div class="obra">índice de atención {{ f.indice|recorta }} ·
-      f_max {{ f.f_max|num:0 }} Hz</div>
-  </a>
+    <div class="indice-texto">índice de atención {{ f.indice|recorta }} · f_max {{ f.f_max|num:0 }} Hz</div>
+  </article>
   {% endfor %}
 </div>
 
 <h2>De dónde salen las frecuencias de referencia</h2>
-<p>
-  El índice de atención compara cada pista con un <strong>dato de
-  referencia</strong>: una banda de frecuencias, un rango de tempo o una
-  propiedad medida. Estos son los cinco datos, con la fuente de cada uno.
-</p>
+<p>El índice de atención compara cada pista con un <strong>dato de referencia</strong>: una banda de frecuencias, un rango de tempo o una propiedad medida. Estos son los cinco datos, con la fuente de cada uno.</p>
 <div class="panel aviso">
   <p style="margin:0">{{ nota_fuentes }}</p>
 </div>
 <table>
-  <tr>
-    <th>Criterio</th><th class="num">Peso</th><th>Qué se mide</th>
-    <th>Dato de referencia</th><th>Fuente</th>
-  </tr>
+  <tr><th>Criterio</th><th class="num">Peso</th><th>Qué se mide</th><th>Dato de referencia</th><th>Fuente</th></tr>
   {% for c in criterios %}
-  <tr>
-    <td>{{ c.nombre }}</td>
-    <td class="num">{{ c.peso }}</td>
-    <td style="font-size:13px">{{ c.medida }}</td>
-    <td style="font-size:13px">{{ c.referencia }}</td>
-    <td style="font-size:13px">{{ c.fuente }}</td>
-  </tr>
+  <tr><td>{{ c.nombre }}</td><td class="num">{{ c.peso }}</td><td style="font-size:13px">{{ c.medida }}</td><td style="font-size:13px">{{ c.referencia }}</td><td style="font-size:13px">{{ c.fuente }}</td></tr>
   {% endfor %}
-</table>
 {% for c in criterios %}
-<details class="panel" style="padding:12px 16px">
-  <summary style="cursor:pointer;font-weight:600">
+<details class="panel" style="padding:16px 20px">
+  <summary style="cursor:pointer;font-weight:600; font-size:13px; color:var(--tinta)">
     {{ c.nombre }}: por qué pesa {{ c.peso }} y de dónde sale
   </summary>
-  <p style="font-size:14px;margin:10px 0 6px">{{ c.peso_justo }}</p>
+  <p style="font-size:13px; margin: 10px 0 6px; color: var(--suave)">{{ c.peso_justo }}</p>
   {% if c.es_decision_propia %}
-  <p style="font-size:13px;color:var(--suave);margin:0 0 6px">
-    <strong>Decisión propia:</strong> los umbrales concretos son de este
-    proyecto, no un resultado de los estudios citados.
+  <p style="font-size:12px; color:var(--suave); margin: 0 0 6px">
+    <strong>Decisión propia:</strong> los umbrales concretos son de este proyecto, no un resultado de los estudios citados.
   </p>
   {% endif %}
   {% if c.bibliografia %}
-  <ul style="font-size:13px;color:var(--suave);margin:0">
+  <ul style="font-size:13px; color:var(--suave); margin: 0; line-height: 1.5;">
     {% for b in c.bibliografia %}<li>{{ b }}</li>{% endfor %}
   </ul>
   {% endif %}
@@ -118,29 +94,21 @@
 {% endfor %}
 
 <h3>Las referencias completas</h3>
-<ul class="limpio" style="font-size:14px">
+<ul class="limpio" style="font-size:14px; line-height: 1.6;">
   {% for f in todas_fuentes %}
-  <li>
-    <strong>{{ f.autor }} ({{ f.anio }}).</strong>
-    «{{ f.titulo }}». <em>{{ f.publicacion }}</em>, {{ f.referencia }}.
+  <li style="margin-bottom: 12px;">
+    <strong>{{ f.autor }} ({{ f.anio }}).</strong> «{{ f.titulo }}». <em>{{ f.publicacion }}</em>, {{ f.referencia }}.
     <br><span style="color:var(--suave)">{{ f.que_dice }}</span>
   </li>
   {% endfor %}
 </ul>
 
 <h2>Qué se puede hacer aquí</h2>
-<ul class="limpio">
-  <li><a href="{% url 'comparativa' %}">Comparar los cinco</a>: la gráfica
-      única de los espectros, la energía por bandas y el índice de
-      atención con el detalle de sus cinco criterios.</li>
-  <li><a href="{% url 'subir' %}">Subir tu propio WAV</a> y analizarlo con
-      el mismo instrumental: es el requisito de "cargar audios cortos en
-      formato Wav", en su versión interactiva.</li>
-  <li>En la ficha de cada género, <strong>escuchar</strong> el audio
-      original, el cuantizado a 8 y a 12 bits, y el de la cadena
-      telefónica a 8 kHz. Lo que los gráficos muestran, se oye.</li>
-  <li>Descargar el <a href="{% url 'informe' %}">informe completo</a> en
-      markdown, con todas las figuras.</li>
+<ul class="limpio" style="font-size:14px; line-height: 1.6;">
+  <li><a href="{% url 'comparativa' %}">Comparar los cinco</a>: la gráfica única de los espectros, la energía por bandas y el índice de atención con el detalle de sus cinco criterios.</li>
+  <li><a href="{% url 'subir' %}">Subir tu propio WAV</a> y analizarlo con el mismo instrumental: es el requisito de "cargar audios cortos en formato Wav", en su versión interactiva.</li>
+  <li>En la ficha de cada género, <strong>escuchar</strong> el audio original, el cuantizado a 8 y a 12 bits, y el de la cadena telefónica a 8 kHz. Lo que los gráficos muestran, se oye.</li>
+  <li>Descargar el <a href="{% url 'informe' %}">informe completo</a> en markdown, con todas las figuras.</li>
 </ul>
 
 {% endblock %}
