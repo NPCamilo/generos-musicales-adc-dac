@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titulo %}DSP aplicado a ADC-DAC sobre audio musical{% endblock %}</title>
   <link rel="stylesheet" href="/estilo.css">
-  <meta name="description" content="Análisis DSP aplicado a conversión ADC-DAC sobre géneros musicales, con estudio de la cadena de muestreo, cuantización y reconstrucción según el teorema de Nyquist-Shannon">
 </head>
 <body>
 
 <header class="cabecera">
   <div class="envoltorio">
-    <div class="marca">ADC-DAC sobre audio musical<span>· Comunicaciones I</span></div>
+    <div class="marca">ADC–DAC sobre audio musical <span>· Comunicaciones I</span></div>
     <nav class="menu">
       <a href="{% url 'portada' %}" class="{% if request.resolver_match.url_name == 'portada' %}activo{% endif %}">Inicio</a>
       <a href="{% url 'comparativa' %}" class="{% if request.resolver_match.url_name == 'comparativa' %}activo{% endif %}">Comparativa</a>
@@ -25,8 +24,5 @@
 {% block cuerpo %}{% endblock %}
 </main>
 
-<footer class="envoltorio" style="margin-top: auto; padding: 40px 0; border-top: 1px solid var(--linea); color: var(--suave); font-size: 13px; text-align: center;">
-  <p>Proyecto DSP • ADC-DAC sobre audio musical • Comunicaciones I • Universidad UTP</p>
-</footer>
 </body>
 </html>
