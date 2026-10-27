@@ -84,7 +84,7 @@
 </p>
 {% for nombre in figuras %}
 <figure>
-  <img src="{% url 'figura_subida' token nombre %}.png" alt="{{ nombre }}">
+  <img src="{% url 'figura_subida' token nombre %}" alt="{{ nombre }}">
   <figcaption>
     {% if nombre == "senal" %}La señal x(t) y 20 ms con las muestras del ADC.
     {% elif nombre == "espectro" %}El espectro de magnitud, con f_max medido.
