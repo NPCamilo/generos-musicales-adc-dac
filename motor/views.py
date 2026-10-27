@@ -281,21 +281,18 @@ def subir(request):
     # quedan en memoria, con un token, porque en un despliegue el disco
     # es de solo lectura.
     import uuid
+    import matplotlib.pyplot as plt
     figuras_subidas = {}
     for nombre, fn in (("senal", figuras.figura_senal),
                        ("espectro", figuras.figura_espectro),
                        ("muestreo", figuras.figura_muestreo),
                        ("cuantizacion", figuras.figura_cuantizacion)):
-        try:
-            fig = fn(r)
-            buffer = io.BytesIO()
-            fig.savefig(buffer, format="png", dpi=140, bbox_inches="tight",
-                        facecolor=fig.get_facecolor())
-            import matplotlib.pyplot as plt
-            plt.close(fig)
-            figuras_subidas[nombre] = buffer.getvalue()
-        except Exception:
-            logger.exception("no se pudo dibujar la figura %s", nombre)
+        fig = fn(r)
+        buffer = io.BytesIO()
+        fig.savefig(buffer, format="png", dpi=140, bbox_inches="tight",
+                    facecolor=fig.get_facecolor())
+        plt.close(fig)
+        figuras_subidas[nombre] = buffer.getvalue()
 
     token = uuid.uuid4().hex[:12]
     _FIGURAS_SUBIDAS[token] = figuras_subidas
