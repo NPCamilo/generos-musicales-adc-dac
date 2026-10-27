@@ -5,16 +5,17 @@
 
 {% block cuerpo %}
 
+<div class="eyebrow">Laboratorio Experimental · Comunicaciones I</div>
 <h1>DSP aplicado a ADC-DAC sobre audio musical</h1>
 <p class="entradilla">
-  Cinco géneros, la cadena completa de conversión (muestreo, cuantización y reconstrucción) y el teorema de Nyquist-Shannon medido sobre audio real.
+  Estudio comparativo sobre cinco géneros musicales mediante la cadena completa de conversión analógica-digital y digital-analógica: muestreo, cuantización y reconstrucción según el teorema de Nyquist-Shannon.
 </p>
 
 <div class="cifras">
   <div class="cifra">
     <div class="etiqueta">Pistas cargadas</div>
     <div class="valor">{{ resultados|length }}</div>
-    <div class="nota">un WAV por género, 12 s cada uno</div>
+    <div class="nota">un extracto WAV por género, 12 s cada uno</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">Mejor índice de atención</div>
@@ -24,7 +25,7 @@
   <div class="cifra">
     <div class="etiqueta">f_s mínima del conjunto</div>
     <div class="valor">{{ fs_minima_max|num:0 }} Hz</div>
-    <div class="nota">2·f_max de la pista más exigente</div>
+    <div class="nota">2·f_max de la pista más exigente (Nyquist)</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">Factor de escala (16 bits)</div>
@@ -36,93 +37,113 @@
 {% if faltantes %}
 <div class="panel aviso">
   <strong>Faltan pistas:</strong> {{ faltantes|join:", " }}.
-  Se pueden bajar con <code>python -m nucleo.descarga</code>.
+  Se pueden descargar con <code>python -m nucleo.descarga</code>.
 </div>
 {% endif %}
 
 <div class="panel acento">
-  <span class="etiqueta-veredicto">El veredicto del punto (e)</span>
+  <span class="etiqueta-veredicto">Veredicto del punto (e)</span>
   <p class="veredicto">{{ veredicto.resumen }}</p>
-  <p class="nota" style="color:var(--suave);font-size:14px">
-    Es una hipótesis sobre el uso como música de fondo, construida con un índice cuyos pesos están publicados. No es un estudio clínico y no mide la atención de ninguna persona.
+  <p class="nota" style="color:var(--suave);font-size:13.5px;margin:8px 0 0">
+    Hipótesis analítica sobre su idoneidad como música de fondo, formulada mediante un índice espectral de pesos publicados. Constituye un modelado acústico-tecnológico, no un diagnóstico clínico.
   </p>
 </div>
 
-<h2>Las cinco pistas</h2>
+<h2>Las cinco pistas del catálogo</h2>
 <p>
-  Cada pista es un fragmento de <strong>12 segundos</strong>, recortado con un criterio objetivo: el tramo de <strong>mayor energía RMS</strong> de la canción completa. No es arbitrario, y es el mismo criterio para los cinco, que es lo que hace que la comparación sea justa.
+  Cada género está representado por un segmento de <strong>12 segundos</strong>, seleccionado de forma determinista y reproducible: el tramo de <strong>mayor energía RMS</strong> de la pista completa.
 </p>
 
 <div class="rejilla">
   {% for f in fichas %}
   <a class="tarjeta" href="{% url 'genero' f.clave %}">
-    <div class="titulo">{{ f.nombre }}</div>
-    <div class="obra">{{ f.musico }}</div>
-    <div class="obra">{{ f.obra }}</div>
-    <div class="obra">{{ f.anio }}</div>
-    <div class="barra"><i style="width: {{ f.indice }}%"></i></div>
-    <div class="indice-texto">índice de atención {{ f.indice|recorta }} · f_max {{ f.f_max|num:0 }} Hz</div>
+    <div class="titulo">
+      <span>{{ f.nombre }}</span>
+    </div>
+    <div class="obra">
+      <strong>{{ f.musico }}</strong><br>
+      {{ f.obra }} ({{ f.anio }})
+    </div>
+    <div class="barra" title="Índice de atención: {{ f.indice|recorta }}/100">
+      <i style="width: {{ f.indice }}%"></i>
+    </div>
+    <div class="indice-texto">
+      <span>Índice de atención: <strong>{{ f.indice|recorta }}</strong></span>
+      <span>f_max: <strong>{{ f.f_max|num:0 }} Hz</strong></span>
+    </div>
   </a>
   {% endfor %}
 </div>
 
-<h2>De dónde salen las frecuencias de referencia</h2>
+<h2>Frecuencias de referencia y fundamentación</h2>
 <p>
-  El índice de atención compara cada pista con un <strong>dato de referencia</strong>: una banda de frecuencias, un rango de tempo o una propiedad medida. Estos son los cinco datos, con la fuente de cada uno.
+  El índice de atención contrasta cada señal con <strong>parámetros acústicos y fisiológicos de referencia</strong> (bandas formánticas vocales, rangos de tempo y brillo espectral).
 </p>
+
 <div class="panel aviso">
-  <p style="margin:0">{{ nota_fuentes }}</p>
+  <p style="margin:0;font-size:14px;color:var(--tinta)">{{ nota_fuentes }}</p>
 </div>
-<table>
-  <tr>
-    <th>Criterio</th><th class="num">Peso</th><th>Qué se mide</th>
-    <th>Dato de referencia</th><th>Fuente</th>
-  </tr>
-  {% for c in criterios %}
-  <tr>
-    <td>{{ c.nombre }}</td>
-    <td class="num">{{ c.peso }}</td>
-    <td style="font-size:13px">{{ c.medida }}</td>
-    <td style="font-size:13px">{{ c.referencia }}</td>
-    <td style="font-size:13px">{{ c.fuente }}</td>
-  </tr>
-  {% endfor %}
-</table>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Criterio</th>
+        <th class="num">Peso</th>
+        <th>Qué se mide</th>
+        <th>Dato de referencia</th>
+        <th>Fuente bibliográfica</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in criterios %}
+      <tr>
+        <td><strong>{{ c.nombre }}</strong></td>
+        <td class="num">{{ c.peso }}</td>
+        <td style="font-size:13px">{{ c.medida }}</td>
+        <td style="font-size:13px">{{ c.referencia }}</td>
+        <td style="font-size:13px">{{ c.fuente }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 {% for c in criterios %}
-<details class="panel" style="padding:16px 20px">
-  <summary style="cursor:pointer;font-weight:600; color:var(--tinta)">
-    {{ c.nombre }}: por qué pesa {{ c.peso }} y de dónde sale
+<details class="panel" style="padding:16px 20px;cursor:pointer">
+  <summary style="font-weight:650;color:var(--tinta-fuerte);outline:none">
+    {{ c.nombre }}: ponderación ({{ c.peso }}) y justificación espectral
   </summary>
-  <p style="font-size:13px; margin: 10px 0 6px; color: var(--suave)">{{ c.peso_justo }}</p>
+  <p style="font-size:13.5px;margin:12px 0 8px;color:var(--suave);line-height:1.5">{{ c.peso_justo }}</p>
   {% if c.es_decision_propia %}
-  <p style="font-size:12px; color:var(--suave); margin: 0 0 6px">
-    <strong>Decisión propia:</strong> los umbrales concretos son de este proyecto, no un resultado de los estudios citados.
+  <p style="font-size:12.5px;color:var(--suave);margin:0 0 6px">
+    <strong>Decisión metodológica:</strong> los umbrales específicos fueron adaptados para este laboratorio sobre las fuentes citadas.
   </p>
   {% endif %}
   {% if c.bibliografia %}
-  <ul style="font-size:13px; color:var(--suave); margin: 0; line-height: 1.5;">
+  <ul style="font-size:13px;color:var(--suave);margin:8px 0 0;line-height:1.5;padding-left:20px">
     {% for b in c.bibliografia %}<li>{{ b }}</li>{% endfor %}
   </ul>
   {% endif %}
 </details>
 {% endfor %}
 
-<h3>Las referencias completas</h3>
-<ul class="limpio" style="font-size:14px; line-height: 1.6;">
+<h3>Referencias completas</h3>
+<ul class="limpio" style="font-size:13.5px;line-height:1.6">
   {% for f in todas_fuentes %}
-  <li style="margin-bottom: 12px;">
+  <li>
     <strong>{{ f.autor }} ({{ f.anio }}).</strong> «{{ f.titulo }}». <em>{{ f.publicacion }}</em>, {{ f.referencia }}.
     <br><span style="color:var(--suave)">{{ f.que_dice }}</span>
   </li>
   {% endfor %}
 </ul>
 
-<h2>Qué se puede hacer aquí</h2>
-<ul class="limpio" style="font-size:14px; line-height: 1.6;">
-  <li><a href="{% url 'comparativa' %}">Comparar los cinco</a>: la gráfica única de los espectros, la energía por bandas y el índice de atención con el detalle de sus cinco criterios.</li>
-  <li><a href="{% url 'subir' %}">Subir tu propio WAV</a> y analizarlo con el mismo instrumental: es el requisito de "cargar audios cortos en formato Wav", en su versión interactiva.</li>
-  <li>En la ficha de cada género, <strong>escuchar</strong> el audio original, el cuantizado a 8 y a 12 bits, y el de la cadena telefónica a 8 kHz. Lo que los gráficos muestran, se oye.</li>
-  <li>Descargar el <a href="{% url 'informe' %}">informe completo</a> en markdown, con todas las figuras.</li>
+<h2>Navegación del laboratorio</h2>
+<ul class="limpio" style="font-size:14px;line-height:1.6">
+  <li><a href="{% url 'comparativa' %}">Comparativa de los cinco géneros</a>: gráficos consolidados de densidad espectral, energía por bandas y balance acústico.</li>
+  <li><a href="{% url 'subir' %}">Subir un WAV interactivo</a>: procesamiento en tiempo real con cuantización a 12 y 8 bits, simulación de telefonía (8 kHz) y cálculo de $f_{s,\min}$.</li>
+  <li>En cada género individual: <strong>audición comparativa A/B</strong> del audio original contra el cuantizado y telefónico para percibir directamente el ruido de cuantización y el aliasing.</li>
+  <li><a href="{% url 'informe' %}">Informe técnico y descargas</a>: acceso al documento PDF completo con todas las demostraciones.</li>
 </ul>
 
 {% endblock %}

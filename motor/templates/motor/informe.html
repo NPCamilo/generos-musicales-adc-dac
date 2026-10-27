@@ -1,51 +1,53 @@
 {% extends "motor/base.html" %}
 
-{% block titulo %}Informe y descargas{% endblock %}
+{% block titulo %}Informe Técnico y Descargas · DSP ADC-DAC{% endblock %}
 
 {% block cuerpo %}
 
-<h1>El informe</h1>
+<div class="eyebrow">Documentación Técnica · Entregable</div>
+<h1>Informe y documentación del proyecto</h1>
 <p class="entradilla">
-  El entregable escrito: la investigación, los resultados género por
-  género, la comparación y el veredicto, con las limitaciones por delante.
+  Compendio completo de la investigación: fundamentos teóricos de Nyquist-Shannon, cuantización PCM, análisis espectral de los cinco géneros y evaluación experimental.
 </p>
 
-{% if existe %}
 <div class="panel acento">
-  <p style="margin:0 0 10px">
-    El informe se genera con <code>python -m nucleo.informe</code> y queda
-    en <code>salida/informe.md</code>, junto con las
-    {{ figuras|length }} figuras en PNG.
+  <h2 style="margin-top:0">Documento final consolidado (PDF)</h2>
+  <p class="entradilla" style="margin-bottom:16px">
+    Documento técnico exhaustivo con rigor matemático y gráfico para sustentación académica.
   </p>
-  <p style="margin:0">
-    <a href="{% url 'descarga_pdf' %}">Descargar el PDF del proyecto</a>
-    (con la investigación, los resultados y las preguntas de evaluación)
-    ·
-    <a href="{% url 'descarga_informe' %}">Descargar el informe (.md)</a>
-    ·
-    <a href="{% url 'descarga_figuras' %}">Descargar las
-      {{ figuras|length }} figuras (.zip)</a>
+  <ul style="font-size:14px;line-height:1.65;color:var(--suave);margin-bottom:20px;padding-left:20px">
+    <li><strong>Cinco géneros analizados:</strong> clásica-barroca, metal, salsa, reggaetón y música popular colombiana.</li>
+    <li><strong>Cadena ADC-DAC completa:</strong> estudio de filtrado antialiasing, reloj de muestreo, escalón de cuantización y retenedor ZOH.</li>
+    <li><strong>Índice de atención y concentración:</strong> análisis del punto (e) contrastado con bandas vocales e investigaciones psicoacústicas.</li>
+    <li><strong>39 figuras analíticas en alta resolución:</strong> espectros de potencia, histogramas de error y barridos de $f_s$.</li>
+  </ul>
+  
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+    <a href="{% url 'descarga_pdf' %}" class="boton-pdf">
+      <span>📄 Descargar informe completo (PDF)</span>
+    </a>
+    {% if existe %}
+    <a href="{% url 'descarga_informe' %}" class="badge badge-azul" style="padding:10px 16px;text-decoration:none">
+      <span>📝 Formato Markdown (.md)</span>
+    </a>
+    <a href="{% url 'descarga_figuras' %}" class="badge badge-azul" style="padding:10px 16px;text-decoration:none">
+      <span>📦 Paquete de figuras (.zip)</span>
+    </a>
+    {% endif %}
+  </div>
+
+  <p style="font-size:13px;color:var(--suave);margin:8px 0 0">
+    ℹ️ El PDF incluye demostraciones analíticas, derivación del factor de escala $y = V_{fs}/2^{b-1}$, tabla de códigos binarios y preguntas de evaluación para sustentación.
+  </p>
+</div>
+
+{% if existe %}
+<div class="panel">
+  <h3 style="margin-top:0">Artefactos generados por el motor</h3>
+  <p style="font-size:14px;color:var(--suave);margin-bottom:0">
+    Los datos y visualizaciones son producidos de manera determinista mediante <code>python -m nucleo.informe</code>, residiendo en la carpeta <code>salida/</code> con {{ figuras|length }} gráficas PNG precalculadas para máxima velocidad de respuesta.
   </p>
 </div>
 {% endif %}
-
-<div class="panel acento">
-  <h2 style="margin-top:0">Informe completo del proyecto</h2>
-  <p class="entradilla" style="margin-bottom:12px">
-    Este documento recopila toda la investigación, metodología, resultados y
-    conclusiones del proyecto DSP aplicado a conversión ADC-DAC sobre audio
-    musical.
-  </p>
-  <ul style="font-size:14px;line-height:1.6;color:var(--suave);margin-bottom:16px">
-    <li><strong>Cinco géneros analizados:</strong> clásica-barroca, metal, salsa, reggaetón y popular colombiana.</li>
-    <li><strong>Cadena ADC-DAC completa:</strong> muestreo, cuantización y reconstrucción según Nyquist-Shannon.</li>
-    <li><strong>Índice de atención:</strong> comparación de frecuencias para el punto (e) del enunciado.</li>
-    <li><strong>Advertencia:</strong> no es un diagnóstico médico ni recomendación clínica sobre TDAH.</li>
-  </ul>
-  <a href="{% url 'descarga_pdf' %}" class="boton-pdf" style="display:inline-block;padding:12px 24px;background:var(--tinta);color:#fff;text-decoration:none;border-radius:7px;font-weight:600;margin-bottom:8px;">📄 Descargar informe completo (PDF)</a>
-  <p style="font-size:13px;color:var(--suave);margin:0">
-    El PDF incluye la teoría completa, las 39 figuras, las tablas de métricas por género y las preguntas de evaluación para la sustentación.
-  </p>
-</div>
 
 {% endblock %}

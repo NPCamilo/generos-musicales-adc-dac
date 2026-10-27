@@ -7,23 +7,23 @@
 
 <div class="eyebrow">{{ r.ficha.genero }}</div>
 <h1>{{ r.nombre }}</h1>
-<p class="entradilla">{{ r.ficha.musico }} — {{ r.ficha.obra }} ({{ r.ficha.año }})</p>
+<p class="entradilla">{{ r.ficha.musico }} — <em>{{ r.ficha.obra }}</em> ({{ r.ficha.año }})</p>
 
 <div class="cifras">
   <div class="cifra">
-    <div class="etiqueta">f_max</div>
+    <div class="etiqueta">f_max medido</div>
     <div class="valor">{{ r.espectro.f_max|num:0 }} Hz</div>
     <div class="nota">criterio: {{ r.espectro.umbral_db|num:0 }} dB bajo el pico</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">f_s mínima (Nyquist)</div>
     <div class="valor">{{ r.espectro.fs_minima|num:0 }} Hz</div>
-    <div class="nota">2 · f_max</div>
+    <div class="nota">2 · f_max teórico</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">Centroide espectral</div>
     <div class="valor">{{ r.espectro.centroide|num:0 }} Hz</div>
-    <div class="nota">el "brillo" de la pieza</div>
+    <div class="nota">brillo tímbrico de la pista</div>
   </div>
   <div class="cifra">
     <div class="etiqueta">Índice de atención</div>
@@ -32,215 +32,237 @@
   </div>
 </div>
 
-<h2>1. La señal x(t)</h2>
+<h2>1. La señal x(t) en el tiempo</h2>
 <p>
-  El clip son {{ r.pista.duracion_s }} s a {{ r.pista.fs }} Hz y
+  Segmento analizado de {{ r.pista.duracion_s }} s a {{ r.pista.fs }} Hz y
   {{ r.pista.bits }} bits, con un pico de {{ r.pista.pico|floatformat:3 }}.
-  Debajo, 20 ms con las muestras del ADC encima: una cada
-  {{ r.pista.fs }} Hz.
+  En el panel inferior: ventana temporal de 20 ms con las muestras discretas del conversor ADC.
 </p>
 <figure>
   <img src="{% url 'figura' clave 'senal' %}" alt="La señal x(t) de {{ r.nombre }}">
-  <figcaption>La señal completa del clip y el detalle con las muestras.</figcaption>
+  <figcaption>Señal temporal continua aproximada y muestreo discreto del ADC a {{ r.pista.fs }} Hz.</figcaption>
 </figure>
 
-<h2>2. El espectro de magnitud</h2>
+<h2>2. Espectro de magnitud y frecuencia máxima</h2>
 <p>
-  La frecuencia máxima útil, medida con un criterio publicado
-  ({{ r.espectro.umbral_db|num:0 }} dB por debajo del pico sobre el espectro
-  suavizado), da <strong>{{ r.espectro.f_max|num:0 }} Hz</strong>.
-  Como control, el 99,9 % de la energía acumulada está por debajo de
-  {{ r.espectro.f_max_energia|floatformat:0 }} Hz: los dos criterios
-  coinciden.
+  Frecuencia máxima calculada según estándar acústico
+  ({{ r.espectro.umbral_db|num:0 }} dB por debajo del pico espectral): <strong>{{ r.espectro.f_max|num:0 }} Hz</strong>.
+  El 99,9 % de la energía acumulada reside por debajo de {{ r.espectro.f_max_energia|floatformat:0 }} Hz.
 </p>
 <figure>
   <img src="{% url 'figura' clave 'espectro' %}" alt="El espectro de {{ r.nombre }}">
-  <figcaption>El espectro de magnitud, con f_max y la mitad de f_s,min marcados.</figcaption>
+  <figcaption>Espectro de Fourier suavizado con indicación de $f_{\max}$ y límite de Nyquist.</figcaption>
 </figure>
 
-<h2>3. El muestreo y el aliasing</h2>
+<h2>3. Muestreo, aliasing y teorema de Shannon</h2>
 <p>
-  Cuánto error mete el hecho de <em>no</em> filtrar antes de muestrear.
-  La referencia es la señal con la banda de arriba eliminada, así que lo
-  que se mide es el aliasing y no el filtro.
+  Evaluación del error cuadrático normalizado (NRMSE) al muestrear con y sin filtro antialiasing previo frente a la señal de referencia:
 </p>
-<table>
-  <tr>
-    <th>f_s (Hz)</th><th class="num">respecto a f_s,min</th>
-    <th>¿cumple Nyquist?</th><th class="num">NRMSE con aliasing</th>
-    <th class="num">NRMSE con filtro</th><th class="num">energía fuera de banda</th>
-  </tr>
-  {% for e in r.muestreo.experimentos %}
-  <tr>
-    <td class="num">{{ e.fs|num:0 }}</td>
-    <td class="num">{{ e.multiplicador|num:2 }}×</td>
-    <td>{% if e.cumple_nyquist %}<span style="color:var(--verde)">sí{% if e.caso_limite %} (al límite){% endif %}</span>{% else %}<span style="color:var(--rojo)">no</span>{% endif %}</td>
-    <td class="num">{{ e.nrmse_aliasing|num:6 }}</td>
-    <td class="num">{{ e.nrmse_reconstruccion|num:6 }}</td>
-    <td class="num">{{ e.energia_fuera_banda|num:2 }} %</td>
-  </tr>
-  {% endfor %}
-</table>
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>f_s (Hz)</th>
+        <th class="num">Respecto a f_s,min</th>
+        <th>¿Cumple Nyquist?</th>
+        <th class="num">NRMSE con aliasing</th>
+        <th class="num">NRMSE con filtro</th>
+        <th class="num">Energía fuera de banda</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in r.muestreo.experimentos %}
+      <tr>
+        <td class="num">{{ e.fs|num:0 }}</td>
+        <td class="num">{{ e.multiplicador|num:2 }}×</td>
+        <td>
+          {% if e.cumple_nyquist %}
+            <span class="badge badge-verde">✓ Sí{% if e.caso_limite %} (límite){% endif %}</span>
+          {% else %}
+            <span class="badge badge-rojo">✗ No (Aliasing)</span>
+          {% endif %}
+        </td>
+        <td class="num">{{ e.nrmse_aliasing|num:6 }}</td>
+        <td class="num">{{ e.nrmse_reconstruccion|num:6 }}</td>
+        <td class="num">{{ e.energia_fuera_banda|num:2 }} %</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 <figure>
   <img src="{% url 'figura' clave 'muestreo' %}" alt="El barrido de muestreo">
-  <figcaption>El coste de no filtrar, en función de f_s.</figcaption>
+  <figcaption>Comportamiento del error de reconstrucción frente a variaciones de $f_s$ con y sin filtrado antialiasing.</figcaption>
 </figure>
 
-<h2>4. La cuantización: el factor de escala y los bits</h2>
+<h2>4. Cuantización: factor de escala y resolución en bits</h2>
 <p>
-  Con un fondo de escala de ±{{ r.cuantizacion.vfs }} V, el factor de
-  escala es
+  Fondo de escala normalizado a ±{{ r.cuantizacion.vfs }} V. Factor de escala:
   <code>y = V_fs / 2^(b-1) = {{ r.cuantizacion.factor_escala_v|num:9 }} V por nivel</code>,
-  con {{ r.cuantizacion.niveles }} niveles y un error acotado a
+  con {{ r.cuantizacion.niveles }} niveles de cuantización y error de redondeo acotado en
   ±{{ r.cuantizacion.factor_escala_medio|num:9 }} V.
 </p>
-<table>
-  <tr>
-    <th>bits</th><th class="num">y (V/nivel)</th><th class="num">niveles</th>
-    <th class="num">SNR teórico (dB)</th><th class="num">SNR medido (dB)</th>
-    <th class="num">bits efectivos</th><th class="num">carga (dBFS)</th>
-  </tr>
-  {% for b, c in r.cuantizacion.casos.items %}
-  <tr>
-    <td class="num">{{ b }}</td>
-    <td class="num">{{ c.delta|floatformat:9 }}</td>
-    <td class="num">{{ c.niveles }}</td>
-    <td class="num">{{ c.snr_teorico|floatformat:1 }}</td>
-    <td class="num">{{ c.snr_medido|floatformat:1 }}</td>
-    <td class="num">{{ c.enob|floatformat:2 }}</td>
-    <td class="num">{{ c.carga_dbfs|floatformat:2 }}</td>
-  </tr>
-  {% endfor %}
-</table>
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Bits (b)</th>
+        <th class="num">y (V/nivel)</th>
+        <th class="num">Niveles</th>
+        <th class="num">SNR teórico (dB)</th>
+        <th class="num">SNR medido (dB)</th>
+        <th class="num">Bits efectivos (ENOB)</th>
+        <th class="num">Carga (dBFS)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b, c in r.cuantizacion.casos.items %}
+      <tr>
+        <td class="num"><strong>{{ b }}</strong></td>
+        <td class="num">{{ c.delta|floatformat:9 }}</td>
+        <td class="num">{{ c.niveles }}</td>
+        <td class="num">{{ c.snr_teorico|floatformat:1 }}</td>
+        <td class="num">{{ c.snr_medido|floatformat:1 }}</td>
+        <td class="num">{{ c.enob|floatformat:2 }}</td>
+        <td class="num">{{ c.carga_dbfs|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 <figure>
   <img src="{% url 'figura' clave 'cuantizacion' %}" alt="La cuantización">
-  <figcaption>La escalera de cuantización, el error acotado a ±Δ/2 y el SNR frente a los bits.</figcaption>
+  <figcaption>Curva de transferencia en escalera, cota de error $\pm \Delta/2$ y relación SNR vs. resolución en bits.</figcaption>
 </figure>
 
-<h3>Las muestras con sus bits</h3>
+<h3>Inspección de muestras discretizadas</h3>
 <p>
-  Lo que el convertidor entrega de verdad: un entero de
-  {{ r.cuantizacion.bits }} bits, no una tensión.
+  Salida binaria real entregada por el convertidor ADC (entero signado de {{ r.cuantizacion.bits }} bits):
 </p>
-<table>
-  <tr><th class="num">n</th><th class="num">x(n) (V)</th><th>código</th>
-      <th class="num">x_q (V)</th><th class="num">error (V)</th></tr>
-  {% for fila in r.cuantizacion.tabla_codigos %}
-  <tr>
-    <td class="num">{{ fila.n }}</td>
-    <td class="num">{{ fila.x_v|floatformat:5 }}</td>
-    <td><code>{{ fila.binario }}</code></td>
-    <td class="num">{{ fila.x_q|floatformat:5 }}</td>
-    <td class="num">{{ fila.error|floatformat:7 }}</td>
-  </tr>
-  {% endfor %}
-</table>
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th class="num">Muestra (n)</th>
+        <th class="num">x(n) analógico (V)</th>
+        <th>Código binario PCM</th>
+        <th class="num">x_q cuantizado (V)</th>
+        <th class="num">Error instantáneo (V)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for fila in r.cuantizacion.tabla_codigos %}
+      <tr>
+        <td class="num">{{ fila.n }}</td>
+        <td class="num">{{ fila.x_v|floatformat:5 }}</td>
+        <td><code>{{ fila.binario }}</code></td>
+        <td class="num">{{ fila.x_q|floatformat:5 }}</td>
+        <td class="num">{{ fila.error|floatformat:7 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 <figure>
   <img src="{% url 'figura' clave 'codigos' %}" alt="Los códigos binarios">
-  <figcaption>Los códigos binarios, con el MSB a la izquierda.</figcaption>
+  <figcaption>Diagrama de palabras de código binarias con el bit más significativo (MSB) a la izquierda.</figcaption>
 </figure>
 
-<h2>5. La cadena ADC-DAC completa</h2>
+<h2>5. Cadena ADC-DAC integral</h2>
 <p>
-  <strong>La cadena es la misma en los cinco géneros</strong>; lo que cambia
-  es <strong>cuánto se pierde en cada paso</strong>. Y eso es lo que se
-  mide aquí:
+  Evolución del balance de señal a ruido (SNR) a lo largo de las etapas de conversión y retención:
 </p>
-<pre>x(t) ──filtro AA──▶  ──muestreo──▶  ──cuantizador──▶  ──DAC──▶  x̂(t)
-     recorta la banda      reloj de fs     b bits       ZOH
-     de arriba</pre>
-<table>
-  <tr>
-    <th>etapa</th><th>qué hace</th>
-    <th class="num">SNR que queda</th>
-    <th class="num">en la teléfonica (8 kHz, 8 bits)</th>
-  </tr>
-  {% for e in r.cadena.viaje %}
-  <tr>
-    <td>{{ e.etapa }}</td>
-    <td style="font-size:13px;color:var(--suave)">{{ e.nota }}</td>
-    <td class="num">{% if e.exacta %}exacta{% elif e.snr == None %}—{% else %}{{ e.snr|num:1 }} dB{% endif %}</td>
-    <td class="num">{% if e.exacta_tel %}exacta{% elif e.snr_tel == None %}—{% else %}{{ e.snr_tel|num:1 }} dB{% endif %}</td>
-  </tr>
-  {% endfor %}
-</table>
-<p style="font-size:14px;color:var(--suave)">
-  <strong>Cómo se lee:</strong> el <strong>filtro antialiasing</strong> es
-  la etapa que más se nota y la única cuyo coste depende del género
-  (recorta la banda de arriba del todo). El <strong>muestreo</strong> a la
-  tasa del propio archivo es exacto: no hay nada por encima de f_s/2 que
-  se pueda plegar. El <strong>cuantizador</strong> domina a 44,1 kHz, y su
-  error está acotado a ±{{ r.cuantizacion.factor_escala_medio_uv|num:1 }} µV.
-  A 8 kHz y 8 bits, el conjunto de pérdidas es mucho mayor.
-</p>
+<pre>x(t) ──[Filtro Antialiasing]──▶ ──[Muestreo fs]──▶ ──[Cuantizador b bits]──▶ ──[DAC Retenedor ZOH]──▶ x̂(t)</pre>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Etapa de la cadena</th>
+        <th>Función física</th>
+        <th class="num">SNR resultante (Cadena nativa)</th>
+        <th class="num">SNR en simulación telefónica (8 kHz, 8b)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in r.cadena.viaje %}
+      <tr>
+        <td><strong>{{ e.etapa }}</strong></td>
+        <td style="font-size:13px;color:var(--suave)">{{ e.nota }}</td>
+        <td class="num">{% if e.exacta %}exacta{% elif e.snr == None %}—{% else %}{{ e.snr|num:1 }} dB{% endif %}</td>
+        <td class="num">{% if e.exacta_tel %}exacta{% elif e.snr_tel == None %}—{% else %}{{ e.snr_tel|num:1 }} dB{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 <figure>
   <img src="{% url 'figura' clave 'cadena' %}" alt="La cadena ADC-DAC">
-  <figcaption>
-    Arriba: el viaje del SNR (azul, la cadena nativa; naranja, la
-    telefónica). Abajo: 20 ms del error de cada etapa. Se ve la diferencia
-    de textura: el filtro antialiasing deja un error que parece ruido, el
-    cuantizador una franja acotada, y el DAC los escalones del retenedor.
-  </figcaption>
+  <figcaption>Perfil de degradación del SNR a través de cada bloque funcional y textura del error en el dominio temporal.</figcaption>
 </figure>
 
-<h2>6. Escúchalo</h2>
+<h2>6. Demostración acústica A/B</h2>
 <p>
-  El audio no es una decoración: el ruido del cuantizador es real y se oye.
+  El efecto del procesamiento digital sobre la percepción psicoacústica real:
 </p>
 <div class="lista-audio">
   <div class="pieza">
-    <div class="nombre">Original</div>
-    <div class="explica">el clip tal cual, a {{ r.pista.fs }} Hz y {{ r.pista.bits }} bits</div>
+    <div class="nombre"><span>Original</span> <span class="badge badge-azul">{{ r.pista.bits }} bits</span></div>
+    <div class="explica">Señal masterizada a {{ r.pista.fs }} Hz y {{ r.pista.bits }} bits</div>
     <audio controls preload="none" src="{% url 'audio' clave 'original' %}"></audio>
   </div>
   <div class="pieza">
-    <div class="nombre">Cuantizado a 12 bits</div>
-    <div class="explica">y = {{ r.cuantizacion.casos.12.delta|num:9 }} V por nivel</div>
+    <div class="nombre"><span>Cuantizado a 12 bits</span> <span class="badge badge-azul">12 bits</span></div>
+    <div class="explica">y = {{ r.cuantizacion.casos.12.delta|num:9 }} V por nivel (alta fidelidad)</div>
     <audio controls preload="none" src="{% url 'audio' clave 'bits12' %}"></audio>
   </div>
   <div class="pieza">
-    <div class="nombre">Cuantizado a 8 bits</div>
-    <div class="explica">y = {{ r.cuantizacion.casos.8.delta|num:9 }} V por nivel: aquí se oye</div>
+    <div class="nombre"><span>Cuantizado a 8 bits</span> <span class="badge badge-rojo">8 bits</span></div>
+    <div class="explica">y = {{ r.cuantizacion.casos.8.delta|num:9 }} V por nivel: piso de ruido perceptible</div>
     <audio controls preload="none" src="{% url 'audio' clave 'bits8' %}"></audio>
   </div>
   <div class="pieza">
-    <div class="nombre">Telefónica (8 kHz, 8 bits)</div>
-    <div class="explica">la cadena completa, como una llamada: banda de 4 kHz</div>
+    <div class="nombre"><span>Telefónica (8 kHz, 8 bits)</span> <span class="badge badge-rojo">Banda 4 kHz</span></div>
+    <div class="explica">Filtro antialiasing a 4 kHz, remuestreo a 8 kHz y retenedor ZOH</div>
     <audio controls preload="none" src="{% url 'audio' clave 'telefonica' %}"></audio>
   </div>
 </div>
 
-<h2>7. El ritmo</h2>
+<h2>7. Análisis rítmico y tempo</h2>
 <p>
   {% if r.ritmo.medible %}
-  El tempo medido es de <strong>{{ r.ritmo.bpm|num:0 }} BPM</strong>,
-  con una confianza de {{ r.ritmo.confianza|num:2 }} y una
-  dispersión de {{ r.ritmo.bpm_estable|num:1 }} BPM entre ventanas
-  de 4 s.
+  Tempo estimado: <strong>{{ r.ritmo.bpm|num:0 }} BPM</strong> (confianza: {{ r.ritmo.confianza|num:2 }}, dispersión: ±{{ r.ritmo.bpm_estable|num:1 }} BPM en ventanas de 4 s).
   {% else %}
-  <strong>El tempo no es medible en esta pista</strong>: no hay percusión,
-  así que la envolvente de ataques no tiene un periodo claro y el
-  detector no encuentra un pulso con confianza. En el índice de atención,
-  el criterio de tempo se puntúa como neutro en vez de inventarse un
-  valor.
+  <strong>Tempo no detectable:</strong> la señal carece de ataques percusivos periódicos definidos. En el índice de atención este criterio se normaliza de manera neutral.
   {% endif %}
 </p>
 
-<h2>8. Los criterios del índice de atención</h2>
-<table>
-  <tr><th>criterio</th><th class="num">peso</th><th class="num">valor</th>
-      <th class="num">puntos</th><th>por qué</th></tr>
-  {% for c in r.atencion.por_criterio %}
-  <tr>
-    <td>{{ c.nombre }}</td>
-    <td class="num">{{ c.peso }}</td>
-    <td class="num">{{ c.valor|num:2 }}</td>
-    <td class="num">{{ c.puntos|recorta }}</td>
-    <td style="font-size:13px;color:var(--suave)">{{ c.por_que }}</td>
-  </tr>
-  {% endfor %}
-</table>
+<h2>8. Criterios de evaluación del índice de atención</h2>
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Criterio acústico</th>
+        <th class="num">Ponderación</th>
+        <th class="num">Valor medido</th>
+        <th class="num">Puntos asignados</th>
+        <th>Justificación psicoacústica</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in r.atencion.por_criterio %}
+      <tr>
+        <td><strong>{{ c.nombre }}</strong></td>
+        <td class="num">{{ c.peso }}</td>
+        <td class="num">{{ c.valor|num:2 }}</td>
+        <td class="num"><strong>{{ c.puntos|recorta }}</strong></td>
+        <td style="font-size:13px;color:var(--suave)">{{ c.por_que }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
-<p><a href="{% url 'comparativa' %}">← Volver a la comparativa de los cinco</a></p>
+<p style="margin-top:32px"><a href="{% url 'comparativa' %}">← Volver a la comparativa general de los cinco géneros</a></p>
 
 {% endblock %}

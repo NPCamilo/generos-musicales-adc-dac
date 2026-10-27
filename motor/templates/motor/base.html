@@ -12,21 +12,90 @@
 
 <a href="#contenido-principal" class="skip-to-content">Saltar al contenido principal</a>
 
-<header class="cabecera">
-  <div class="envoltorio">
-    <div class="marca">ADC–DAC sobre audio musical <span>· Comunicaciones I</span></div>
-    <nav class="menu">
+<div class="cabecera-envoltorio">
+  <header class="cabecera">
+    <a href="{% url 'portada' %}" class="marca">
+      <span class="icono-onda">⚡</span>
+      <span>ADC–DAC <span>· DSP Musical</span></span>
+    </a>
+    <nav class="menu" aria-label="Navegación principal">
       <a href="{% url 'portada' %}" class="{% if request.resolver_match.url_name == 'portada' %}activo{% endif %}">Inicio</a>
       <a href="{% url 'comparativa' %}" class="{% if request.resolver_match.url_name == 'comparativa' %}activo{% endif %}">Comparativa</a>
       <a href="{% url 'subir' %}" class="{% if request.resolver_match.url_name == 'subir' %}activo{% endif %}">Subir un WAV</a>
       <a href="{% url 'informe' %}" class="{% if request.resolver_match.url_name == 'informe' %}activo{% endif %}">Informe</a>
     </nav>
-  </div>
-</header>
+  </header>
+</div>
 
 <main class="envoltorio" id="contenido-principal" tabindex="-1">
 {% block cuerpo %}{% endblock %}
+
+<footer class="pie-pagina">
+  <div>
+    <strong>ADC–DAC sobre audio musical</strong> · Proyecto de Procesamiento Digital de Señales
+  </div>
+  <div>
+    Muestreo, Cuantización y Reconstrucción de Nyquist-Shannon
+  </div>
+</footer>
 </main>
+
+<!-- Lightbox no intrusivo para inspección de figuras a resolución completa -->
+<div id="lightbox-modal" class="lightbox-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lightbox-contenido">
+    <button class="lightbox-cerrar" aria-label="Cerrar modal">&times;</button>
+    <img id="lightbox-img" src="" alt="Ampliación detallada de figura">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('lightbox-modal');
+  const modalImg = document.getElementById('lightbox-img');
+  const modalCaption = document.getElementById('lightbox-caption');
+  const closeBtn = document.querySelector('.lightbox-cerrar');
+
+  if (!modal || !modalImg) return;
+
+  const openLightbox = (imgSrc, captionText) => {
+    modalImg.src = imgSrc;
+    modalCaption.textContent = captionText || '';
+    modal.classList.add('activo');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    modal.classList.remove('activo');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    modalImg.src = '';
+  };
+
+  // Asignar zoom y título a las imágenes dentro de figure
+  document.querySelectorAll('figure img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    if (!img.title) img.setAttribute('title', 'Clic para ampliar a resolución completa');
+    img.addEventListener('click', () => {
+      const figcaption = img.closest('figure')?.querySelector('figcaption')?.textContent || img.alt || '';
+      openLightbox(img.src, figcaption);
+    });
+  });
+
+  closeBtn?.addEventListener('click', closeLightbox);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target.classList.contains('lightbox-contenido')) {
+      closeLightbox();
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('activo')) {
+      closeLightbox();
+    }
+  });
+});
+</script>
 
 </body>
 </html>
