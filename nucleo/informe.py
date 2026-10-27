@@ -290,10 +290,19 @@ cosas distintas. Es el mismo error que multiplicar por `4/N` en vez de
             ])
         filas_muestreo = []
         for ex in r["muestreo"]["experimentos"]:
+            if ex["cumple_nyquist"]:
+                # el multiplicador 1,0 es el caso límite: f_s ES f_s,min,
+                # así que el teorema se cumple pero en el borde exacto.
+                # (OJO: la variable se llama `cumple` y no `veredicto`,
+                # que es el parámetro de la función y no se debe tapar.)
+                cumple = ("sí (al límite)" if ex.get("caso_limite")
+                          else "sí")
+            else:
+                cumple = "NO"
             filas_muestreo.append([
                 f"{ex['fs']:.0f}",
                 f"{ex['multiplicador']:.2f}×",
-                "sí" if ex["cumple_nyquist"] else "NO",
+                cumple,
                 _cientifico(ex["nrmse_aliasing"]),
                 _cientifico(ex["nrmse_reconstruccion"]),
                 _num(ex["energia_fuera_banda"], 2) + " %",
@@ -336,6 +345,12 @@ decir "esta cifra depende de una decisión":
 ({len(r['muestreo']['experimentos'])} frecuencias de muestreo):
 
 {_tabla(["f_s (Hz)", "respecto a f_s,min", "¿cumple Nyquist?", "NRMSE con aliasing", "NRMSE con filtro", "energía fuera de banda"], filas_muestreo)}
+
+La fila del multiplicador 1,00× es el **caso límite**: ahí el `f_s` es
+exactamente `f_s,mín` = 2·`f_max`, o sea `f_s/2` es `f_max`. El teorema se
+cumple, pero en el borde exacto: un seno de precisamente `f_s/2` sale con
+todas sus muestras a cero, así que en el límite la señal no es
+recuperable. De ahí el aviso en la tabla.
 
 ![El barrido de muestreo de {r['nombre']}]({clave}_muestreo.png)
 

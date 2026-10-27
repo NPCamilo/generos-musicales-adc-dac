@@ -25,7 +25,7 @@ instala y funciona, sin depender de ninguna carpeta de al lado.
 | `dsp_web/` | el proyecto Django (settings, urls). |
 | `api/` | la entrada WSGI para Vercel. |
 | `public/` | los ficheros estáticos que el servidor sirve tal cual. |
-| `audio/` | las cinco pistas (12 s cada una) y `descargas.json`, con la procedencia de cada una. |
+| `audio/` | las cinco pistas (12 segundos cada una) y `descargas.json`, con la procedencia de cada una. |
 | `salida/` | el entregable: `informe.md`, `datos.json` y 39 figuras en PNG a 300 dpi. |
 | `docs/` | `GUIA.md` (la guía de defensa: cifras, ideas y preguntas), `GUION.md` (el guión completo de una persona), `GUION_CUATRO.md` (el guión **repartido en cuatro**, con la señalización de pantalla) y `PUBLICAR.md` (cómo desplegarlo). |
 
@@ -51,7 +51,7 @@ python construir.py               # regenera el informe, las figuras y datos.jso
 
 Hay dos guiones en `docs/`:
 
-- **`GUION_CUATRO.md`** — el que os sirve si sois un grupo: el turno de
+- **`GUION_CUATRO.md`** — el que les sirve si son un grupo: el turno de
   80 minutos repartido en cinco tramos (Ángel, Mariano, Luis y tú), con
   la **señalización de qué tiene que estar en pantalla** en cada momento,
   las transiciones entre ponentes y la distribución de las preguntas
@@ -86,10 +86,6 @@ Hay tres versiones del mismo contenido, generadas desde el mismo código:
 Se regeneran los tres con `python construir.py`, y la web los sirve en
 `/descargas/`: el PDF, el markdown y un ZIP con las figuras.
 
-> **⚠ Recordatorio: el viernes, pon el repositorio en privado.** Los
-> clips de `audio/` son extractos de obras con derechos de autor. Está
-> documentado en `docs/PUBLICAR.md` §2, con las tres opciones.
-
 La guía completa de despliegue está en
 **[`docs/PUBLICAR.md`](docs/PUBLICAR.md)**. Lo esencial:
 
@@ -114,7 +110,7 @@ La guía completa de despliegue está en
 La biblioteca `Nyquist_Shannon/`, que está un nivel más arriba, es el
 origen de la metodología; las primitivas que este proyecto usa están
 copiadas y adaptadas en `nucleo/primitivas.py` para que el repositorio
-se pueda desplegar por sí solo.
+se pueda desplegar automáticamente por si solo.
 
 ## Lo que hace cada módulo
 
