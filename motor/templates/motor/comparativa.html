@@ -5,25 +5,25 @@
 
 {% block cuerpo %}
 
-<div class="header-pagina">
-  <div class="header-badge">Punto (e) · Análisis Comparativo Global</div>
-  <h1>Comparativa Espectral y Dimensional de los Cinco Géneros</h1>
-  <p class="entradilla">
-    Evaluación simultánea de las señales musicales bajo el mismo instrumental: contraste de densidades de potencia, cálculo de la frecuencia crítica de Nyquist y correlación con el entorno de estudio.
+<div class="seccion-hero">
+  <span class="kicker-etiqueta">Punto (e) · Análisis Global</span>
+  <h1>Comparativa Espectral de los Cinco Géneros</h1>
+  <p class="descripcion-hero">
+    Evaluación simultánea de las señales musicales: balance tonal, cálculo de la frecuencia de Nyquist y correlación con el entorno de estudio.
   </p>
 </div>
 
 <h2>1. Superposición de los Espectros de Magnitud</h2>
-<p class="entradilla">
-  Señales normalizadas individualmente a 0 dBFS de pico y suavizadas mediante filtro de media móvil a 250 Hz. El área sombreada delimita la banda vocal humana (300 Hz – 3,4 kHz):
+<p class="descripcion-hero">
+  Señales normalizadas a 0 dBFS y suavizadas a 250 Hz. El área sombreada delimita la banda vocal humana (300 Hz – 3,4 kHz):
 </p>
 <figure>
   <img src="{% url 'figura' 'x' 'espectros_comparados' %}" alt="Espectros comparados de los cinco géneros">
   <figcaption>Espectros de magnitud normalizados sobre la banda crítica de la voz humana.</figcaption>
-  <div class="figure-hint"><span>🔍 Clic sobre la figura para examinar en alta resolución</span></div>
+  <div class="figure-ampliar-texto">Clic sobre la gráfica para ampliar</div>
 </figure>
 
-<h2>2. Distribución de Potencia por Bandas Críticas</h2>
+<h2>2. Distribución de Potencia por Bandas</h2>
 <figure>
   <img src="{% url 'figura' 'x' 'bandas_comparadas' %}" alt="Distribución de potencia espectral por bandas">
   <figcaption>Proporción de energía acústica distribuida entre frecuencias bajas, medias y altas frente al índice de atención.</figcaption>
@@ -46,8 +46,8 @@
     </thead>
     <tbody>
       {% for f in comp.ranking %}
-      <tr {% if forloop.first %}class="destacada"{% endif %}>
-        <td><a href="{% url 'genero' f.clave %}"><strong>{{ f.nombre }}</strong></a></td>
+      <tr {% if forloop.first %}class="fila-destacada"{% endif %}>
+        <td><a href="{% url 'genero' f.clave %}" style="color:var(--text-main)"><strong>{{ f.nombre }}</strong></a></td>
         <td class="num">{{ f.f_max|num }}</td>
         <td class="num">{{ f.fs_minima|num }}</td>
         <td class="num">{{ f.centroide|num }}</td>
@@ -68,10 +68,10 @@
 </figure>
 
 <h2>5. Veredicto del Experimento</h2>
-<div class="panel-veredicto">
-  <div class="panel-veredicto-tag">Dictamen Técnico</div>
-  <p class="panel-veredicto-texto">{{ veredicto.resumen }}</p>
-  <p class="panel-veredicto-desc">
+<div class="tarjeta-veredicto">
+  <div class="tarjeta-veredicto-tag">Dictamen Técnico</div>
+  <p class="tarjeta-veredicto-titulo">{{ veredicto.resumen }}</p>
+  <p class="tarjeta-veredicto-cuerpo">
     El género clásico-barroco obtiene el mejor índice al presentar la menor interferencia en la banda formántica vocal humana y un ritmo continuo sin transitorios agresivos.
   </p>
 </div>

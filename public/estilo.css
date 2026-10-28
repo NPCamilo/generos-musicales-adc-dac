@@ -1,437 +1,372 @@
 /* =========================================================================
-   estilo.css — Sistema de Diseño de Precisión Técnica (Swiss Audio Engineering)
+   estilo.css — Diseño Profesional, Elegante y Organizado
    Proyecto: DSP aplicado a conversión ADC-DAC sobre audio musical
    ========================================================================= */
 
 :root {
-  /* Lienzo y superficies de laboratorio */
-  --bg-app: #F7F8FA;
-  --bg-surface: #FFFFFF;
-  --bg-subtle: #F0F2F5;
-  --bg-dark: #0F1115;
-  
-  /* Tinta y legibilidad suiza */
-  --ink-primary: #111318;
-  --ink-secondary: #4B5262;
-  --ink-muted: #7E8695;
-  --ink-inverted: #FFFFFF;
+  /* Paleta base sobria y profesional */
+  --bg-page: #F8F9FA;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F1F3F5;
+  --bg-hover: #F8F9FA;
 
-  /* Líneas milimétricas y conectores técnicos */
-  --border-hairline: #E1E4EA;
-  --border-strong: #C8CDD8;
-  --border-focus: #0066CC;
+  --text-main: #1A1D20;
+  --text-muted: #5A626A;
+  --text-light: #8A929A;
+  --text-white: #FFFFFF;
 
-  /* Paleta cromática de instrumentación (Okabe-Ito estricto para A11y) */
-  --signal-blue: #0066CC;
-  --signal-blue-light: #EBF3FC;
-  --signal-blue-border: #B9D7F7;
-  --nyquist-green: #00875A;
-  --nyquist-green-light: #E6F6F0;
-  --nyquist-green-border: #99DCBF;
-  --alert-red: #D9383A;
-  --alert-red-light: #FDF0F0;
-  --alert-red-border: #F5B8B9;
-  --meter-orange: #D96B00;
-  --meter-orange-light: #FDF3E9;
+  --border-light: #E2E6EA;
+  --border-medium: #CED4DA;
 
-  /* Pila tipográfica de ingeniería */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  /* Acentos de precisión técnica (Okabe-Ito accesibles) */
+  --accent-blue: #0A66C2;
+  --accent-blue-subtle: #E8F2FC;
+  --accent-green: #0E8345;
+  --accent-green-subtle: #E6F6ED;
+  --accent-red: #D92534;
+  --accent-red-subtle: #FDECEE;
+  --accent-amber: #B45309;
+  --accent-amber-subtle: #FEF3C7;
 
-  /* Radios técnicos de precisión (bordes controlados, nada inflado) */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
+  /* Tipografías */
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
 
-  /* Sombras técnicas difusas de rasante */
-  --shadow-subtle: 0 1px 3px rgba(17, 19, 24, 0.05);
-  --shadow-card: 0 1px 3px rgba(17, 19, 24, 0.04), 0 4px 12px rgba(17, 19, 24, 0.03);
-  --shadow-hover: 0 4px 16px rgba(17, 19, 24, 0.08);
+  /* Radios discretos (nada inflado ni tosco) */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Sombras suaves y limpias */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-html {
-  font-size: 15px;
-  line-height: 1.6;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 body {
   margin: 0;
-  background-color: var(--bg-app);
-  color: var(--ink-primary);
-  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* --- Skip to content (estrictamente oculto fuera de pantalla hasta tener foco) --- */
-.skip-to-content {
+/* Enlace de accesibilidad para saltar al contenido */
+.skip-link {
   position: absolute;
   top: -9999px;
-  left: 16px;
-  background: var(--ink-primary);
-  color: var(--ink-inverted);
-  padding: 8px 16px;
-  font-size: 13px;
+  left: 20px;
+  background: var(--text-main);
+  color: var(--text-white);
+  padding: 8px 14px;
+  font-size: 12px;
   font-weight: 600;
-  border-radius: var(--radius-xs);
-  z-index: 100000;
+  border-radius: var(--radius-sm);
+  z-index: 10000;
   text-decoration: none;
 }
-.skip-to-content:focus {
-  top: 16px;
-  outline: 2px solid var(--signal-blue);
+.skip-link:focus {
+  top: 10px;
+  outline: 2px solid var(--accent-blue);
 }
 
-/* --- Contenedor general estructurado --- */
-.envoltorio {
-  max-width: 1140px;
+/* Envoltorio principal con alineación centrada y márgenes controlados */
+.contenedor {
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 24px 80px;
 }
 
-/* --- Barra de navegación superior de consola --- */
-.nav-consola {
-  background: var(--bg-surface);
-  border-bottom: 1px solid var(--border-hairline);
+/* --- Barra de Navegación Limpia y Proporcionada --- */
+.barra-navegacion {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
 }
-.nav-consola-inner {
-  max-width: 1140px;
+.barra-navegacion-inner {
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 24px;
-  height: 56px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.nav-marca {
+.marca-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
-  color: var(--ink-primary);
+  color: var(--text-main);
+}
+.marca-logo svg {
+  width: 18px;
+  height: 18px;
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+.marca-texto-principal {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14.5px;
   letter-spacing: -0.01em;
 }
-.nav-marca svg {
-  width: 22px;
-  height: 22px;
-  color: var(--signal-blue);
+.marca-separador {
+  color: var(--border-medium);
+  font-weight: 300;
 }
-.nav-marca-sub {
-  color: var(--ink-muted);
-  font-weight: 400;
+.marca-subtexto {
+  color: var(--text-muted);
   font-size: 13px;
-  border-left: 1px solid var(--border-hairline);
-  padding-left: 10px;
+  font-weight: 500;
 }
-.nav-enlaces {
+
+.menu-navegacion {
   display: flex;
   align-items: center;
   gap: 4px;
 }
-.nav-enlaces a {
-  color: var(--ink-secondary);
-  font-size: 13.5px;
+.menu-navegacion a {
+  color: var(--text-muted);
+  font-size: 13px;
   font-weight: 500;
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
   text-decoration: none;
   transition: all 0.15s ease;
 }
-.nav-enlaces a:hover {
-  color: var(--ink-primary);
+.menu-navegacion a:hover {
+  color: var(--text-main);
   background: var(--bg-subtle);
 }
-.nav-enlaces a.activo {
-  color: var(--signal-blue);
-  background: var(--signal-blue-light);
+.menu-navegacion a.activo {
+  color: var(--accent-blue);
+  background: var(--accent-blue-subtle);
   font-weight: 600;
 }
 
-/* --- Títulos e introducción técnica --- */
-.header-pagina {
-  margin: 40px 0 28px;
+/* --- Cabecera de Página / Hero --- */
+.seccion-hero {
+  margin: 36px 0 28px;
 }
-.header-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.kicker-etiqueta {
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--signal-blue);
-  background: var(--signal-blue-light);
-  border: 1px solid var(--signal-blue-border);
-  padding: 3px 10px;
-  border-radius: var(--radius-xs);
-  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+  color: var(--accent-blue);
+  background: var(--accent-blue-subtle);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
 }
 h1 {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--ink-primary);
-  margin: 0 0 10px;
-  line-height: 1.2;
+  font-size: 27px;
+  font-weight: 750;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  line-height: 1.25;
 }
-.entradilla {
-  font-size: 16px;
-  color: var(--ink-secondary);
+.descripcion-hero {
+  font-size: 15px;
+  color: var(--text-muted);
   margin: 0;
-  max-width: 74ch;
-  line-height: 1.6;
+  max-width: 72ch;
+  line-height: 1.55;
 }
 
 h2 {
-  font-size: 20px;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-  color: var(--ink-primary);
-  margin: 48px 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-hairline);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-h3 {
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 700;
-  color: var(--ink-primary);
-  margin: 28px 0 10px;
-}
-
-/* --- HERO: DIAGRAMA DE BLOQUES ACTIVO DE LA CADENA ADC-DAC --- */
-.cadena-hero {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  padding: 24px;
-  margin: 28px 0 36px;
-}
-.cadena-hero-header {
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+  margin: 44px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-hairline);
 }
-.cadena-hero-titulo {
-  font-size: 13.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink-secondary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+h3 {
+  font-size: 15.5px;
+  font-weight: 650;
+  color: var(--text-main);
+  margin: 24px 0 8px;
 }
-.cadena-bloques {
+
+/* --- Panel de Métricas Clave (Organizado y Proporcionado) --- */
+.rejilla-metricas {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  position: relative;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 24px 0 32px;
 }
-.bloque-dsp {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-  position: relative;
-  transition: all 0.2s ease;
+.metrica-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
 }
-.bloque-dsp:hover {
-  border-color: var(--signal-blue);
-  background: var(--bg-surface);
-  box-shadow: var(--shadow-hover);
-}
-.bloque-etiqueta {
+.metrica-label {
   font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--ink-muted);
+  font-size: 10.5px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.metrica-valor {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
   margin-bottom: 4px;
 }
-.bloque-nombre {
-  font-size: 14px;
-  font-weight: 750;
-  color: var(--ink-primary);
-  margin-bottom: 8px;
-}
-.bloque-metrica {
-  font-family: var(--font-mono);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--signal-blue);
-  line-height: 1.2;
-}
-.bloque-desc {
-  font-size: 11px;
-  color: var(--ink-muted);
-  margin-top: 4px;
-  line-height: 1.35;
+.metrica-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
 }
 
-/* Conector flecha entre bloques */
-.bloque-dsp:not(:last-child)::after {
-  content: "→";
-  position: absolute;
-  right: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: var(--border-strong);
-  font-weight: bold;
-  z-index: 2;
-}
-
-/* --- Panel de Veredicto de Precisión --- */
-.panel-veredicto {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
-  border-left: 4px solid var(--nyquist-green);
+/* --- Veredicto / Conclusión Técnica --- */
+.tarjeta-veredicto {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-left: 3px solid var(--accent-green);
   border-radius: var(--radius-md);
-  padding: 20px 24px;
+  padding: 18px 22px;
   margin: 24px 0;
-  box-shadow: var(--shadow-subtle);
+  box-shadow: var(--shadow-sm);
 }
-.panel-veredicto-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.tarjeta-veredicto-tag {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
-  color: var(--nyquist-green);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  color: var(--accent-green);
+  margin-bottom: 6px;
 }
-.panel-veredicto-texto {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--ink-primary);
-  margin: 0 0 8px;
-  line-height: 1.5;
+.tarjeta-veredicto-titulo {
+  font-size: 15.5px;
+  font-weight: 650;
+  color: var(--text-main);
+  margin: 0 0 6px;
+  line-height: 1.45;
 }
-.panel-veredicto-desc {
-  font-size: 12.5px;
-  color: var(--ink-secondary);
+.tarjeta-veredicto-cuerpo {
+  font-size: 13px;
+  color: var(--text-muted);
   margin: 0;
   line-height: 1.5;
 }
 
-/* --- MATRIZ TÉCNICA DE GÉNEROS (Asimétrica y Modular) --- */
-.matriz-generos {
+/* --- Grilla Elegante de los 5 Géneros --- */
+.grilla-generos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 16px;
-  margin: 24px 0;
+  margin: 20px 0;
 }
-.modulo-genero {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
+.tarjeta-genero {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 18px 20px;
   text-decoration: none;
   color: inherit;
-  box-shadow: var(--shadow-card);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: all 0.15s ease;
 }
-.modulo-genero:hover {
-  transform: translateY(-2px);
-  border-color: var(--signal-blue);
-  box-shadow: var(--shadow-hover);
+.tarjeta-genero:hover {
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
-.modulo-genero-top {
+.tarjeta-genero-encabezado {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
-.modulo-genero-nombre {
-  font-size: 17px;
-  font-weight: 750;
-  color: var(--ink-primary);
-  letter-spacing: -0.01em;
+.tarjeta-genero-nombre {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
 }
-.modulo-genero-pill {
+.tarjeta-genero-anio {
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 600;
-  padding: 2px 8px;
+  color: var(--text-muted);
   background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-xs);
-  color: var(--ink-secondary);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
 }
-.modulo-genero-meta {
+.tarjeta-genero-obra {
   font-size: 13px;
-  color: var(--ink-secondary);
-  line-height: 1.4;
+  color: var(--text-muted);
   margin-bottom: 14px;
 }
-.modulo-genero-barra-wrap {
-  margin-bottom: 10px;
+.tarjeta-genero-progreso {
+  margin-bottom: 12px;
 }
-.modulo-genero-barra-label {
+.tarjeta-genero-progreso-info {
   display: flex;
   justify-content: space-between;
   font-size: 11.5px;
   font-family: var(--font-mono);
-  color: var(--ink-muted);
+  color: var(--text-muted);
   margin-bottom: 4px;
 }
-.modulo-genero-barra {
-  height: 5px;
-  background: var(--border-hairline);
+.barra-medicion {
+  height: 4px;
+  background: var(--border-light);
   border-radius: 2px;
   overflow: hidden;
 }
-.modulo-genero-barra-fill {
+.barra-medicion-fill {
   height: 100%;
-  background: var(--signal-blue);
+  background: var(--accent-blue);
   border-radius: 2px;
 }
-.modulo-genero-footer {
+.tarjeta-genero-pie {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
+  font-size: 11.5px;
   font-family: var(--font-mono);
   padding-top: 10px;
-  border-top: 1px solid var(--border-hairline);
-  color: var(--ink-secondary);
+  border-top: 1px solid var(--border-light);
+  color: var(--text-muted);
+}
+.tarjeta-genero-enlace {
+  color: var(--accent-blue);
+  font-weight: 600;
 }
 
-/* --- TABLAS CIENTÍFICAS ASISTIDAS --- */
+/* --- Tablas Limpias y Ordenadas --- */
 .tabla-contenedor {
   width: 100%;
   overflow-x: auto;
-  border: 1px solid var(--border-hairline);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  background: var(--bg-surface);
-  box-shadow: var(--shadow-subtle);
-  margin: 20px 0;
-  -webkit-overflow-scrolling: touch;
+  margin: 18px 0;
+  box-shadow: var(--shadow-sm);
 }
 table {
   width: 100%;
@@ -439,16 +374,16 @@ table {
   font-size: 13px;
 }
 th, td {
-  padding: 10px 14px;
+  padding: 9px 14px;
   text-align: left;
-  border-bottom: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-light);
   vertical-align: middle;
 }
 th {
   background: var(--bg-subtle);
-  color: var(--ink-secondary);
+  color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -463,44 +398,38 @@ tr:last-child td {
   border-bottom: none;
 }
 tr:hover td {
-  background: #FAFBFD;
+  background: #FAFBFC;
 }
-tr.destacada td {
-  background: var(--signal-blue-light);
+tr.fila-destacada td {
+  background: var(--accent-blue-subtle);
   font-weight: 600;
 }
 
-/* Badges semánticos para el Teorema de Nyquist */
-.badge-nyquist {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+.pill-estado {
+  display: inline-block;
   font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 600;
   padding: 2px 7px;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
 }
-.badge-nyquist.cumple {
-  color: var(--nyquist-green);
-  background: var(--nyquist-green-light);
-  border: 1px solid var(--nyquist-green-border);
+.pill-estado.ok {
+  color: var(--accent-green);
+  background: var(--accent-green-subtle);
 }
-.badge-nyquist.falla {
-  color: var(--alert-red);
-  background: var(--alert-red-light);
-  border: 1px solid var(--alert-red-border);
+.pill-estado.error {
+  color: var(--accent-red);
+  background: var(--accent-red-subtle);
 }
 
-/* --- FIGURAS CIENTÍFICAS CON MARCO DE LABORATORIO --- */
+/* --- Figuras de Laboratorio --- */
 figure {
-  margin: 32px 0;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
+  margin: 28px 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 16px;
-  box-shadow: var(--shadow-subtle);
-  position: relative;
+  box-shadow: var(--shadow-sm);
 }
 figure img {
   width: 100%;
@@ -508,117 +437,98 @@ figure img {
   border-radius: var(--radius-sm);
   display: block;
   cursor: zoom-in;
-  transition: opacity 0.2s ease;
-}
-figure img:hover {
-  opacity: 0.96;
 }
 figcaption {
-  color: var(--ink-secondary);
   font-size: 12.5px;
-  margin-top: 10px;
+  color: var(--text-muted);
   text-align: center;
-  line-height: 1.4;
-  font-family: var(--font-sans);
+  margin-top: 10px;
 }
-.figure-hint {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+.figure-ampliar-texto {
   font-size: 11px;
   font-family: var(--font-mono);
-  color: var(--ink-muted);
+  color: var(--text-light);
+  text-align: center;
   margin-top: 4px;
 }
 
-/* --- SUITE DE AUDIO PROFESIONAL (4 Pistas DSP) --- */
-.suite-audio {
+/* --- Suite de Audio Compacta y Ordenada --- */
+.suite-audio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  margin: 24px 0;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 18px 0;
 }
-.rack-audio {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
+.tarjeta-audio {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 16px;
-  box-shadow: var(--shadow-card);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-.rack-audio:hover {
-  border-color: var(--signal-blue);
-}
-.rack-audio-header {
+.tarjeta-audio-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  align-items: center;
+  margin-bottom: 4px;
 }
-.rack-audio-titulo {
-  font-size: 14px;
+.tarjeta-audio-titulo {
+  font-size: 13.5px;
   font-weight: 700;
-  color: var(--ink-primary);
+  color: var(--text-main);
 }
-.rack-audio-tag {
+.tarjeta-audio-tag {
   font-family: var(--font-mono);
   font-size: 10.5px;
-  font-weight: 600;
-  padding: 2px 6px;
+  color: var(--text-muted);
   background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-xs);
-  color: var(--ink-secondary);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
 }
-.rack-audio-desc {
-  font-size: 12px;
-  color: var(--ink-muted);
-  line-height: 1.4;
-  margin-bottom: 12px;
+.tarjeta-audio-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
 }
 audio {
   width: 100%;
-  height: 36px;
+  height: 32px;
   outline: none;
   border-radius: var(--radius-sm);
-  accent-color: var(--signal-blue);
 }
 
-/* Nota explicativa de Psicoacústica sobre los 12 y 8 bits */
-.nota-psicoacustica {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-sm);
+.aviso-psicoacustica {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-left: 3px solid var(--accent-blue);
+  border-radius: var(--radius-md);
   padding: 12px 16px;
   font-size: 12.5px;
-  color: var(--ink-secondary);
+  color: var(--text-muted);
   line-height: 1.5;
   margin: 16px 0;
 }
-.nota-psicoacustica strong {
-  color: var(--ink-primary);
-}
 
-/* --- ZONA DE CARGA WAV DRAG & DROP --- */
-.zona-drop {
-  border: 2px dashed var(--border-strong);
-  background: var(--bg-subtle);
+/* --- Zona de Carga de WAV (Proporcionada) --- */
+.zona-subida-caja {
+  border: 1.5px dashed var(--border-medium);
+  background: var(--bg-card);
   border-radius: var(--radius-md);
-  padding: 36px 20px;
+  padding: 28px 20px;
   text-align: center;
   cursor: pointer;
   position: relative;
-  transition: all 0.2s ease;
-  margin: 20px 0;
+  transition: all 0.15s ease;
+  margin: 18px 0;
 }
-.zona-drop:hover, .zona-drop.dragover {
-  border-color: var(--signal-blue);
-  background: var(--signal-blue-light);
+.zona-subida-caja:hover, .zona-subida-caja.dragover {
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-subtle);
 }
-.zona-drop input[type="file"] {
+.zona-subida-caja input[type="file"] {
   position: absolute;
   top: 0;
   left: 0;
@@ -627,148 +537,156 @@ audio {
   opacity: 0;
   cursor: pointer;
 }
-.zona-drop-icon {
-  width: 38px;
-  height: 38px;
-  color: var(--signal-blue);
-  margin-bottom: 8px;
+.zona-subida-icono {
+  width: 28px;
+  height: 28px;
+  color: var(--accent-blue);
+  margin-bottom: 6px;
 }
-.zona-drop-text {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink-primary);
-  margin-bottom: 4px;
-}
-.zona-drop-sub {
-  font-size: 12px;
-  color: var(--ink-muted);
-}
-.archivo-badge {
-  margin-top: 10px;
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--signal-blue);
-  background: #FFFFFF;
-  border: 1px solid var(--signal-blue-border);
-  padding: 4px 12px;
-  border-radius: var(--radius-xs);
-}
-
-.btn-dsp {
-  background: var(--ink-primary);
-  color: #FFFFFF;
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 10px 22px;
-  font-family: var(--font-sans);
+.zona-subida-texto {
   font-size: 14px;
   font-weight: 650;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+.zona-subida-subtexto {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.fichero-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  background: var(--bg-card);
+  border: 1px solid var(--accent-blue);
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.boton-accion {
+  background: var(--text-main);
+  color: var(--text-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  text-decoration: none;
   transition: background 0.15s ease;
 }
-.btn-dsp:hover {
-  background: var(--signal-blue);
+.boton-accion:hover {
+  background: var(--accent-blue);
+  color: var(--text-white);
+  text-decoration: none;
+}
+.boton-secundario {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-medium);
+}
+.boton-secundario:hover {
+  background: var(--bg-subtle);
+  color: var(--text-main);
 }
 
-/* --- LIGHTBOX MODAL --- */
-.lightbox-modal {
+/* --- Lightbox Modal --- */
+.modal-visor {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15, 17, 21, 0.88);
-  backdrop-filter: blur(8px);
-  z-index: 10000;
+  background: rgba(17, 20, 24, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 100000;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 20px;
 }
-.lightbox-modal.activo {
+.modal-visor.activo {
   display: flex;
 }
-.lightbox-card {
+.modal-visor-contenido {
   position: relative;
-  max-width: 95vw;
+  max-width: 94vw;
   max-height: 92vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.lightbox-card img {
+.modal-visor-contenido img {
   max-width: 100%;
-  max-height: 82vh;
+  max-height: 84vh;
   object-fit: contain;
   background: #FFFFFF;
   border-radius: var(--radius-md);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
-.lightbox-caption {
-  color: #F0F2F5;
-  font-size: 13.5px;
-  margin-top: 12px;
+.modal-visor-pie {
+  color: #FFFFFF;
+  font-size: 13px;
+  margin-top: 10px;
   text-align: center;
   max-width: 80ch;
-  line-height: 1.4;
 }
-.lightbox-close {
+.modal-visor-cerrar {
   position: absolute;
-  top: -40px;
+  top: -36px;
   right: 0;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   color: #FFFFFF;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.lightbox-close:hover {
-  background: rgba(255, 255, 255, 0.3);
+.modal-visor-cerrar:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
-/* --- PIE DE PÁGINA --- */
-.footer-lab {
+/* --- Pie de Página --- */
+.pie-pagina-lab {
   margin-top: 60px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-hairline);
-  font-size: 12.5px;
-  color: var(--ink-muted);
+  padding-top: 20px;
+  border-top: 1px solid var(--border-light);
+  font-size: 12px;
+  color: var(--text-light);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 }
 
-/* --- RESPONSIVE BREAKPOINTS --- */
-@media (max-width: 900px) {
-  .cadena-bloques {
-    grid-template-columns: 1fr;
-    gap: 10px;
+/* --- Media Queries --- */
+@media (max-width: 860px) {
+  .rejilla-metricas {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .bloque-dsp:not(:last-child)::after {
-    display: none;
+  .suite-audio-grid {
+    grid-template-columns: 1fr;
   }
 }
-@media (max-width: 720px) {
-  .nav-consola-inner {
+@media (max-width: 600px) {
+  .barra-navegacion-inner {
     height: auto;
-    padding: 12px 16px;
+    padding: 10px 16px;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
   }
-  .nav-enlaces {
-    flex-wrap: wrap;
-    justify-content: center;
+  .rejilla-metricas {
+    grid-template-columns: 1fr;
   }
-  h1 { font-size: 26px; }
-  .suite-audio { grid-template-columns: 1fr; }
+  h1 { font-size: 22px; }
+  .contenedor { padding: 0 16px 60px; }
 }

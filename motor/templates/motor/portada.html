@@ -1,129 +1,103 @@
 {% extends "motor/base.html" %}
 {% load motor_tags %}
 
-{% block titulo %}DSP ADC-DAC sobre Audio Musical · Portada{% endblock %}
+{% block titulo %}DSP ADC-DAC · Audio Musical{% endblock %}
 
 {% block cuerpo %}
 
-<div class="header-pagina">
-  <div class="header-badge">Laboratorio Experimental · Comunicaciones I</div>
-  <h1>Conversión ADC–DAC y Análisis de Señales Musicales</h1>
-  <p class="entradilla">
-    Estudio empírico de la cadena de digitalización y reconstrucción analógica sobre cinco géneros musicales. Verificación matemática del teorema de muestreo de Nyquist-Shannon y cuantización PCM uniforme.
+<div class="seccion-hero">
+  <span class="kicker-etiqueta">Laboratorio de Comunicaciones I</span>
+  <h1>DSP aplicado a ADC–DAC sobre Audio Musical</h1>
+  <p class="descripcion-hero">
+    Estudio experimental de la cadena de muestreo, cuantización uniforme y reconstrucción analógica sobre cinco géneros musicales según el teorema de Nyquist-Shannon.
   </p>
 </div>
 
-<!-- DIAGRAMA DE BLOQUES ACTIVO: CADENA DE CONVERSIÓN ADC-DAC -->
-<section class="cadena-hero">
-  <div class="cadena-hero-header">
-    <div class="cadena-hero-titulo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-        <line x1="6" y1="6" x2="6.01" y2="6"></line>
-        <line x1="6" y1="18" x2="6.01" y2="18"></line>
-      </svg>
-      Arquitectura de la Cadena de Medición y Parámetros del Sistema
-    </div>
-    <span class="header-badge" style="margin-bottom:0">Modelo Físico Activo</span>
+<!-- PANEL DE MÉTRICAS CLAVE -->
+<div class="rejilla-metricas">
+  <div class="metrica-card">
+    <div class="metrica-label">Pistas Analizadas</div>
+    <div class="metrica-valor">{{ resultados|length }} Géneros</div>
+    <div class="metrica-desc">Extractos de 12 s calibrados a máxima potencia RMS.</div>
   </div>
 
-  <div class="cadena-bloques">
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Etapa 01 · Señal</div>
-      <div class="bloque-nombre">Audio Analógico x(t)</div>
-      <div class="bloque-metrica">{{ resultados|length }} Pistas</div>
-      <div class="bloque-desc">Extractos calibrados de 12 s en la región de máxima energía RMS.</div>
-    </div>
-
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Etapa 02 · Acondicionamiento</div>
-      <div class="bloque-nombre">Filtro Antialiasing</div>
-      <div class="bloque-metrica">{{ fs_minima_max|num:0 }} Hz</div>
-      <div class="bloque-desc">Cota mínima de Nyquist ($2 \cdot f_{\max}$) para evitar solapamiento.</div>
-    </div>
-
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Etapa 03 · Discretización</div>
-      <div class="bloque-nombre">Muestreo Periódico</div>
-      <div class="bloque-metrica">Reloj ADC</div>
-      <div class="bloque-desc">Toma de muestras a intervalo constante $T_s = 1/f_s$.</div>
-    </div>
-
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Etapa 04 · Amplitud</div>
-      <div class="bloque-nombre">Cuantizador Lineal</div>
-      <div class="bloque-metrica">{{ factor_escala|num:7 }} V</div>
-      <div class="bloque-desc">Resolución a 16 bits ($V_{fs} = \pm 1$ V) con $2^{16}$ niveles discretos.</div>
-    </div>
-
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Etapa 05 · Salida</div>
-      <div class="bloque-nombre">Reconstrucción DAC</div>
-      <div class="bloque-metrica">{{ veredicto.indice|recorta }} / 100</div>
-      <div class="bloque-desc">Retenedor de orden cero (ZOH) e índice óptimo en {{ veredicto.ganador }}.</div>
-    </div>
+  <div class="metrica-card">
+    <div class="metrica-label">Nyquist Crítico (2·f_max)</div>
+    <div class="metrica-valor">{{ fs_minima_max|num:0 }} Hz</div>
+    <div class="metrica-desc">Tasa mínima requerida por la pista más exigente.</div>
   </div>
-</section>
+
+  <div class="metrica-card">
+    <div class="metrica-label">Cuantización (16 bits)</div>
+    <div class="metrica-valor">{{ factor_escala|num:7 }} V</div>
+    <div class="metrica-desc">Paso y = V_fs / 2^(b-1) con fondo de escala ±1 V.</div>
+  </div>
+
+  <div class="metrica-card">
+    <div class="metrica-label">Mejor Atención Espectral</div>
+    <div class="metrica-valor">{{ veredicto.indice|recorta }} / 100</div>
+    <div class="metrica-desc">{{ veredicto.ganador }}</div>
+  </div>
+</div>
 
 {% if faltantes %}
-<div class="panel-veredicto" style="border-left-color:var(--alert-red)">
-  <div class="panel-veredicto-tag" style="color:var(--alert-red)">Aviso de Archivos</div>
-  <p class="panel-veredicto-texto">Faltan pistas en el repositorio: {{ faltantes|join:", " }}</p>
-  <p class="panel-veredicto-desc">Se pueden descargar localmente ejecutando <code>python -m nucleo.descarga</code>.</p>
+<div class="tarjeta-veredicto" style="border-left-color:var(--accent-red)">
+  <div class="tarjeta-veredicto-tag" style="color:var(--accent-red)">Archivos Faltantes</div>
+  <p class="tarjeta-veredicto-titulo">{{ faltantes|join:", " }}</p>
+  <p class="tarjeta-veredicto-cuerpo">Descargar con: <code>python -m nucleo.descarga</code></p>
 </div>
 {% endif %}
 
-<!-- PANEL DE VEREDICTO DE PRECISIÓN -->
-<div class="panel-veredicto">
-  <div class="panel-veredicto-tag">Veredicto Espectral · Punto (e)</div>
-  <p class="panel-veredicto-texto">{{ veredicto.resumen }}</p>
-  <p class="panel-veredicto-desc">
-    Conclusión técnica fundamentada en la energía presente en la banda vocal (300 Hz – 3,4 kHz), centroide de brillo acústico y densidad rítmica. Representa una modelación espectral objetiva, no una prescripción médica.
+<!-- VEREDICTO DEL PUNTO (E) -->
+<div class="tarjeta-veredicto">
+  <div class="tarjeta-veredicto-tag">Veredicto del Análisis · Punto (e)</div>
+  <p class="tarjeta-veredicto-titulo">{{ veredicto.resumen }}</p>
+  <p class="tarjeta-veredicto-cuerpo">
+    Evaluación acústica basada en la energía en la banda vocal (300 Hz – 3,4 kHz), brillo espectral y estabilidad del pulso rítmico. Es un modelado acústico de ingeniería, no una prescripción médica.
   </p>
 </div>
 
-<h2>Módulos de Análisis por Género</h2>
-<p class="entradilla" style="margin-bottom:20px">
-  Selecciona cualquier módulo para inspeccionar el oscilograma, transformada de Fourier, barrido de aliasing y las 4 variantes de audio cuantizadas:
-</p>
+<h2>
+  <span>Catálogo de Géneros Musicales</span>
+  <span style="font-size:12px;font-family:var(--font-mono);color:var(--text-muted);font-weight:normal">5 PISTAS EVALUADAS</span>
+</h2>
 
-<!-- MATRIZ TÉCNICA DE GÉNEROS -->
-<div class="matriz-generos">
+<!-- GRILLA DE GÉNEROS -->
+<div class="grilla-generos">
   {% for f in fichas %}
-  <a class="modulo-genero" href="{% url 'genero' f.clave %}">
+  <a class="tarjeta-genero" href="{% url 'genero' f.clave %}">
     <div>
-      <div class="modulo-genero-top">
-        <span class="modulo-genero-nombre">{{ f.nombre }}</span>
-        <span class="modulo-genero-pill">{{ f.anio }}</span>
+      <div class="tarjeta-genero-encabezado">
+        <span class="tarjeta-genero-nombre">{{ f.nombre }}</span>
+        <span class="tarjeta-genero-anio">{{ f.anio }}</span>
       </div>
-      <div class="modulo-genero-meta">
+      <div class="tarjeta-genero-obra">
         <strong>{{ f.musico }}</strong> — {{ f.obra }}
       </div>
-      
-      <div class="modulo-genero-barra-wrap">
-        <div class="modulo-genero-barra-label">
+
+      <div class="tarjeta-genero-progreso">
+        <div class="tarjeta-genero-progreso-info">
           <span>Índice de Atención</span>
           <strong>{{ f.indice|recorta }} / 100</strong>
         </div>
-        <div class="modulo-genero-barra">
-          <div class="modulo-genero-barra-fill" style="width: {{ f.indice }}%"></div>
+        <div class="barra-medicion">
+          <div class="barra-medicion-fill" style="width: {{ f.indice }}%"></div>
         </div>
       </div>
     </div>
 
-    <div class="modulo-genero-footer">
+    <div class="tarjeta-genero-pie">
       <span>f_max: <strong>{{ f.f_max|num:0 }} Hz</strong></span>
-      <span style="color:var(--signal-blue);font-weight:600">Examinar señal →</span>
+      <span class="tarjeta-genero-enlace">Ver análisis →</span>
     </div>
   </a>
   {% endfor %}
 </div>
 
-<h2>Criterios de Ponderación y Fuentes Científicas</h2>
-<p class="entradilla" style="margin-bottom:16px">
-  Parámetros acústicos estandarizados que componen la función de coste del índice espectral:
-</p>
+<h2>
+  <span>Criterios de Ponderación y Fuentes</span>
+  <span style="font-size:12px;font-family:var(--font-mono);color:var(--text-muted);font-weight:normal">REFERENCIAS ACADÉMICAS</span>
+</h2>
 
 <div class="tabla-contenedor">
   <table>
@@ -131,9 +105,9 @@
       <tr>
         <th>Criterio</th>
         <th class="num">Peso</th>
-        <th>Magnitud Analizada</th>
+        <th>Magnitud Evaluada</th>
         <th>Valor de Referencia</th>
-        <th>Fuente Académica</th>
+        <th>Fuente Citada</th>
       </tr>
     </thead>
     <tbody>
@@ -143,7 +117,7 @@
         <td class="num">{{ c.peso }}</td>
         <td>{{ c.medida }}</td>
         <td>{{ c.referencia }}</td>
-        <td style="color:var(--ink-secondary)">{{ c.fuente }}</td>
+        <td style="color:var(--text-muted)">{{ c.fuente }}</td>
       </tr>
       {% endfor %}
     </tbody>

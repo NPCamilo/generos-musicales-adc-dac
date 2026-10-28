@@ -5,67 +5,60 @@
 
 {% block cuerpo %}
 
-<div class="header-pagina">
-  <div class="header-badge">{{ r.ficha.genero }} · Módulo de Señal</div>
+<div class="seccion-hero">
+  <span class="kicker-etiqueta">{{ r.ficha.genero }}</span>
   <h1>{{ r.nombre }}</h1>
-  <p class="entradilla">{{ r.ficha.musico }} — <em>{{ r.ficha.obra }}</em> ({{ r.ficha.año }})</p>
+  <p class="descripcion-hero">{{ r.ficha.musico }} — <em>{{ r.ficha.obra }}</em> ({{ r.ficha.año }})</p>
 </div>
 
-<!-- PANEL RESUMEN DEL MÓDULO -->
-<div class="cadena-hero" style="margin-top:0">
-  <div class="cadena-bloques">
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Frecuencia Máxima</div>
-      <div class="bloque-metrica">{{ r.espectro.f_max|num:0 }} Hz</div>
-      <div class="bloque-desc">Umbral a {{ r.espectro.umbral_db|num:0 }} dB del pico espectral.</div>
-    </div>
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Nyquist Teórico</div>
-      <div class="bloque-metrica">{{ r.espectro.fs_minima|num:0 }} Hz</div>
-      <div class="bloque-desc">Tasa mínima $f_{s,\min} = 2 \cdot f_{\max}$ para evitar solapamiento.</div>
-    </div>
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Centroide Espectral</div>
-      <div class="bloque-metrica">{{ r.espectro.centroide|num:0 }} Hz</div>
-      <div class="bloque-desc">Indicador de brillo y centro de masa espectral.</div>
-    </div>
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Factor de Cresta</div>
-      <div class="bloque-metrica">{{ r.espectro.crest|num:2 }}</div>
-      <div class="bloque-desc">Dinámica de transitorios: relación pico / RMS.</div>
-    </div>
-    <div class="bloque-dsp">
-      <div class="bloque-etiqueta">Índice de Atención</div>
-      <div class="bloque-metrica">{{ r.atencion.indice|recorta }} / 100</div>
-      <div class="bloque-desc">{{ r.atencion.veredicto }}</div>
-    </div>
+<!-- MÉTRICAS PRINCIPALES -->
+<div class="rejilla-metricas">
+  <div class="metrica-card">
+    <div class="metrica-label">Frecuencia Máxima</div>
+    <div class="metrica-valor">{{ r.espectro.f_max|num:0 }} Hz</div>
+    <div class="metrica-desc">Criterio: {{ r.espectro.umbral_db|num:0 }} dB bajo el pico.</div>
+  </div>
+
+  <div class="metrica-card">
+    <div class="metrica-label">Nyquist Mínimo (2·f_max)</div>
+    <div class="metrica-valor">{{ r.espectro.fs_minima|num:0 }} Hz</div>
+    <div class="metrica-desc">Límite para muestreo sin aliasing.</div>
+  </div>
+
+  <div class="metrica-card">
+    <div class="metrica-label">Centroide Espectral</div>
+    <div class="metrica-valor">{{ r.espectro.centroide|num:0 }} Hz</div>
+    <div class="metrica-desc">Brillo tímbrico de la pieza.</div>
+  </div>
+
+  <div class="metrica-card">
+    <div class="metrica-label">Índice de Atención</div>
+    <div class="metrica-valor">{{ r.atencion.indice|recorta }} / 100</div>
+    <div class="metrica-desc">{{ r.atencion.veredicto }}</div>
   </div>
 </div>
 
-<h2>1. Representación en el Dominio del Tiempo x(t)</h2>
-<p class="entradilla">
-  Señale muestreada a {{ r.pista.fs }} Hz y {{ r.pista.bits }} bits durante {{ r.pista.duracion_s }} segundos (pico de amplitud: {{ r.pista.pico|floatformat:3 }}). Debajo se visualiza una ventana de 20 ms con las muestras discretas del conversor ADC:
+<h2>1. Señal Temporal x(t)</h2>
+<p class="descripcion-hero">
+  Extracto de {{ r.pista.duracion_s }} s muestreado a {{ r.pista.fs }} Hz y {{ r.pista.bits }} bits (pico normalizado: {{ r.pista.pico|floatformat:3 }}). Debajo se presenta una ventana de 20 ms con las muestras discretas:
 </p>
 <figure>
   <img src="{% url 'figura' clave 'senal' %}" alt="Señal temporal y muestras discretas">
-  <figcaption>Forma de onda continua simulada y discretización por muestreo periódico.</figcaption>
-  <div class="figure-hint"><span>🔍 Clic sobre la figura para examinar en alta resolución</span></div>
+  <figcaption>Forma de onda continua simulada y discretización temporal por el ADC.</figcaption>
+  <div class="figure-ampliar-texto">Clic sobre la gráfica para ampliar</div>
 </figure>
 
-<h2>2. Densidad Espectral de Potencia y Ancho de Banda</h2>
-<p class="entradilla">
-  Cálculo de la Transformada Rápida de Fourier (FFT de $2^{20}$ puntos) con ventana de Hann y suavizado a 250 Hz para delimitar la banda útil ($f_{\max} = \mathbf{ {{ r.espectro.f_max|num:0 }} }$ Hz):
+<h2>2. Espectro de Magnitud</h2>
+<p class="descripcion-hero">
+  Transformada Rápida de Fourier (FFT de $2^{20}$ puntos) con ventana de Hann y suavizado a 250 Hz ($f_{\max} = {{ r.espectro.f_max|num:0 }}$ Hz):
 </p>
 <figure>
   <img src="{% url 'figura' clave 'espectro' %}" alt="Espectro de magnitud">
   <figcaption>Espectro de magnitud con la cota de Nyquist y la banda vocal humana destacada.</figcaption>
-  <div class="figure-hint"><span>🔍 Clic sobre la figura para examinar en alta resolución</span></div>
+  <div class="figure-ampliar-texto">Clic sobre la gráfica para ampliar</div>
 </figure>
 
-<h2>3. Verificación Experimental del Teorema de Nyquist</h2>
-<p class="entradilla">
-  Medición del error de reconstrucción (NRMSE) ante cuatro frecuencias de muestreo $f_s$, contrastando el efecto con y sin filtrado antialiasing previo:
-</p>
+<h2>3. Verificación Experimental de Nyquist</h2>
 <div class="tabla-contenedor">
   <table>
     <thead>
@@ -85,9 +78,9 @@
         <td class="num">{{ e.multiplicador|num:2 }}×</td>
         <td>
           {% if e.cumple_nyquist %}
-            <span class="badge-nyquist cumple">✓ Cumple Nyquist</span>
+            <span class="pill-estado ok">✓ Cumple Nyquist</span>
           {% else %}
-            <span class="badge-nyquist falla">✗ Aliasing severo</span>
+            <span class="pill-estado error">✗ Aliasing</span>
           {% endif %}
         </td>
         <td class="num">{{ e.nrmse_aliasing|num:6 }}</td>
@@ -100,12 +93,12 @@
 </div>
 <figure>
   <img src="{% url 'figura' clave 'muestreo' %}" alt="Barrido de frecuencias de muestreo">
-  <figcaption>Curva de degradación del error ante el submuestreo sin filtro analógico previo.</figcaption>
+  <figcaption>Error cuadrático de reconstrucción con y sin filtro analógico antialiasing.</figcaption>
 </figure>
 
-<h2>4. Cuantización Uniforme PCM y Factor de Escala</h2>
-<p class="entradilla">
-  Con rango dinámico normalizado de $\pm {{ r.cuantizacion.vfs }}$ V, el escalón de cuantización es
+<h2>4. Cuantización Uniforme PCM</h2>
+<p class="descripcion-hero">
+  Fondo de escala de $\pm {{ r.cuantizacion.vfs }}$ V. Factor de escala:
   <code>y = V_fs / 2^(b-1) = {{ r.cuantizacion.factor_escala_v|num:9 }} V</code> con error acotado a $\pm \Delta/2$:
 </p>
 <div class="tabla-contenedor">
@@ -114,7 +107,7 @@
       <tr>
         <th>Resolución (b)</th>
         <th class="num">Escalón y (V/nivel)</th>
-        <th class="num">Niveles Totales</th>
+        <th class="num">Niveles</th>
         <th class="num">SNR Teórico</th>
         <th class="num">SNR Medido</th>
         <th class="num">Bits Efectivos (ENOB)</th>
@@ -138,58 +131,54 @@
 </div>
 <figure>
   <img src="{% url 'figura' clave 'cuantizacion' %}" alt="Curvas de cuantización">
-  <figcaption>Escalera de cuantización y relación de linealidad señal-ruido frente al número de bits.</figcaption>
+  <figcaption>Escalera de cuantización y relación SNR frente al número de bits.</figcaption>
 </figure>
 
 <h2>5. Demostración Acústica Comparativa A/B</h2>
-<p class="entradilla">
-  Escucha y compara las cuatro variantes generadas directamente por el motor de cálculo DSP:
-</p>
-
-<div class="nota-psicoacustica">
-  <strong>Comportamiento Psicoacústico de la Cuantización:</strong><br>
-  En fragmentos musicales de alta densidad sonora y volumen alto (como estos extractos de máximo RMS), una cuantización de <strong>12 bits (SNR ~74 dB)</strong> y de <strong>8 bits (SNR ~50 dB)</strong> resulta prácticamente imperceptible para el oído humano sobre altavoces estándar, ya que el piso de ruido queda enmascarado por la propia música. En contraste, la versión <strong>Telefónica</strong> evidencia un cambio drástico e inmediato debido al corte abrupto del filtro antialiasing a 4 kHz y al remuestreo a 8 kHz.
+<div class="aviso-psicoacustica">
+  <strong>Nota de Psicoacústica sobre los 12 y 8 bits:</strong><br>
+  En fragmentos musicales de alta densidad sonora y volumen alto, la cuantización de <strong>12 bits (SNR ~74 dB)</strong> y de <strong>8 bits (SNR ~50 dB)</strong> resulta prácticamente imperceptible para el oído humano sobre altavoces estándar, ya que el piso de ruido queda enmascarado por la música. La versión <strong>Telefónica</strong> evidencia un cambio drástico e inmediato debido al corte del filtro antialiasing a 4 kHz y al remuestreo a 8 kHz.
 </div>
 
-<div class="suite-audio">
-  <div class="rack-audio">
-    <div class="rack-audio-header">
-      <span class="rack-audio-titulo">1. Audio Original</span>
-      <span class="rack-audio-tag">{{ r.pista.bits }} bits</span>
+<div class="suite-audio-grid">
+  <div class="tarjeta-audio">
+    <div class="tarjeta-audio-header">
+      <span class="tarjeta-audio-titulo">1. Audio Original</span>
+      <span class="tarjeta-audio-tag">{{ r.pista.bits }} bits</span>
     </div>
-    <div class="rack-audio-desc">Señal de referencia a {{ r.pista.fs }} Hz sin degradación.</div>
+    <div class="tarjeta-audio-desc">Señal de referencia a {{ r.pista.fs }} Hz sin degradación.</div>
     <audio controls preload="none" src="{% url 'audio' clave 'original' %}"></audio>
   </div>
 
-  <div class="rack-audio">
-    <div class="rack-audio-header">
-      <span class="rack-audio-titulo">2. Cuantizado a 12 bits</span>
-      <span class="rack-audio-tag">4.096 niveles</span>
+  <div class="tarjeta-audio">
+    <div class="tarjeta-audio-header">
+      <span class="tarjeta-audio-titulo">2. Cuantizado a 12 bits</span>
+      <span class="tarjeta-audio-tag">4.096 niveles</span>
     </div>
-    <div class="rack-audio-desc">y = {{ r.cuantizacion.casos.12.delta|num:9 }} V (SNR ~74 dB).</div>
+    <div class="tarjeta-audio-desc">y = {{ r.cuantizacion.casos.12.delta|num:9 }} V (SNR ~74 dB).</div>
     <audio controls preload="none" src="{% url 'audio' clave 'bits12' %}"></audio>
   </div>
 
-  <div class="rack-audio">
-    <div class="rack-audio-header">
-      <span class="rack-audio-titulo">3. Cuantizado a 8 bits</span>
-      <span class="rack-audio-tag">256 niveles</span>
+  <div class="tarjeta-audio">
+    <div class="tarjeta-audio-header">
+      <span class="tarjeta-audio-titulo">3. Cuantizado a 8 bits</span>
+      <span class="tarjeta-audio-tag">256 niveles</span>
     </div>
-    <div class="rack-audio-desc">y = {{ r.cuantizacion.casos.8.delta|num:9 }} V (SNR ~50 dB).</div>
+    <div class="tarjeta-audio-desc">y = {{ r.cuantizacion.casos.8.delta|num:9 }} V (SNR ~50 dB).</div>
     <audio controls preload="none" src="{% url 'audio' clave 'bits8' %}"></audio>
   </div>
 
-  <div class="rack-audio">
-    <div class="rack-audio-header">
-      <span class="rack-audio-titulo">4. Cadena Telefónica</span>
-      <span class="rack-audio-tag">8 kHz / 8 bits</span>
+  <div class="tarjeta-audio">
+    <div class="tarjeta-audio-header">
+      <span class="tarjeta-audio-titulo">4. Cadena Telefónica</span>
+      <span class="tarjeta-audio-tag">8 kHz / 8 bits</span>
     </div>
-    <div class="rack-audio-desc">Filtro antialiasing a 4 kHz, remuestreo a 8 kHz y retenedor ZOH.</div>
+    <div class="tarjeta-audio-desc">Filtro antialiasing a 4 kHz, remuestreo a 8 kHz y retenedor ZOH.</div>
     <audio controls preload="none" src="{% url 'audio' clave 'telefonica' %}"></audio>
   </div>
 </div>
 
-<h2>6. Evolución del SNR a través de la Cadena Completa</h2>
+<h2>6. Evolución del SNR en la Cadena Completa</h2>
 <div class="tabla-contenedor">
   <table>
     <thead>
@@ -204,7 +193,7 @@
       {% for e in r.cadena.viaje %}
       <tr>
         <td><strong>{{ e.etapa }}</strong></td>
-        <td style="color:var(--ink-secondary)">{{ e.nota }}</td>
+        <td style="color:var(--text-muted)">{{ e.nota }}</td>
         <td class="num">{% if e.exacta %}exacta{% elif e.snr == None %}—{% else %}{{ e.snr|num:1 }} dB{% endif %}</td>
         <td class="num">{% if e.exacta_tel %}exacta{% elif e.snr_tel == None %}—{% else %}{{ e.snr_tel|num:1 }} dB{% endif %}</td>
       </tr>
@@ -217,8 +206,8 @@
   <figcaption>Trayectoria de degradación del SNR y naturaleza temporal del error en cada bloque.</figcaption>
 </figure>
 
-<p style="margin-top:32px">
-  <a href="{% url 'comparativa' %}" class="btn-dsp">← Volver a la Comparativa de Géneros</a>
+<p style="margin-top:28px">
+  <a href="{% url 'comparativa' %}" class="boton-accion">← Volver a la Comparativa de Géneros</a>
 </p>
 
 {% endblock %}
