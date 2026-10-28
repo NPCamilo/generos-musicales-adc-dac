@@ -9,6 +9,11 @@ nucleo/comprobar_todo.py
 nucleo/descarga.py
 pruebas/
 docs/
+graphify-out/
+Informe_LaTeX_DSP_ADC_DAC/
+*.zip
+Informe_Señales_ADC_DAC_Comunicaciones_I.pdf
+.agents/
 *.pyc
 __pycache__/
 .git/
