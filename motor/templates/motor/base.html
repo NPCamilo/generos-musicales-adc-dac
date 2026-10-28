@@ -3,48 +3,59 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Análisis DSP aplicado a conversión ADC-DAC sobre géneros musicales, con estudio de la cadena de muestreo, cuantización y reconstrucción según el teorema de Nyquist-Shannon">
-  <title>{% block titulo %}DSP aplicado a ADC-DAC sobre audio musical{% endblock %}</title>
-  <link rel="stylesheet" href="/estilo.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+  <meta name="description" content="Laboratorio de Procesamiento Digital de Señales aplicado a conversión ADC-DAC sobre audio musical, evaluando el teorema de Nyquist-Shannon y cuantización uniforme.">
+  <title>{% block titulo %}DSP ADC-DAC · Audio Musical{% endblock %}</title>
+
+  <!-- Estilos críticos para garantizar renderizado perfecto sin parpadeo (Zero FOUC) -->
+  <style>
+    .skip-to-content { position: absolute; top: -9999px; left: 16px; z-index: 100000; }
+    .skip-to-content:focus { top: 16px; }
+    body { margin: 0; background-color: #F7F8FA; color: #111318; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+
+  <link rel="stylesheet" href="/estilo.css?v=20261027v5">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230066CC%22 stroke-width=%222%22><polyline points=%2222 12 18 12 15 21 9 3 6 12 2 12%22></polyline></svg>">
 </head>
 <body>
 
 <a href="#contenido-principal" class="skip-to-content">Saltar al contenido principal</a>
 
-<div class="cabecera-envoltorio">
-  <header class="cabecera">
-    <a href="{% url 'portada' %}" class="marca">
-      <span class="icono-onda">⚡</span>
-      <span>ADC–DAC <span>· DSP Musical</span></span>
+<header class="nav-consola">
+  <div class="nav-consola-inner">
+    <a href="{% url 'portada' %}" class="nav-marca">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+      </svg>
+      <span>ADC–DAC</span>
+      <span class="nav-marca-sub">DSP Musical</span>
     </a>
-    <nav class="menu" aria-label="Navegación principal">
+    <nav class="nav-enlaces" aria-label="Navegación principal">
       <a href="{% url 'portada' %}" class="{% if request.resolver_match.url_name == 'portada' %}activo{% endif %}">Inicio</a>
       <a href="{% url 'comparativa' %}" class="{% if request.resolver_match.url_name == 'comparativa' %}activo{% endif %}">Comparativa</a>
       <a href="{% url 'subir' %}" class="{% if request.resolver_match.url_name == 'subir' %}activo{% endif %}">Subir un WAV</a>
       <a href="{% url 'informe' %}" class="{% if request.resolver_match.url_name == 'informe' %}activo{% endif %}">Informe</a>
     </nav>
-  </header>
-</div>
+  </div>
+</header>
 
 <main class="envoltorio" id="contenido-principal" tabindex="-1">
 {% block cuerpo %}{% endblock %}
 
-<footer class="pie-pagina">
+<footer class="footer-lab">
   <div>
-    <strong>ADC–DAC sobre audio musical</strong> · Proyecto de Procesamiento Digital de Señales
+    <strong>Conversión ADC–DAC sobre Audio Musical</strong> · Procesamiento Digital de Señales
   </div>
   <div>
-    Muestreo, Cuantización y Reconstrucción de Nyquist-Shannon
+    Muestreo, Cuantización y Teorema de Nyquist-Shannon
   </div>
 </footer>
 </main>
 
-<!-- Lightbox no intrusivo para inspección de figuras a resolución completa -->
-<div id="lightbox-modal" class="lightbox-overlay" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="lightbox-contenido">
-    <button class="lightbox-cerrar" aria-label="Cerrar modal">&times;</button>
-    <img id="lightbox-img" src="" alt="Ampliación detallada de figura">
+<!-- Lightbox Modal para inspección de figuras en alta resolución -->
+<div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lightbox-card">
+    <button class="lightbox-close" id="lightbox-btn-close" aria-label="Cerrar ventana">&times;</button>
+    <img id="lightbox-img" src="" alt="Ampliación analítica de la figura">
     <div id="lightbox-caption" class="lightbox-caption"></div>
   </div>
 </div>
@@ -54,13 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('lightbox-modal');
   const modalImg = document.getElementById('lightbox-img');
   const modalCaption = document.getElementById('lightbox-caption');
-  const closeBtn = document.querySelector('.lightbox-cerrar');
+  const closeBtn = document.getElementById('lightbox-btn-close');
 
   if (!modal || !modalImg) return;
 
-  const openLightbox = (imgSrc, captionText) => {
-    modalImg.src = imgSrc;
-    modalCaption.textContent = captionText || '';
+  const openLightbox = (src, caption) => {
+    modalImg.src = src;
+    modalCaption.textContent = caption || '';
     modal.classList.add('activo');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -73,19 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
     modalImg.src = '';
   };
 
-  // Asignar zoom y título a las imágenes dentro de figure
   document.querySelectorAll('figure img').forEach(img => {
-    img.style.cursor = 'zoom-in';
-    if (!img.title) img.setAttribute('title', 'Clic para ampliar a resolución completa');
     img.addEventListener('click', () => {
-      const figcaption = img.closest('figure')?.querySelector('figcaption')?.textContent || img.alt || '';
-      openLightbox(img.src, figcaption);
+      const caption = img.closest('figure')?.querySelector('figcaption')?.textContent || img.alt || '';
+      openLightbox(img.src, caption);
     });
   });
 
   closeBtn?.addEventListener('click', closeLightbox);
   modal.addEventListener('click', (e) => {
-    if (e.target === modal || e.target.classList.contains('lightbox-contenido')) {
+    if (e.target === modal || e.target.classList.contains('lightbox-card')) {
       closeLightbox();
     }
   });

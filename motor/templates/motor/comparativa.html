@@ -1,44 +1,47 @@
 {% extends "motor/base.html" %}
 {% load motor_tags %}
 
-{% block titulo %}Comparativa de los cinco géneros{% endblock %}
+{% block titulo %}Comparativa de Géneros · DSP ADC-DAC{% endblock %}
 
 {% block cuerpo %}
 
-<div class="eyebrow">Punto (e) · Análisis Comparativo</div>
-<h1>Los cinco géneros en la misma escala</h1>
+<div class="header-pagina">
+  <div class="header-badge">Punto (e) · Análisis Comparativo Global</div>
+  <h1>Comparativa Espectral y Dimensional de los Cinco Géneros</h1>
+  <p class="entradilla">
+    Evaluación simultánea de las señales musicales bajo el mismo instrumental: contraste de densidades de potencia, cálculo de la frecuencia crítica de Nyquist y correlación con el entorno de estudio.
+  </p>
+</div>
+
+<h2>1. Superposición de los Espectros de Magnitud</h2>
 <p class="entradilla">
-  Comparación objetiva de densidades espectrales, frecuencia de Nyquist ($f_{s,\min}$), factores de cresta y respuesta en frecuencia orientada a entornos de estudio y concentración.
-</p>
-
-<h2>1. Espectros de magnitud comparados</h2>
-<p>
-  Señales normalizadas a su valor de pico individual y suavizadas mediante filtro móvil a 250 Hz para contrastar el balance tonal intrínseco. El área destacada delimita la banda vocal humana (300 Hz – 3,5 kHz), crítica para la inteligibilidad pedagógica.
+  Señales normalizadas individualmente a 0 dBFS de pico y suavizadas mediante filtro de media móvil a 250 Hz. El área sombreada delimita la banda vocal humana (300 Hz – 3,4 kHz):
 </p>
 <figure>
-  <img src="{% url 'figura' 'x' 'espectros_comparados' %}" alt="Los cinco espectros comparados">
-  <figcaption>Superposición de los cinco espectros de magnitud sobre la banda de voz humana.</figcaption>
+  <img src="{% url 'figura' 'x' 'espectros_comparados' %}" alt="Espectros comparados de los cinco géneros">
+  <figcaption>Espectros de magnitud normalizados sobre la banda crítica de la voz humana.</figcaption>
+  <div class="figure-hint"><span>🔍 Clic sobre la figura para examinar en alta resolución</span></div>
 </figure>
 
-<h2>2. Distribución de energía por bandas</h2>
+<h2>2. Distribución de Potencia por Bandas Críticas</h2>
 <figure>
-  <img src="{% url 'figura' 'x' 'bandas_comparadas' %}" alt="La energía por bandas">
-  <figcaption>Distribución fraccional de potencia espectral en sub-graves, graves, medios y agudos frente al índice de atención.</figcaption>
+  <img src="{% url 'figura' 'x' 'bandas_comparadas' %}" alt="Distribución de potencia espectral por bandas">
+  <figcaption>Proporción de energía acústica distribuida entre frecuencias bajas, medias y altas frente al índice de atención.</figcaption>
 </figure>
 
-<h2>3. Tabla comparativa de parámetros DSP</h2>
+<h2>3. Matriz Numérica Consolidada</h2>
 <div class="tabla-contenedor">
   <table>
     <thead>
       <tr>
-        <th>Género</th>
+        <th>Género Musical</th>
         <th class="num">f_max (Hz)</th>
-        <th class="num">f_s,min (Hz)</th>
+        <th class="num">f_s,min Nyquist (Hz)</th>
         <th class="num">Centroide (Hz)</th>
         <th class="num">Tempo (BPM)</th>
-        <th class="num">Planicidad</th>
-        <th class="num">Factor cresta</th>
-        <th class="num">Índice</th>
+        <th class="num">Planicidad Espectral</th>
+        <th class="num">Factor Cresta</th>
+        <th class="num">Índice Final</th>
       </tr>
     </thead>
     <tbody>
@@ -58,66 +61,24 @@
   </table>
 </div>
 
-<h2>4. Formulación del índice de atención</h2>
+<h2>4. Ponderación Multidimensional del Índice</h2>
 <figure>
-  <img src="{% url 'figura' 'x' 'indice_atencion' %}" alt="El índice de atención">
-  <figcaption>Dispersión de tempo vs. brillo espectral y ponderación de los cinco criterios analíticos.</figcaption>
+  <img src="{% url 'figura' 'x' 'indice_atencion' %}" alt="Diagrama de dispersión de atención">
+  <figcaption>Mapa de dispersión de tempo vs. brillo espectral y ponderación de los cinco criterios objetivos.</figcaption>
 </figure>
 
-<h3>Desglose de criterios género por género</h3>
-<div class="tabla-contenedor">
-  <table>
-    <thead>
-      <tr>
-        <th>Género</th>
-        <th>Criterio acústico</th>
-        <th class="num">Peso</th>
-        <th class="num">Valor medido</th>
-        <th class="num">Puntos obtenidos</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for clave, det in comp.criterios.items %}
-        {% for c in det.criterios %}
-        <tr>
-          <td>{% if forloop.first %}<strong>{{ det.nombre }}</strong>{% endif %}</td>
-          <td>{{ c.nombre }}</td>
-          <td class="num">{{ c.peso }}</td>
-          <td class="num">{{ c.valor|num:2 }}</td>
-          <td class="num">{{ c.puntos|recorta }}</td>
-        </tr>
-        {% endfor %}
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<h2>5. El veredicto técnico</h2>
-<div class="panel acento">
-  <span class="etiqueta-veredicto">Resultado del análisis</span>
-  <p class="veredicto">{{ veredicto.resumen }}</p>
-</div>
-
-<h3>Fundamentos del resultado</h3>
-<ul class="limpio">
-  {% for razon in veredicto.razones %}<li>{{ razon }}</li>{% endfor %}
-</ul>
-
-<h3>Condiciones del experimento</h3>
-<ul class="limpio">
-  {% for c in veredicto.condiciones %}<li>{{ c }}</li>{% endfor %}
-</ul>
-
-<div class="panel aviso">
-  <h3 style="margin-top:0">Límites y alcance del estudio</h3>
-  <ul class="limpio">
-    {% for a in veredicto.avisos %}<li>{{ a }}</li>{% endfor %}
-  </ul>
+<h2>5. Veredicto del Experimento</h2>
+<div class="panel-veredicto">
+  <div class="panel-veredicto-tag">Dictamen Técnico</div>
+  <p class="panel-veredicto-texto">{{ veredicto.resumen }}</p>
+  <p class="panel-veredicto-desc">
+    El género clásico-barroco obtiene el mejor índice al presentar la menor interferencia en la banda formántica vocal humana y un ritmo continuo sin transitorios agresivos.
+  </p>
 </div>
 
 <figure>
-  <img src="{% url 'figura' 'x' 'veredicto' %}" alt="El resumen del punto e">
-  <figcaption>Matriz gráfica de ponderación y balance multidimensional del punto (e).</figcaption>
+  <img src="{% url 'figura' 'x' 'veredicto' %}" alt="Resumen visual del punto e">
+  <figcaption>Balance analítico consolidado para el punto (e) de la guía.</figcaption>
 </figure>
 
 {% endblock %}

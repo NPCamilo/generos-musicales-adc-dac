@@ -1,207 +1,230 @@
 {% extends "motor/base.html" %}
 {% load motor_tags %}
 
-{% block titulo %}Subir un WAV · DSP Interactivo{% endblock %}
+{% block titulo %}Subir un WAV · Laboratorio Interactivo{% endblock %}
 
 {% block cuerpo %}
 
-<div class="eyebrow">Laboratorio Interactivo · Requisito (a)</div>
-<h1>Subir y analizar un audio WAV propio</h1>
-<p class="entradilla">
-  Carga cualquier fichero WAV corto para procesarlo en tiempo real con el mismo instrumental que las pistas de referencia: medición de $f_{\max}$, verificación del criterio de Nyquist, cuantización y reconstrucción Shannon.
-</p>
+<div class="header-pagina">
+  <div class="header-badge">Requisito (a) · Muestreo Interactivo</div>
+  <h1>Subida y Análisis de Audio WAV Propio</h1>
+  <p class="entradilla">
+    Carga un extracto de audio en formato WAV para procesarlo en tiempo real mediante el mismo instrumental analítico: extracción de $f_{\max}$, cálculo del límite de Nyquist, cuantización uniforme y reconstrucción Shannon.
+  </p>
+</div>
 
 {% if error %}
-<div class="panel aviso">
-  <strong>No se pudo procesar:</strong> {{ error }}
+<div class="panel-veredicto" style="border-left-color:var(--alert-red)">
+  <div class="panel-veredicto-tag" style="color:var(--alert-red)">Error de Procesamiento</div>
+  <p class="panel-veredicto-texto">{{ error }}</p>
 </div>
 {% endif %}
 
 {% if not r %}
-<div class="panel">
-  <form method="post" enctype="multipart/form-data" id="formulario-subida">
+<div class="cadena-hero" style="margin-top:0">
+  <form method="post" enctype="multipart/form-data" id="form-upload">
     {% csrf_token %}
     
-    <div class="zona-subida" id="dropzone">
-      <span class="icono-subida">📁</span>
-      <div style="font-weight:700;font-size:16px;color:var(--tinta-fuerte);margin-bottom:4px">
-        Arrastra tu archivo WAV aquí o haz clic para explorar
-      </div>
-      <div style="color:var(--suave);font-size:13px">
-        Formatos soportados: PCM (8, 16, 24, 32 bits) o IEEE Float (32, 64 bits), mono o estéreo.
-      </div>
-      <input type="file" id="audio" name="audio" accept=".wav,audio/wav,audio/x-wav" required>
-      <div id="info-fichero" class="archivo-seleccionado" style="display:none"></div>
+    <div class="zona-drop" id="drop-area">
+      <svg class="zona-drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="17 8 12 3 7 8"></polyline>
+        <line x1="12" y1="3" x2="12" y2="15"></line>
+      </svg>
+      <div class="zona-drop-text">Arrastra tu archivo WAV aquí o haz clic para seleccionarlo</div>
+      <div class="zona-drop-sub">Formatos soportados: PCM lineal (8, 16, 24, 32 bits) o Float (32, 64 bits), mono o estéreo.</div>
+      <input type="file" id="archivo-audio" name="audio" accept=".wav,audio/wav,audio/x-wav" required>
+      <div id="badge-archivo" class="archivo-badge" style="display:none"></div>
     </div>
 
-    <p style="color:var(--suave);font-size:13px;margin:12px 0 20px">
-      ℹ️ Se analiza automáticamente una ventana de hasta 12 segundos procesada en memoria.
-    </p>
-
-    <button type="submit" id="btn-analizar">
-      <span>⚡ Analizar Señal WAV</span>
+    <button type="submit" class="btn-dsp" id="btn-submit">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      </svg>
+      <span>Procesar Señal DSP</span>
     </button>
   </form>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('audio');
-  const dropzone = document.getElementById('dropzone');
-  const info = document.getElementById('info-fichero');
-  const btn = document.getElementById('btn-analizar');
-  const form = document.getElementById('formulario-subida');
+  const input = document.getElementById('archivo-audio');
+  const dropArea = document.getElementById('drop-area');
+  const badge = document.getElementById('badge-archivo');
+  const btn = document.getElementById('btn-submit');
+  const form = document.getElementById('form-upload');
 
-  if (!input || !dropzone) return;
+  if (!input || !dropArea) return;
 
-  const updateFileInfo = (file) => {
+  const showFile = (file) => {
     if (file) {
-      const sizeKB = (file.size / 1024).toFixed(1);
-      info.textContent = `✓ Seleccionado: ${file.name} (${sizeKB} KB)`;
-      info.style.display = 'block';
+      badge.textContent = `Archivo seleccionado: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+      badge.style.display = 'inline-block';
     } else {
-      info.style.display = 'none';
+      badge.style.display = 'none';
     }
   };
 
   input.addEventListener('change', () => {
-    if (input.files && input.files[0]) {
-      updateFileInfo(input.files[0]);
-    }
+    if (input.files && input.files[0]) showFile(input.files[0]);
   });
 
   ['dragenter', 'dragover'].forEach(name => {
-    dropzone.addEventListener(name, (e) => {
+    dropArea.addEventListener(name, (e) => {
       e.preventDefault();
-      dropzone.classList.add('dragover');
+      dropArea.classList.add('dragover');
     });
   });
 
   ['dragleave', 'drop'].forEach(name => {
-    dropzone.addEventListener(name, (e) => {
+    dropArea.addEventListener(name, (e) => {
       e.preventDefault();
-      dropzone.classList.remove('dragover');
+      dropArea.classList.remove('dragover');
     });
   });
 
-  dropzone.addEventListener('drop', (e) => {
+  dropArea.addEventListener('drop', (e) => {
     if (e.dataTransfer && e.dataTransfer.files.length) {
       input.files = e.dataTransfer.files;
-      updateFileInfo(input.files[0]);
+      showFile(input.files[0]);
     }
   });
 
   form.addEventListener('submit', () => {
     btn.disabled = true;
-    btn.style.opacity = '0.75';
-    btn.innerHTML = '<span>⏳ Procesando señal DSP...</span>';
+    btn.style.opacity = '0.7';
+    btn.innerHTML = '<span>Calculando FFT y muestreo...</span>';
   });
 });
 </script>
 
 {% else %}
 
-<div class="cifras">
-  <div class="cifra">
-    <div class="etiqueta">f_max medido</div>
-    <div class="valor">{{ r.espectro.f_max|num:0 }} Hz</div>
-    <div class="nota">criterio: {{ r.espectro.umbral_db|num:0 }} dB bajo el pico</div>
-  </div>
-  <div class="cifra">
-    <div class="etiqueta">f_s mínima (Nyquist)</div>
-    <div class="valor">{{ r.espectro.fs_minima|num:0 }} Hz</div>
-    <div class="nota">2 · f_max requerido</div>
-  </div>
-  <div class="cifra">
-    <div class="etiqueta">Centroide espectral</div>
-    <div class="valor">{{ r.espectro.centroide|num:0 }} Hz</div>
-    <div class="nota">brillo acústico medido</div>
-  </div>
-  <div class="cifra">
-    <div class="etiqueta">Índice de atención</div>
-    <div class="valor">{{ atencion.indice|recorta }}</div>
-    <div class="nota">{{ atencion.veredicto }}</div>
-  </div>
-</div>
-
-<div class="panel">
-  <h2 style="margin-top:0">Parámetros técnicos extraídos</h2>
-  <div class="tabla-contenedor">
-    <table>
-      <thead>
-        <tr>
-          <th>Parámetro</th>
-          <th class="num">Magnitud / Valor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Fichero analizado</strong></td><td class="num"><code>{{ nombre }}</code></td></tr>
-        <tr><td>Frecuencia de muestreo nativa ($f_s$)</td><td class="num">{{ r.pista.fs }} Hz</td></tr>
-        <tr><td>Resolución en bits nativa</td><td class="num">{{ r.pista.bits }} bits</td></tr>
-        <tr><td>Canales de audio</td><td class="num">{{ r.pista.canales }}</td></tr>
-        <tr><td>Duración analizada</td><td class="num">{{ r.pista.duracion_s }} s</td></tr>
-        <tr><td>Pico normalizado de amplitud</td><td class="num">{{ r.pista.pico|floatformat:4 }}</td></tr>
-        <tr><td>Frecuencia máxima útil ($f_{\max}$)</td><td class="num">{{ r.espectro.f_max|num:0 }} Hz</td></tr>
-        <tr><td>Frecuencia de Nyquist mínima ($2 \cdot f_{\max}$)</td><td class="num">{{ r.espectro.fs_minima|num:0 }} Hz</td></tr>
-        <tr><td>Centroide espectral</td><td class="num">{{ r.espectro.centroide|num:0 }} Hz</td></tr>
-        <tr><td>Factor de cresta</td><td class="num">{{ r.espectro.crest|num:2 }}</td></tr>
-        <tr><td>Tempo estimado</td><td class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|num:0 }} BPM{% else %}No medible{% endif %}</td></tr>
-        <tr><td>Factor de escala en cuantización ({{ r.cuantizacion.bits }} bits)</td><td class="num">{{ r.cuantizacion.factor_escala_v|num:9 }} V/nivel</td></tr>
-        <tr><td>Relación Señal a Ruido (SNR) de la cadena</td><td class="num">{{ r.cadena.snr_cadena|num:1 }} dB</td></tr>
-        <tr><td>Índice de atención resultante</td><td class="num"><strong>{{ atencion.indice|recorta }} / 100</strong></td></tr>
-      </tbody>
-    </table>
+<!-- PANEL RESUMEN DEL AUDIO SUBIDO -->
+<div class="cadena-hero" style="margin-top:0">
+  <div class="cadena-bloques">
+    <div class="bloque-dsp">
+      <div class="bloque-etiqueta">Frecuencia Máxima</div>
+      <div class="bloque-metrica">{{ r.espectro.f_max|num:0 }} Hz</div>
+      <div class="bloque-desc">Criterio {{ r.espectro.umbral_db|num:0 }} dB bajo el pico.</div>
+    </div>
+    <div class="bloque-dsp">
+      <div class="bloque-etiqueta">Nyquist Teórico</div>
+      <div class="bloque-metrica">{{ r.espectro.fs_minima|num:0 }} Hz</div>
+      <div class="bloque-desc">$f_{s,\min} = 2 \cdot f_{\max}$ para muestrear sin aliasing.</div>
+    </div>
+    <div class="bloque-dsp">
+      <div class="bloque-etiqueta">Centroide Espectral</div>
+      <div class="bloque-metrica">{{ r.espectro.centroide|num:0 }} Hz</div>
+      <div class="bloque-desc">Centro de masa espectral medido.</div>
+    </div>
+    <div class="bloque-dsp">
+      <div class="bloque-etiqueta">Escalón Cuantización</div>
+      <div class="bloque-metrica">{{ r.cuantizacion.factor_escala_v|num:9 }} V</div>
+      <div class="bloque-desc">Factor de escala con {{ r.cuantizacion.bits }} bits.</div>
+    </div>
+    <div class="bloque-dsp">
+      <div class="bloque-etiqueta">Índice de Atención</div>
+      <div class="bloque-metrica">{{ atencion.indice|recorta }} / 100</div>
+      <div class="bloque-desc">{{ atencion.veredicto }}</div>
+    </div>
   </div>
 </div>
 
-<h2>Escucha comparativa de tu audio</h2>
-<p>
-  El efecto físico de la cuantización, la reducción de bits y el filtrado antialiasing procesados al vuelo sobre tu propio archivo:
+<h2>Parámetros Técnicos Extraídos</h2>
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Magnitud Analizada</th>
+        <th class="num">Valor Medido</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Archivo analizado</td><td class="num"><code>{{ nombre }}</code></td></tr>
+      <tr><td>Frecuencia de muestreo original ($f_s$)</td><td class="num">{{ r.pista.fs }} Hz</td></tr>
+      <tr><td>Bits por muestra en cabecera</td><td class="num">{{ r.pista.bits }} bits</td></tr>
+      <tr><td>Canales de reproducción</td><td class="num">{{ r.pista.canales }}</td></tr>
+      <tr><td>Duración de la ventana analizada</td><td class="num">{{ r.pista.duracion_s }} s</td></tr>
+      <tr><td>Amplitud de pico normalizada</td><td class="num">{{ r.pista.pico|floatformat:4 }}</td></tr>
+      <tr><td>Frecuencia máxima útil ($f_{\max}$)</td><td class="num">{{ r.espectro.f_max|num:0 }} Hz</td></tr>
+      <tr><td>Tasa mínima de Nyquist ($2 \cdot f_{\max}$)</td><td class="num">{{ r.espectro.fs_minima|num:0 }} Hz</td></tr>
+      <tr><td>Centroide espectral de brillo</td><td class="num">{{ r.espectro.centroide|num:0 }} Hz</td></tr>
+      <tr><td>Factor de cresta (pico / RMS)</td><td class="num">{{ r.espectro.crest|num:2 }}</td></tr>
+      <tr><td>Tempo estimado</td><td class="num">{% if r.ritmo.medible %}{{ r.ritmo.bpm|num:0 }} BPM{% else %}No medible{% endif %}</td></tr>
+      <tr><td>Relación Señal a Ruido (SNR) de la cadena</td><td class="num">{{ r.cadena.snr_cadena|num:1 }} dB</td></tr>
+      <tr><td>Índice de atención resultante</td><td class="num"><strong>{{ atencion.indice|recorta }} / 100</strong></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Demostración Acústica Comparativa A/B</h2>
+<p class="entradilla">
+  Degradación del convertidor ADC/DAC calculada en memoria directamente sobre tu fichero:
 </p>
-<div class="lista-audio">
+
+<div class="nota-psicoacustica">
+  <strong>Comportamiento Psicoacústico de la Cuantización:</strong><br>
+  En fragmentos musicales de alta densidad sonora y volumen alto, la cuantización de <strong>12 bits (SNR ~74 dB)</strong> y de <strong>8 bits (SNR ~50 dB)</strong> resulta prácticamente imperceptible para el oído humano sobre altavoces estándar, ya que el piso de ruido queda enmascarado por la música. La versión <strong>Telefónica</strong> evidencia un cambio drástico e inmediato debido al corte del filtro antialiasing a 4 kHz y al remuestreo a 8 kHz.
+</div>
+
+<div class="suite-audio">
   {% if audios.original %}
-  <div class="pieza">
-    <div class="nombre"><span>Original</span> <span class="badge badge-azul">WAV nativo</span></div>
-    <div class="explica">Señal tal como fue capturada: {{ r.pista.fs }} Hz y {{ r.pista.bits }} bits</div>
+  <div class="rack-audio">
+    <div class="rack-audio-header">
+      <span class="rack-audio-titulo">1. Audio Original</span>
+      <span class="rack-audio-tag">WAV nativo</span>
+    </div>
+    <div class="rack-audio-desc">Señal tal como fue capturada: {{ r.pista.fs }} Hz y {{ r.pista.bits }} bits.</div>
     <audio controls preload="none" src="data:audio/wav;base64,{{ audios.original }}"></audio>
   </div>
   {% endif %}
+
   {% if audios.bits12 %}
-  <div class="pieza">
-    <div class="nombre"><span>Cuantizado a 12 bits</span> <span class="badge badge-azul">12 bits</span></div>
-    <div class="explica">y = {{ r.cuantizacion.casos.12.delta|num:9 }} V por nivel (alta fidelidad)</div>
+  <div class="rack-audio">
+    <div class="rack-audio-header">
+      <span class="rack-audio-titulo">2. Cuantizado a 12 bits</span>
+      <span class="rack-audio-tag">4.096 niveles</span>
+    </div>
+    <div class="rack-audio-desc">y = {{ r.cuantizacion.casos.12.delta|num:9 }} V (SNR ~74 dB).</div>
     <audio controls preload="none" src="data:audio/wav;base64,{{ audios.bits12 }}"></audio>
   </div>
   {% endif %}
+
   {% if audios.bits8 %}
-  <div class="pieza">
-    <div class="nombre"><span>Cuantizado a 8 bits</span> <span class="badge badge-rojo">8 bits</span></div>
-    <div class="explica">y = {{ r.cuantizacion.casos.8.delta|num:9 }} V por nivel: piso de ruido audible</div>
+  <div class="rack-audio">
+    <div class="rack-audio-header">
+      <span class="rack-audio-titulo">3. Cuantizado a 8 bits</span>
+      <span class="rack-audio-tag">256 niveles</span>
+    </div>
+    <div class="rack-audio-desc">y = {{ r.cuantizacion.casos.8.delta|num:9 }} V (SNR ~50 dB).</div>
     <audio controls preload="none" src="data:audio/wav;base64,{{ audios.bits8 }}"></audio>
   </div>
   {% endif %}
+
   {% if audios.telefonica %}
-  <div class="pieza">
-    <div class="nombre"><span>Telefónica (8 kHz, 8 bits)</span> <span class="badge badge-rojo">Banda 4 kHz</span></div>
-    <div class="explica">Cadena con filtro antialiasing, ZOH y respuesta acotada a voz</div>
+  <div class="rack-audio">
+    <div class="rack-audio-header">
+      <span class="rack-audio-titulo">4. Cadena Telefónica</span>
+      <span class="rack-audio-tag">8 kHz / 8 bits</span>
+    </div>
+    <div class="rack-audio-desc">Filtro antialiasing a 4 kHz, remuestreo a 8 kHz y retenedor ZOH.</div>
     <audio controls preload="none" src="data:audio/wav;base64,{{ audios.telefonica }}"></audio>
   </div>
   {% endif %}
 </div>
 
-<h2>Gráficas espectrales y temporales</h2>
-<p>
-  Visualizaciones analíticas generadas directamente a partir del fichero cargado:
-</p>
+<h2>Gráficas Espectrales y Temporales</h2>
 {% for fig in figuras %}
 <figure>
   <img src="data:image/png;base64,{{ fig.b64 }}" alt="{{ fig.clave }}">
   <figcaption>{{ fig.titulo }}</figcaption>
+  <div class="figure-hint"><span>🔍 Clic sobre la figura para examinar en alta resolución</span></div>
 </figure>
 {% endfor %}
 
 <p style="margin-top:32px">
-  <a href="{% url 'subir' %}" class="boton-primario">← Analizar otro fichero WAV</a>
+  <a href="{% url 'subir' %}" class="btn-dsp">← Analizar otro archivo WAV</a>
 </p>
 
 {% endif %}

@@ -4,50 +4,56 @@
 
 {% block cuerpo %}
 
-<div class="eyebrow">Documentación Técnica · Entregable</div>
-<h1>Informe y documentación del proyecto</h1>
-<p class="entradilla">
-  Compendio completo de la investigación: fundamentos teóricos de Nyquist-Shannon, cuantización PCM, análisis espectral de los cinco géneros y evaluación experimental.
-</p>
-
-<div class="panel acento">
-  <h2 style="margin-top:0">Documento final consolidado (PDF)</h2>
-  <p class="entradilla" style="margin-bottom:16px">
-    Documento técnico exhaustivo con rigor matemático y gráfico para sustentación académica.
+<div class="header-pagina">
+  <div class="header-badge">Documentación Final · Entregable Académico</div>
+  <h1>Informe Técnico Consolidado y Descargas</h1>
+  <p class="entradilla">
+    Memoria explicativa con fundamentación matemática de Nyquist-Shannon, cuantización uniforme PCM, matriz de error cuadrático medio y evaluación experimental de los cinco géneros musicales.
   </p>
-  <ul style="font-size:14px;line-height:1.65;color:var(--suave);margin-bottom:20px;padding-left:20px">
-    <li><strong>Cinco géneros analizados:</strong> clásica-barroca, metal, salsa, reggaetón y música popular colombiana.</li>
-    <li><strong>Cadena ADC-DAC completa:</strong> estudio de filtrado antialiasing, reloj de muestreo, escalón de cuantización y retenedor ZOH.</li>
-    <li><strong>Índice de atención y concentración:</strong> análisis del punto (e) contrastado con bandas vocales e investigaciones psicoacústicas.</li>
-    <li><strong>39 figuras analíticas en alta resolución:</strong> espectros de potencia, histogramas de error y barridos de $f_s$.</li>
-  </ul>
-  
-  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
-    <a href="{% url 'descarga_pdf' %}" class="boton-pdf">
-      <span>📄 Descargar informe completo (PDF)</span>
+</div>
+
+<div class="cadena-hero" style="margin-top:0">
+  <div class="cadena-hero-header">
+    <div class="cadena-hero-titulo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      Documentación y Archivos de Sustentación
+    </div>
+    <span class="header-badge" style="margin-bottom:0">Formato IEEE / Proyecto</span>
+  </div>
+
+  <p class="entradilla" style="margin-bottom:18px">
+    El documento final en PDF consolida las 39 figuras analíticas, deducciones de factor de escala $y = V_{fs}/2^{b-1}$, análisis de transitorios en el tiempo y preguntas de sustentación:
+  </p>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+    <a href="{% url 'descarga_pdf' %}" class="btn-dsp">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      <span>Descargar Informe Completo (PDF)</span>
     </a>
+
     {% if existe %}
-    <a href="{% url 'descarga_informe' %}" class="badge badge-azul" style="padding:10px 16px;text-decoration:none">
-      <span>📝 Formato Markdown (.md)</span>
+    <a href="{% url 'descarga_informe' %}" class="btn-dsp" style="background:var(--bg-subtle);color:var(--ink-primary);border:1px solid var(--border-hairline)">
+      <span>Memoria Markdown (.md)</span>
     </a>
-    <a href="{% url 'descarga_figuras' %}" class="badge badge-azul" style="padding:10px 16px;text-decoration:none">
-      <span>📦 Paquete de figuras (.zip)</span>
+    <a href="{% url 'descarga_figuras' %}" class="btn-dsp" style="background:var(--bg-subtle);color:var(--ink-primary);border:1px solid var(--border-hairline)">
+      <span>Paquete de Figuras (.zip)</span>
     </a>
     {% endif %}
   </div>
 
-  <p style="font-size:13px;color:var(--suave);margin:8px 0 0">
-    ℹ️ El PDF incluye demostraciones analíticas, derivación del factor de escala $y = V_{fs}/2^{b-1}$, tabla de códigos binarios y preguntas de evaluación para sustentación.
-  </p>
+  <div style="font-size:12.5px;color:var(--ink-muted);line-height:1.5">
+    Compilación determinista generada mediante <code>python -m nucleo.informe</code>. Salida de datos disponible en <code>salida/datos.json</code>.
+  </div>
 </div>
-
-{% if existe %}
-<div class="panel">
-  <h3 style="margin-top:0">Artefactos generados por el motor</h3>
-  <p style="font-size:14px;color:var(--suave);margin-bottom:0">
-    Los datos y visualizaciones son producidos de manera determinista mediante <code>python -m nucleo.informe</code>, residiendo en la carpeta <code>salida/</code> con {{ figuras|length }} gráficas PNG precalculadas para máxima velocidad de respuesta.
-  </p>
-</div>
-{% endif %}
 
 {% endblock %}
