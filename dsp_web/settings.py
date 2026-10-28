@@ -45,18 +45,18 @@ SECRET_KEY = os.environ.get(
 # errores sin consultar el registro).
 DEBUG = not EN_VERCEL and os.environ.get("DJANGO_DEBUG", "1") == "1"
 
-# El host del proyecto en Vercel, para no tener que configurarlo a mano.
+# El host del proyecto en Vercel y subdominios dinámicos.
 HOST_PROYECTO = "generos-musicales-adc-dac.vercel.app"
 
-#: Los hosts permitidos. Sin variable de entorno, el del proyecto; nunca
-#: `*` en producción, que es un aviso de Django y además permite el
-#: envenenamiento de la caché de la respuesta.
-ALLOWED_HOSTS = [h.strip() for h in
-                 os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
-                 if h.strip()]
-if not ALLOWED_HOSTS:
-    # "testserver" es el host que usa el cliente de pruebas de Django.
-    ALLOWED_HOSTS = [HOST_PROYECTO, "localhost", "127.0.0.1", "testserver"]
+#: Permitir todos los dominios de Vercel (producción y previews) y desarrollo local.
+ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.vercel.app",
+    "https://generos-musicales-adc-dac.vercel.app",
+    "http://localhost",
+    "http://127.0.0.1",
+]
 
 INSTALLED_APPS = [
     "django.contrib.staticfiles",
